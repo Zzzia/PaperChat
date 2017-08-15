@@ -1,0 +1,41 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.Design.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- 状态栏颜色，会被statusBarColor效果覆盖-->
+        <item name="android:colorPrimaryDark">@color/colorTranslate</item>
+        <!-- 状态栏颜色，继承自colorPrimaryDark -->
+        <item name="android:statusBarColor">@color/colorTranslate</item>
+        <!-- actionBar颜色 -->
+        <item name="android:colorPrimary">@color/colorTranslate</item>
+        <!-- 背景颜色 -->
+        <item name="android:windowBackground">@color/colorTranslate</item>
+        <!-- 底部栏颜色 -->
+        <item name="android:navigationBarColor">@color/colorTranslate</item>
+        <!-- ListView的分割线颜色，switch滑动区域色-->
+        <item name="android:colorForeground">@color/colorAccent</item>
+        <!-- popMenu的背景色 -->
+        <item name="android:colorBackground">@color/paperWhite</item>
+        <!-- 控件默认颜色 ，效果会被colorControlActivated取代  -->
+        <item name="android:colorAccent">@color/paperWhite</item>
+        <!-- 控件默认时颜色  -->
+        <item name="android:colorControlNormal">@color/colorAccent</item>
+        <!-- 控件按压时颜色，会影响水波纹效果，继承自colorAccent  -->
+        <item name="android:colorControlHighlight">@color/colorAccent</item>
+        <!-- 控件选中时颜色 -->
+        <item name="android:colorControlActivated">@color/paperWhite</item>
+        <!-- Button的默认背景 -->
+        <item name="android:colorButtonNormal">@color/paperWhite</item>
+        <!-- Button，textView的文字颜色  -->
+        <item name="android:textColor">@color/textColor</item>
+        <!-- RadioButton checkbox等控件的文字 -->
+        <item name="android:textColorPrimaryDisableOnly">@color/textColor</item>
+        <!-- actionBar的标题文字颜色 -->
+        <item name="android:textColorPrimary">@color/textColor</item>
+    </style>
+
+</resources>
