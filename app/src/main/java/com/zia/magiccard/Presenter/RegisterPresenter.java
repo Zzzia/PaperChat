@@ -15,10 +15,10 @@ import com.zia.magiccard.View.RegisterActivity;
 
 public class RegisterPresenter implements RegisterImp {
 
-    private CheckUserImp activity;
+    private CheckUserImp activityImp;
 
     public RegisterPresenter(RegisterActivity activity){
-        this.activity = activity;
+        this.activityImp = activity;
     }
 
     @Override
@@ -28,8 +28,8 @@ public class RegisterPresenter implements RegisterImp {
 
     @Override
     public void gotoMainActivity() {
-        View card = activity.getActivity().findViewById(R.id.register_card);
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity.getActivity(), card, card.getTransitionName());
-        activity.getActivity().startActivity(new Intent(activity.getActivity(),MainActivity.class), optionsCompat.toBundle());
+        View card = activityImp.getActivity().findViewById(R.id.register_card);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activityImp.getActivity(), card, card.getTransitionName());
+        activityImp.getActivity().startActivity(new Intent(activityImp.getActivity(),MainActivity.class), optionsCompat.toBundle());
     }
 }

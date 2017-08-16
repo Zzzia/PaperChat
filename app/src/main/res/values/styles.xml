@@ -12,22 +12,22 @@
         <item name="android:statusBarColor">@color/colorTranslate</item>
         <!-- actionBar颜色 -->
         <item name="android:colorPrimary">@color/colorTranslate</item>
-        <!-- 背景颜色 -->
+        <!-- 背景颜色 与共享相关 -->
         <item name="android:windowBackground">@color/colorTranslate</item>
         <!-- 底部栏颜色 -->
         <item name="android:navigationBarColor">@color/colorTranslate</item>
         <!-- ListView的分割线颜色，switch滑动区域色-->
-        <item name="android:colorForeground">@color/colorAccent</item>
+        <item name="android:colorForeground">@color/colorPrimary</item>
         <!-- popMenu的背景色 -->
         <item name="android:colorBackground">@color/paperWhite</item>
         <!-- 控件默认颜色 ，效果会被colorControlActivated取代  -->
-        <item name="android:colorAccent">@color/paperWhite</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
         <!-- 控件默认时颜色  -->
         <item name="android:colorControlNormal">@color/colorAccent</item>
         <!-- 控件按压时颜色，会影响水波纹效果，继承自colorAccent  -->
-        <item name="android:colorControlHighlight">@color/colorAccent</item>
-        <!-- 控件选中时颜色 -->
-        <item name="android:colorControlActivated">@color/paperWhite</item>
+        <item name="android:colorControlHighlight">@color/colorPressed</item>
+        <!-- 控件选中时颜色 editText焦点下划线颜色 -->
+        <item name="android:colorControlActivated">@color/colorAccent</item>
         <!-- Button的默认背景 -->
         <item name="android:colorButtonNormal">@color/paperWhite</item>
         <!-- Button，textView的文字颜色  -->

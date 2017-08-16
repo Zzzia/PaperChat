@@ -5,24 +5,30 @@
     android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.zia.magiccard.View.MainActivity">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/main_card"
+    <android.support.v4.view.ViewPager
         android:transitionName="card"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="30dp"
-        app:cardCornerRadius="3dp"
-        android:elevation="2dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/main_viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-        </LinearLayout>
+    <android.support.v7.widget.CardView
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        app:cardCornerRadius="3dp"
+        app:elevation="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/main_bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:bb_tabXmlResource="@xml/bottombar_tabs"/>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

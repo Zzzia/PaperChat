@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/main"
+        title="@string/page_main" />
+    <tab
+        id="@+id/friends"
+        title="@string/page_friend" />
+    <tab
+        id="@+id/me"
+        title="@string/page_me" />
+</tabs>

@@ -26,4 +26,9 @@ public class StartActivity extends BaseActivity {
         return R.layout.activity_start;
     }
 
+    @Override
+    protected void beforeSetContentView() {
+
+    }
+
 }

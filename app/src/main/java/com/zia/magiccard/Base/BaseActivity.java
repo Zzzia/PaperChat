@@ -24,8 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseImp 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setExitTransition(null);
-        getWindow().setEnterTransition(null);
+        beforeSetContentView();
         setContentView(getContentViewId());
         findWidgets();
         initState();
@@ -48,6 +47,8 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseImp 
 
     //获取到当前activity的view的方法
     protected abstract int getContentViewId();
+
+    protected abstract void beforeSetContentView();
 
 
     //View快捷绑定id的方法

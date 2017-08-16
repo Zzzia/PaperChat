@@ -6,4 +6,5 @@
     <color name="colorTranslate">#00000000</color>
     <color name="paperWhite">#ffffff</color>
     <color name="textColor">#000000</color>
+    <color name="colorPressed">#28534540</color>
 </resources>

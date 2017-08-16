@@ -15,10 +15,10 @@ import com.zia.magiccard.View.RegisterActivity;
 
 public class LoginPresenter implements LoginImp {
 
-    private CheckUserImp activity;
+    private CheckUserImp activityImp;
 
     public LoginPresenter(CheckUserImp imp){
-        this.activity = imp;
+        this.activityImp = imp;
     }
 
 
@@ -29,15 +29,15 @@ public class LoginPresenter implements LoginImp {
 
     @Override
     public void gotoMainActivity() {
-        View card = activity.getActivity().findViewById(R.id.login_card);
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity.getActivity(), card, card.getTransitionName());
-        activity.getActivity().startActivity(new Intent(activity.getActivity(),MainActivity.class), optionsCompat.toBundle());
+        View card = activityImp.getActivity().findViewById(R.id.login_card);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activityImp.getActivity(), card, card.getTransitionName());
+        activityImp.getActivity().startActivity(new Intent(activityImp.getActivity(),MainActivity.class), optionsCompat.toBundle());
     }
 
     @Override
     public void gotoRegisterActivity() {
-        View card = activity.getActivity().findViewById(R.id.login_card);
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activity.getActivity(), card, card.getTransitionName());
-        activity.getActivity().startActivity(new Intent(activity.getActivity(),RegisterActivity.class), optionsCompat.toBundle());
+        View card = activityImp.getActivity().findViewById(R.id.login_card);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(activityImp.getActivity(), card, card.getTransitionName());
+        activityImp.getActivity().startActivity(new Intent(activityImp.getActivity(),RegisterActivity.class), optionsCompat.toBundle());
     }
 }

@@ -42,6 +42,11 @@ public class RegisterActivity extends BaseActivity implements CheckUserImp {
     }
 
     @Override
+    protected void beforeSetContentView() {
+
+    }
+
+    @Override
     public TextInputLayout getUsername() {
         return username;
     }
