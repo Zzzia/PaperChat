@@ -171,9 +171,9 @@ public class MyRecyclerView extends RecyclerView {
         isDragging = state == SCROLL_STATE_DRAGGING;
     }
 
-    //    @Override
-//    public boolean onInterceptTouchEvent(MotionEvent e) {
-//        getParent().requestDisallowInterceptTouchEvent(true);
-//        return super.onInterceptTouchEvent(e);
-//    }
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent e) {
+        getParent().requestDisallowInterceptTouchEvent(true);
+        return super.onInterceptTouchEvent(e);
+    }
 }

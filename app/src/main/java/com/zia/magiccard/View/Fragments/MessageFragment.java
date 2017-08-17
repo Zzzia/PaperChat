@@ -52,12 +52,12 @@ public class MessageFragment extends BaseFragment implements MessageFragmentImp 
         recyclerView.setMyListener(new MyRecyclerView.MyListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.d("123","click");
+                presenter.gotoChatActivity(view);
             }
 
             @Override
             public void onDeleteClick(int position) {
-                Log.d("123","deleteClick");
+
             }
         });
     }

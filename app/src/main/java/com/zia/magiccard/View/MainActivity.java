@@ -26,23 +26,17 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     private BottomBar bottomBar;
     private ViewPager viewPager;
     private MainPresenterImp presenterImp;
-    private MessageFragment messageFragment;
 
     @Override
     protected void onCreated() {
-        //presenterImp.setViewPager();
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction transaction = fragmentManager.beginTransaction();
-//        transaction.replace(R.id.main_fragment,messageFragment);
-//        transaction.commit();
+        presenterImp.setViewPager();
     }
 
     @Override
     protected void findWidgets() {
         presenterImp = new MainPresenter(this);
         bottomBar = $(R.id.main_bottomBar);
-        //viewPager = $(R.id.main_viewPager);
-        messageFragment = new MessageFragment();
+        viewPager = $(R.id.main_viewPager);
     }
 
     @Override

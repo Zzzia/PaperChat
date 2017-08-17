@@ -8,7 +8,7 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="3dp"
         app:elevation="2dp"
         android:layout_margin="5dp">
@@ -18,7 +18,6 @@
             android:layout_height="match_parent"
             >
         </com.zia.magiccard.Util.MyRecyclerView>
-
     </android.support.v7.widget.CardView>
 
     <Button

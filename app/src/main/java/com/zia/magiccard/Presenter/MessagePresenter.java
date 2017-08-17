@@ -3,6 +3,7 @@ package com.zia.magiccard.Presenter;
 import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.zia.magiccard.View.ChatActivity;
 import com.zia.magiccard.View.Fragments.MessageFragmentImp;
@@ -21,10 +22,9 @@ public class MessagePresenter implements MessageImp {
     }
 
     @Override
-    public void gotoChatActivity() {
-//        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentImp.getActivity(), fragmentImp.getCardView(), "card");
-//        fragmentImp.getActivity().startActivity(new Intent(fragmentImp.getActivity(),ChatActivity.class), optionsCompat.toBundle());
-        fragmentImp.getActivity().startActivity(new Intent(fragmentImp.getActivity(),ChatActivity.class));
+    public void gotoChatActivity(View view) {
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentImp.getActivity(), view, "card");
+        fragmentImp.getActivity().startActivity(new Intent(fragmentImp.getActivity(),ChatActivity.class), optionsCompat.toBundle());
     }
 
     @Override
