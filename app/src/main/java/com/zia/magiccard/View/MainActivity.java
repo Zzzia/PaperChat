@@ -1,6 +1,7 @@
 package com.zia.magiccard.View;
 
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,23 +19,30 @@ import com.zia.magiccard.Presenter.MainPresenter;
 import com.zia.magiccard.Presenter.MainPresenterImp;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Transitions.SlideUpTransition;
+import com.zia.magiccard.View.Fragments.MessageFragment;
 
 public class MainActivity extends BaseActivity implements MainActivityImp {
 
     private BottomBar bottomBar;
     private ViewPager viewPager;
     private MainPresenterImp presenterImp;
+    private MessageFragment messageFragment;
 
     @Override
     protected void onCreated() {
-        presenterImp.setViewPager();
+        //presenterImp.setViewPager();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction transaction = fragmentManager.beginTransaction();
+//        transaction.replace(R.id.main_fragment,messageFragment);
+//        transaction.commit();
     }
 
     @Override
     protected void findWidgets() {
         presenterImp = new MainPresenter(this);
         bottomBar = $(R.id.main_bottomBar);
-        viewPager = $(R.id.main_viewPager);
+        //viewPager = $(R.id.main_viewPager);
+        messageFragment = new MessageFragment();
     }
 
     @Override

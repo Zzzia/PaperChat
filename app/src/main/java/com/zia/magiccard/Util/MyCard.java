@@ -39,6 +39,7 @@ public class MyCard extends CardView {
         super(context, attrs, defStyleAttr);
         mScroller = new Scroller(context);
         mVelocityTracker = VelocityTracker.obtain();
+
     }
 
     @Override
@@ -58,7 +59,8 @@ public class MyCard extends CardView {
 //                            mDeleteBtnState = 0;
 //                        }
 //                    });
-                } else if (mDeleteBtnState == 3) {
+                    return true;
+                }else if (mDeleteBtnState == 3) {
                     mScroller.startScroll(getScrollX(), 0, -(widgetsWidth-getWidth()), 0, 200);
                     invalidate();
                     mDeleteBtnState = 0;
@@ -66,7 +68,6 @@ public class MyCard extends CardView {
                 } else {
                     return false;
                 }
-                return true;
 
             case MotionEvent.ACTION_UP:
                 Log.d(TAG,"MotionEvent.ACTION_UP");

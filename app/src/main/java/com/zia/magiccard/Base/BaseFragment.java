@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  * Created by zxzhu on 2017/8/2.
  */
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements BaseImp {
 
     private View mView;
 
@@ -40,5 +40,10 @@ public abstract class BaseFragment extends Fragment {
     //View快捷绑定id的方法
     public <T extends View> T $(int id) {
         return (T) mView.findViewById(id);
+    }
+
+    @Override
+    public void toast(String msg) {
+        ToastUnit.showToast(getContext(),msg);
     }
 }
