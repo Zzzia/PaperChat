@@ -30,11 +30,10 @@
                 android:id="@+id/login_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:gravity="center_horizontal"
-                android:text="欢迎回来"
+                android:layout_margin="5dp"
+                android:text="@string/welcome"
                 android:textColor="@color/colorAccent"
-                android:textSize="23dp"
+                android:textSize="23sp"
                 android:transitionName="card_title" />
 
             <android.support.design.widget.TextInputLayout
@@ -48,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:hint="用户名"
+                    android:hint="@string/username"
                     android:textColor="@color/colorAccent" />
             </android.support.design.widget.TextInputLayout>
 
@@ -63,11 +62,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:hint="密码"
+                    android:hint="@string/password"
                     android:textColor="@color/colorAccent" />
             </android.support.design.widget.TextInputLayout>
 
             <TextView
+                android:background="?android:attr/selectableItemBackground"
                 android:id="@+id/login_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,9 +75,9 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:gravity="center"
-                android:text="注册成为新用户"
+                android:text="@string/register_new"
                 android:textColor="@color/colorAccent"
-                android:textSize="16dp" />
+                android:textSize="16sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -85,6 +85,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:id="@+id/login_skip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -93,11 +94,12 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="bottom"
                     android:layout_margin="5dp"
-                    android:text="暂不登录"
+                    android:text="@string/login_skip"
                     android:textColor="@color/colorAccent"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <TextView
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:id="@+id/login_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,9 +107,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="5dp"
-                    android:text="登录"
+                    android:text="@string/login"
                     android:textColor="@color/colorAccent"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
             </RelativeLayout>
 
 

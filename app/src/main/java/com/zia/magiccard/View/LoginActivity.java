@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -37,7 +38,7 @@ public class LoginActivity extends BaseActivity implements CheckUserImp {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.gotoMainActivity();
+                presenter.login();
             }
         });
     }
@@ -70,6 +71,21 @@ public class LoginActivity extends BaseActivity implements CheckUserImp {
     @Override
     public TextInputLayout getPassword() {
         return password;
+    }
+
+    @Override
+    public TextInputLayout getNickname() {
+        return null;
+    }
+
+    @Override
+    public String getWaitTitle() {
+        return "正在登录";
+    }
+
+    @Override
+    public TextView getButton() {
+        return login;
     }
 
 

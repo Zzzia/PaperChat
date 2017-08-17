@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.zia.magiccard.View.Fragments.FriendFragment;
-import com.zia.magiccard.View.Fragments.MainFragment;
+import com.zia.magiccard.View.Fragments.MessageFragment;
 import com.zia.magiccard.View.Fragments.MeFragment;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public ViewPagerAdapter(FragmentManager fm) {
         super(fm);
         fragments = new ArrayList<>();
-        fragments.add(new MainFragment());
+        fragments.add(new MessageFragment());
         fragments.add(new FriendFragment());
         fragments.add(new MeFragment());
     }

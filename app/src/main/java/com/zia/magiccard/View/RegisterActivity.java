@@ -55,4 +55,19 @@ public class RegisterActivity extends BaseActivity implements CheckUserImp {
     public TextInputLayout getPassword() {
         return password;
     }
+
+    @Override
+    public TextInputLayout getNickname() {
+        return nickname;
+    }
+
+    @Override
+    public String getWaitTitle() {
+        return "正在注册";
+    }
+
+    @Override
+    public TextView getButton() {
+        return registerButton;
+    }
 }

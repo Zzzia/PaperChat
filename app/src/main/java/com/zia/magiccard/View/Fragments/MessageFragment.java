@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import com.zia.magiccard.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * ----消息界面
  */
-public class MainFragment extends Fragment {
+public class MessageFragment extends Fragment {
 
 
-    public MainFragment() {
+    public MessageFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_message, container, false);
     }
 
 }

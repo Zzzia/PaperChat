@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <tabs>
     <tab
+        icon="@mipmap/ic_chat_bubble_outline_white_24dp"
         id="@+id/main"
-        title="@string/page_main" />
+        title="@string/page_main"/>
     <tab
+        icon="@mipmap/ic_contacts_white_24dp"
         id="@+id/friends"
         title="@string/page_friend" />
     <tab
+        icon="@mipmap/ic_home_white_24dp"
         id="@+id/me"
         title="@string/page_me" />
 </tabs>
