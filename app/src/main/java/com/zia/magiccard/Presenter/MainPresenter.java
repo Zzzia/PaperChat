@@ -2,6 +2,8 @@ package com.zia.magiccard.Presenter;
 
 import android.support.annotation.IdRes;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -50,17 +52,37 @@ public class MainPresenter implements MainPresenterImp {
 
             }
         });
+    }
+
+    @Override
+    public void setBottomBar() {
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
+                AlphaAnimation appearAnimation = new AlphaAnimation(0,1);
+                appearAnimation.setDuration(200);
+                AlphaAnimation dismissAnimation = new AlphaAnimation(1,0);
+                dismissAnimation.setDuration(200);
+                activityImp.getToolbarImage().startAnimation(dismissAnimation);
+                activityImp.getToolbarImage().startAnimation(appearAnimation);
+
                 switch (tabId){
                     case R.id.main:
+                        activityImp.getToolbarImage().setImageResource(R.mipmap.ic_person_add_white_18dp);
                         viewPager.setCurrentItem(0);
                         break;
                     case R.id.friends:
+                        activityImp.getToolbarImage().setImageResource(R.mipmap.ic_library_add_white_18dp);
+                        activityImp.getToolbarImage().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
                         viewPager.setCurrentItem(1);
                         break;
                     case R.id.me:
+                        activityImp.getToolbarImage().setImageResource(0);
                         viewPager.setCurrentItem(2);
                         break;
                 }

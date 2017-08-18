@@ -13,6 +13,7 @@ import com.zia.magiccard.Presenter.MessagePresenter;
 import com.zia.magiccard.Presenter.RecyclerViewPresenter;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.MyRecyclerView;
+import com.zia.magiccard.Util.RecyclerItemDivider;
 
 /**
  * ----消息界面
@@ -39,6 +40,8 @@ public class MessageFragment extends BaseFragment implements RecyclerViewImp {
     @Override
     protected void onCreated() {
         recyclerViewPresenter.setRecyclerView();
+        recyclerView.setExtraViewId(R.id.item_message_delete);
+        recyclerView.addItemDecoration(new RecyclerItemDivider(getContext(),RecyclerItemDivider.VERTICAL_LIST));
         recyclerView.setMyListener(new MyRecyclerView.MyListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -58,7 +61,7 @@ public class MessageFragment extends BaseFragment implements RecyclerViewImp {
     }
 
     @Override
-    public MessageRecyclerAdapter getAdapter() {
+    public RecyclerView.Adapter getAdapter() {
         return adapter;
     }
 }

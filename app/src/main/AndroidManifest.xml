@@ -33,7 +33,7 @@
 
 
         <!-- 反馈组件（需要加入以下声明）START -->
-        <activity android:name="com.avos.avoscloud.feedback.ThreadActivity"></activity>
+        <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
         <!-- 反馈组件 END -->
         <activity android:name=".View.StartActivity">
             <intent-filter>
@@ -45,7 +45,8 @@
         <activity android:name=".View.LoginActivity" />
         <activity android:name=".View.RegisterActivity" />
         <activity android:name=".View.MainActivity" />
-        <activity android:name=".View.ChatActivity"></activity>
+        <activity android:name=".View.ChatActivity" />
+        <activity android:name=".View.GroupActivity"></activity>
     </application>
 
 </manifest>

@@ -12,5 +12,5 @@ import com.zia.magiccard.Base.BaseImp;
 
 public interface RecyclerViewImp extends BaseImp {
     RecyclerView getRecyclerView();
-    MessageRecyclerAdapter getAdapter();
+    RecyclerView.Adapter getAdapter();
 }

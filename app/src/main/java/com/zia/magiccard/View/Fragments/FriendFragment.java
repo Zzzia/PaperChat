@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zia.magiccard.Adapter.FriendRecyclerAdapter;
 import com.zia.magiccard.Adapter.MessageRecyclerAdapter;
 import com.zia.magiccard.Base.BaseFragment;
 import com.zia.magiccard.Presenter.RecyclerViewPresenter;
@@ -19,15 +20,15 @@ import com.zia.magiccard.Util.MyRecyclerView;
  */
 public class FriendFragment extends BaseFragment implements RecyclerViewImp {
 
-    private MyRecyclerView recyclerView;
-    private MessageRecyclerAdapter adapter;
+    private RecyclerView recyclerView;
+    private FriendRecyclerAdapter adapter;
     private RecyclerViewPresenter recyclerViewPresenter;
 
     @Override
     protected void findWidgets() {
         recyclerViewPresenter = new RecyclerViewPresenter(this);
         recyclerView = $(R.id.friend_recycler);
-        adapter = new MessageRecyclerAdapter(getContext());
+        adapter = new FriendRecyclerAdapter(getContext());
     }
 
     @Override
@@ -46,7 +47,7 @@ public class FriendFragment extends BaseFragment implements RecyclerViewImp {
     }
 
     @Override
-    public MessageRecyclerAdapter getAdapter() {
+    public RecyclerView.Adapter getAdapter() {
         return adapter;
     }
 }

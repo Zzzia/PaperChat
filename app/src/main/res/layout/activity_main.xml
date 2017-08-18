@@ -8,11 +8,7 @@
     android:orientation="vertical"
     tools:context="com.zia.magiccard.View.MainActivity">
 
-        <android.support.v7.widget.Toolbar
-            android:background="@color/colorPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="60dp">
-        </android.support.v7.widget.Toolbar>
+    <include layout="@layout/toolbar" />
 
 <android.support.v7.widget.CardView
     android:layout_width="match_parent"

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView android:id="@+id/item_friend_card"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:elevation="1dp"
+    app:cardCornerRadius="3dp"
+    android:layout_height="60dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/item_friend_group"
+        android:layout_margin="10dp"
+        android:text="  >   我的好友"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</android.support.v7.widget.CardView>

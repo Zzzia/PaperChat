@@ -23,9 +23,9 @@ public class MyRecyclerView extends RecyclerView {
     private Scroller mScroller;
     private VelocityTracker mVelocityTracker;
     private boolean isItemMoving = false,isStartScroll = false,isDragging = false;
-    private int mLastX,mLastY,mPosition,mMaxLength;
+    private int mLastX,mLastY,mPosition,mMaxLength,extraViewId = 0;
     private View mItemLayout;
-    private TextView mDelete;
+    private View extraView;
     private MyListener mListener;
 
     public MyRecyclerView(Context context) {
@@ -40,6 +40,10 @@ public class MyRecyclerView extends RecyclerView {
         super(context, attrs, defStyle);
         mScroller = new Scroller(context);
         mVelocityTracker = VelocityTracker.obtain();
+    }
+
+    public void setExtraViewId(int id){
+        extraViewId = id;
     }
 
     public interface MyListener{
@@ -67,17 +71,18 @@ public class MyRecyclerView extends RecyclerView {
 
                     mItemLayout = viewHolder.itemView;
                     mPosition = viewHolder.getAdapterPosition();
-
-                    mDelete = (TextView) mItemLayout.findViewById(R.id.item_message_delete);
-                    mMaxLength = mDelete.getWidth();
-                    mDelete.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mListener.onDeleteClick(mPosition);
-                            mItemLayout.scrollTo(0, 0);
-                            mDeleteBtnState = 0;
-                        }
-                    });
+                    if(extraViewId != 0){
+                        extraView =  mItemLayout.findViewById(extraViewId);
+                        mMaxLength = extraView.getWidth();
+                        extraView.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if(mListener != null) mListener.onDeleteClick(mPosition);
+                                mItemLayout.scrollTo(0, 0);
+                                mDeleteBtnState = 0;
+                            }
+                        });
+                    }
                 } else if (mDeleteBtnState == 3) {
                     mScroller.startScroll(mItemLayout.getScrollX(), 0, -mMaxLength, 0, 200);
                     invalidate();

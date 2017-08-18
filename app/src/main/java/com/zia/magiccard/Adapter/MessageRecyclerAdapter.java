@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.MyCard;
+import com.zia.magiccard.Util.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,18 +39,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<MessageRecycler
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d("123","itemView setOnClickListener click");
-//            }
-//        });
-//        holder.card.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.d("123","card setOnClickListener click");
-//            }
-//        });
+
     }
 
     @Override

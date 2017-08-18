@@ -1,5 +1,6 @@
 package com.zia.magiccard.View;
 
+import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -12,8 +13,10 @@ import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionSet;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 import com.zia.magiccard.Base.BaseActivity;
 import com.zia.magiccard.Presenter.MainPresenter;
 import com.zia.magiccard.Presenter.MainPresenterImp;
@@ -26,10 +29,12 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     private BottomBar bottomBar;
     private ViewPager viewPager;
     private MainPresenterImp presenterImp;
+    private ImageView titleImage;
 
     @Override
     protected void onCreated() {
         presenterImp.setViewPager();
+        presenterImp.setBottomBar();
     }
 
     @Override
@@ -37,6 +42,7 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
         presenterImp = new MainPresenter(this);
         bottomBar = $(R.id.main_bottomBar);
         viewPager = $(R.id.main_viewPager);
+        titleImage = $(R.id.toolbar_right);
     }
 
     @Override
@@ -62,5 +68,10 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     @Override
     public FragmentManager getFragmentsManager() {
         return getSupportFragmentManager();
+    }
+
+    @Override
+    public ImageView getToolbarImage() {
+        return titleImage;
     }
 }

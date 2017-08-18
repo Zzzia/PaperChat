@@ -6,4 +6,5 @@ package com.zia.magiccard.Presenter;
 
 public interface MainPresenterImp {
     void setViewPager();
+    void setBottomBar();
 }
