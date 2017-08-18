@@ -5,9 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_message_card"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="80dp"
     android:elevation="0dp"
-    app:cardCornerRadius="0dp">
+    app:cardCornerRadius="0dp"
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="match_parent"

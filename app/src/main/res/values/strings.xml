@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">MagicCard</string>
-    <string name="page_main">聊天</string>
-    <string name="page_friend">朋友</string>
-    <string name="page_me">我的</string>
+    <string name="page_main">消息</string>
+    <string name="page_friend">联系人</string>
+    <string name="page_me">设置</string>
     <string name="welcome">欢迎回来</string>
     <string name="username">用户名</string>
     <string name="password">密码</string>

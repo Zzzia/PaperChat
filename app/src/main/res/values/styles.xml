@@ -7,11 +7,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!-- 状态栏颜色，会被statusBarColor效果覆盖-->
-        <item name="android:colorPrimaryDark">@color/colorTranslate</item>
+        <item name="android:colorPrimaryDark">@color/colorPrimary</item>
         <!-- 状态栏颜色，继承自colorPrimaryDark -->
-        <item name="android:statusBarColor">@color/colorTranslate</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
         <!-- actionBar颜色 -->
-        <item name="android:colorPrimary">@color/colorTranslate</item>
+        <item name="android:colorPrimary">@color/colorPrimary</item>
         <!-- 背景颜色 与共享相关 -->
         <item name="android:windowBackground">@color/colorTranslate</item>
         <!-- 底部栏颜色 -->

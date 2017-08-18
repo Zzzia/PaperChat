@@ -4,27 +4,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.zia.magiccard.View.Fragments.MessageFragment"
-    android:background="@color/colorPrimary">
+    android:background="@color/paperWhite">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="3dp"
-        app:elevation="2dp"
-        android:layout_margin="5dp">
         <com.zia.magiccard.Util.MyRecyclerView
             android:id="@+id/message_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
         </com.zia.magiccard.Util.MyRecyclerView>
-    </android.support.v7.widget.CardView>
-
-    <Button
-        android:visibility="gone"
-        android:id="@+id/message_button"
-        android:text="测试"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
 </FrameLayout>

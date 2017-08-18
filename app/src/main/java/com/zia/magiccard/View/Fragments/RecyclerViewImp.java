@@ -10,8 +10,7 @@ import com.zia.magiccard.Base.BaseImp;
  * Created by zia on 17-8-17.
  */
 
-public interface MessageFragmentImp extends BaseImp {
-    CardView getCardView();
+public interface RecyclerViewImp extends BaseImp {
     RecyclerView getRecyclerView();
     MessageRecyclerAdapter getAdapter();
 }

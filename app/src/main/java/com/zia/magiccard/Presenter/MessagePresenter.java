@@ -5,9 +5,10 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.zia.magiccard.Adapter.MessageRecyclerAdapter;
+import com.zia.magiccard.Base.BaseImp;
 import com.zia.magiccard.View.ChatActivity;
-import com.zia.magiccard.View.Fragments.MessageFragmentImp;
-import com.zia.magiccard.View.MainActivity;
+import com.zia.magiccard.View.Fragments.RecyclerViewImp;
 
 /**
  * Created by zia on 17-8-17.
@@ -15,21 +16,11 @@ import com.zia.magiccard.View.MainActivity;
 
 public class MessagePresenter implements MessageImp {
 
-    private MessageFragmentImp fragmentImp;
+    private BaseImp fragmentImp;
 
-    public MessagePresenter(MessageFragmentImp fragmentImp){
+    public MessagePresenter(BaseImp fragmentImp){
         this.fragmentImp = fragmentImp;
     }
 
-    @Override
-    public void gotoChatActivity(View view) {
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentImp.getActivity(), view, "card");
-        fragmentImp.getActivity().startActivity(new Intent(fragmentImp.getActivity(),ChatActivity.class), optionsCompat.toBundle());
-    }
 
-    @Override
-    public void setRecyclerView() {
-        fragmentImp.getRecyclerView().setLayoutManager(new LinearLayoutManager(fragmentImp.getActivity()));
-        fragmentImp.getRecyclerView().setAdapter(fragmentImp.getAdapter());
-    }
 }

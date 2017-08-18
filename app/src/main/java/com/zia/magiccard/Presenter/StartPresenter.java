@@ -41,10 +41,10 @@ public class StartPresenter implements StartImp {
 
     @Override
     public void openService() {
-        //开启错误调试日志
-        AVOSCloud.setDebugLogEnabled(true);
         //初始化leanCloud服务
         AVOSCloud.initialize(imp.getActivity(),"0f7PFLssqz1aLp6PrOAlakNt-gzGzoHsz","IjQEGo2YnJtWRv9shnoxRDjC");
+        //开启错误调试日志
+        AVOSCloud.setDebugLogEnabled(true);
         //初始化消息接收类
         AVIMMessageManager.registerDefaultMessageHandler(new CustomMessageHandler(imp.getActivity()));
         //尝试保存installation

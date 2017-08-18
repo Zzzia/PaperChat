@@ -4,19 +4,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.zia.magiccard.View.Fragments.FriendFragment"
-    android:background="@color/colorPrimary">
+    android:background="@color/paperWhite">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/friend_card"
-        app:cardCornerRadius="3dp"
-        app:elevation="2dp"
+    <com.zia.magiccard.Util.MyRecyclerView
+        android:id="@+id/friend_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="second" />
-    </android.support.v7.widget.CardView>
+        >
+    </com.zia.magiccard.Util.MyRecyclerView>
 
 </FrameLayout>

@@ -7,6 +7,5 @@ import android.view.View;
  */
 
 public interface MessageImp {
-    void gotoChatActivity(View view);
-    void setRecyclerView();
+
 }

@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:transitionName="card"
+        app:cardBackgroundColor="@color/paperWhite"
         app:cardCornerRadius="3dp"
         app:elevation="2dp"
         android:layout_margin="40dp"
