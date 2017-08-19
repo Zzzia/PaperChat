@@ -14,6 +14,7 @@ import android.transition.Transition;
 import android.transition.TransitionSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;

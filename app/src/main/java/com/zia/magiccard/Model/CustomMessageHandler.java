@@ -2,6 +2,7 @@ package com.zia.magiccard.Model;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
@@ -17,6 +18,7 @@ import com.zia.magiccard.Base.ToastUnit;
 public class CustomMessageHandler extends AVIMMessageHandler {
 
     private Context context;
+    private static final String TAG = "MessageHandlerTest";
 
     public CustomMessageHandler(Context context){
         this.context = context;
@@ -24,6 +26,7 @@ public class CustomMessageHandler extends AVIMMessageHandler {
 
     @Override
     public void onMessage(final AVIMMessage message, AVIMConversation conversation, AVIMClient client) {
+        Log.d(TAG,message.getFrom());
         super.onMessage(message, conversation, client);
         if(message instanceof AVIMTextMessage){
             ((Activity)context).runOnUiThread(new Runnable() {
@@ -33,6 +36,7 @@ public class CustomMessageHandler extends AVIMMessageHandler {
                 }
             });
         }
+        Log.d(TAG,message.getContent());
     }
 
     @Override

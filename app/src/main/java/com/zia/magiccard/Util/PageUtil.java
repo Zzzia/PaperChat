@@ -20,4 +20,9 @@ public class PageUtil {
         ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context, view, "card");
         context.startActivity(new Intent(context,targetActivity), optionsCompat.toBundle());
     }
+
+    public static void gotoPageWithCard(Context context, View view,Intent intent){
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity)context, view, "card");
+        context.startActivity(intent, optionsCompat.toBundle());
+    }
 }

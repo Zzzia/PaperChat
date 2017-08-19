@@ -9,7 +9,9 @@ import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.zia.magiccard.Adapter.ViewPagerAdapter;
 import com.zia.magiccard.R;
+import com.zia.magiccard.Util.PageUtil;
 import com.zia.magiccard.View.MainActivityImp;
+import com.zia.magiccard.View.SearchActivity;
 
 /**
  * Created by zia on 17-8-16.
@@ -59,20 +61,27 @@ public class MainPresenter implements MainPresenterImp {
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-                AlphaAnimation appearAnimation = new AlphaAnimation(0,1);
-                appearAnimation.setDuration(200);
-                AlphaAnimation dismissAnimation = new AlphaAnimation(1,0);
-                dismissAnimation.setDuration(200);
-                activityImp.getToolbarImage().startAnimation(dismissAnimation);
-                activityImp.getToolbarImage().startAnimation(appearAnimation);
+                //淡入淡出动画
+//                AlphaAnimation appearAnimation = new AlphaAnimation(0,1);
+//                appearAnimation.setDuration(200);
+//                AlphaAnimation dismissAnimation = new AlphaAnimation(1,0);
+//                dismissAnimation.setDuration(200);
+//                activityImp.getToolbarImage().startAnimation(dismissAnimation);
+//                activityImp.getToolbarImage().startAnimation(appearAnimation);
 
                 switch (tabId){
                     case R.id.main:
-                        activityImp.getToolbarImage().setImageResource(R.mipmap.ic_person_add_white_18dp);
+                        activityImp.getToolbarImage().setImageResource(R.mipmap.ic_add_white_24dp);
                         viewPager.setCurrentItem(0);
+                        activityImp.getToolbarImage().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                PageUtil.gotoPageWithCard(activityImp.getActivity(),activityImp.getViewPager(), SearchActivity.class);
+                            }
+                        });
                         break;
                     case R.id.friends:
-                        activityImp.getToolbarImage().setImageResource(R.mipmap.ic_library_add_white_18dp);
+                        activityImp.getToolbarImage().setImageResource(R.mipmap.ic_add_white_24dp);
                         activityImp.getToolbarImage().setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

@@ -3,6 +3,7 @@ package com.zia.magiccard.View;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.roughike.bottombar.BottomBar;
 import com.zia.magiccard.Base.BaseImp;

@@ -15,6 +15,7 @@ import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.zia.magiccard.Base.BaseActivity;
+import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Presenter.ChatPresenter;
 import com.zia.magiccard.Presenter.ChatPresenterImp;
 import com.zia.magiccard.R;
@@ -33,7 +34,7 @@ public class ChatActivity extends BaseActivity implements ChatImp {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendMessageToJerryFromTom();
+                presenterImp.sendMessage();
             }
         });
     }
@@ -89,5 +90,21 @@ public class ChatActivity extends BaseActivity implements ChatImp {
     @Override
     protected void beforeSetContentView() {
 
+    }
+
+    @Override
+    public UserData getUserData() {
+        if(getIntent() == null) return null;
+        return (UserData)getIntent().getSerializableExtra("userData");
+    }
+
+    @Override
+    public EditText getEditText() {
+        return editText;
+    }
+
+    @Override
+    public AVIMClient getAVIMClient() {
+        return client;
     }
 }

@@ -9,7 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by zia on 17-8-18.
@@ -18,9 +22,20 @@ import com.zia.magiccard.R;
 public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAdapter.ViewHolder> {
 
     private Context context;
+    private List<UserData> userDataList = new ArrayList<>();
 
     public PersonRecyclerAdapter(Context context){
         this.context = context;
+    }
+
+    public void refreshData(List<UserData> userDataList){
+        if(userDataList == null) return;
+        this.userDataList = userDataList;
+        notifyDataSetChanged();
+    }
+
+    public List<UserData> getUserDataList(){
+        return userDataList;
     }
 
     @Override
@@ -31,12 +46,15 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        UserData userData = userDataList.get(position);
+        holder.name.setText(userData.getNickname());
+        holder.introduce.setText(userData.getIntroduce());
 
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return userDataList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

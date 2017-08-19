@@ -8,11 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="60dp">
         <ImageView
-            android:src="@mipmap/ic_person_add_white_18dp"
+            android:src="@mipmap/ic_add_white_24dp"
+            android:textColor="@color/paperWhite"
             android:id="@+id/toolbar_right"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="5dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>

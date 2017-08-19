@@ -43,37 +43,6 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-//        holder.gourp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(!isOpen.get(position)){
-//                    isOpen.set(position,true);
-//                    holder.recyclerView.setVisibility(View.VISIBLE);
-//                    holder.recyclerView.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false){
-//                        @Override
-//                        public boolean canScrollVertically() {
-//                            return false;
-//                        }
-//                    });
-//                    holder.recyclerView.setAdapter(new MessageRecyclerAdapter(context));
-//                    holder.recyclerView.setMyListener(new MyRecyclerView.MyListener() {
-//                        @Override
-//                        public void onItemClick(View view, int position) {
-//                            Log.d("123","click");
-//                        }
-//
-//                        @Override
-//                        public void onDeleteClick(int position) {
-//
-//                        }
-//                    });
-//                }else{
-//                    isOpen.set(position,false);
-//                    holder.recyclerView.setVisibility(View.GONE);
-//                }
-//
-//            }
-//        });
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
