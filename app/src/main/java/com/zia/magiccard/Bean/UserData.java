@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class UserData implements Serializable {
 
     private String objectId;
-    private String sex;
+    private boolean isboy;
     private String installationId;
     private String nickname;
     private String username;
@@ -18,8 +18,12 @@ public class UserData implements Serializable {
 
     @Override
     public String toString() {
-        return "username: "+username+"\n"
-                +"objectId: "+objectId+"\n"
+        return "objectId: "+objectId+"\n"
+                +"isboy: "+isboy+"\n"
+                +"installationId: "+installationId+"\n"
+                +"headUrl: "+headUrl+"\n"
+                +"username: "+username+"\n"
+                +"introduce: "+introduce+"\n"
                 +"nickname: "+nickname+"\n";
     }
 
@@ -47,12 +51,12 @@ public class UserData implements Serializable {
         this.objectId = objectId;
     }
 
-    public String getSex() {
-        return sex;
+    public boolean isboy() {
+        return isboy;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setIsboy(boolean isboy) {
+        this.isboy = isboy;
     }
 
     public String getInstallationId() {

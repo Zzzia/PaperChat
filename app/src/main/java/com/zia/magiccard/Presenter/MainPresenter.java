@@ -2,14 +2,20 @@ package com.zia.magiccard.Presenter;
 
 import android.support.annotation.IdRes;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVUser;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.zia.magiccard.Adapter.ViewPagerAdapter;
+import com.zia.magiccard.Bean.UserData;
+import com.zia.magiccard.Model.UserModel;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.PageUtil;
+import com.zia.magiccard.View.MainActivity;
 import com.zia.magiccard.View.MainActivityImp;
 import com.zia.magiccard.View.SearchActivity;
 
@@ -95,6 +101,23 @@ public class MainPresenter implements MainPresenterImp {
                         viewPager.setCurrentItem(2);
                         break;
                 }
+            }
+        });
+    }
+
+    @Override
+    public void setUserData() {
+        UserModel model = new UserModel(activityImp.getActivity());
+        model.getUserById(AVUser.getCurrentUser().getObjectId(), new UserModel.OnUserGet() {
+            @Override
+            public void getUserData(UserData userData) {
+                MainActivity.userData = userData;
+            }
+
+            @Override
+            public void onError(AVException e) {
+                Log.d("MainPresenter","UserData获取失败");
+                e.printStackTrace();
             }
         });
     }

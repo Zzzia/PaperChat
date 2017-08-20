@@ -8,6 +8,7 @@ import com.roughike.bottombar.BottomBar;
 import com.zia.magiccard.Adapter.ConversationRecyclerAdapter;
 import com.zia.magiccard.Base.BaseActivity;
 import com.zia.magiccard.Bean.ConversationData;
+import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Presenter.MainPresenter;
 import com.zia.magiccard.Presenter.MainPresenterImp;
 import com.zia.magiccard.R;
@@ -24,9 +25,11 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     //消息界面的变量
     public static List<ConversationData> conversationList;
     public static ConversationRecyclerAdapter adapter;
+    public static UserData userData = null;
 
     @Override
     protected void onCreated() {
+        presenterImp.setUserData();
         presenterImp.setViewPager();
         presenterImp.setBottomBar();
         adapter = new ConversationRecyclerAdapter(this);

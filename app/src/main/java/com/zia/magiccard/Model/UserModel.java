@@ -4,9 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
+import com.avos.avoscloud.GetCallback;
 import com.zia.magiccard.Bean.UserData;
 
 import java.util.ArrayList;
@@ -47,6 +50,36 @@ public class UserModel {
                 }
                 listener.getUserList(userDataList);
                 Log.d(TAG,userDataList.toString());
+            }
+        });
+    }
+
+    public interface OnUserGet{
+        void getUserData(UserData userData);
+        void onError(AVException e);
+    }
+
+    public void getUserById(String userId, final OnUserGet onUserGet){
+        AVQuery<AVUser> avQuery = new AVQuery<>("_User");
+        avQuery.getInBackground(userId, new GetCallback<AVUser>() {
+            @Override
+            public void done(AVUser avUser, AVException e) {
+                if(e != null){
+                    onUserGet.onError(e);
+                }
+                else{
+                    UserData userData = new UserData();
+                    userData.setObjectId(avUser.getObjectId());
+                    userData.setUsername(avUser.getUsername());
+                    userData.setInstallationId(avUser.getString("installationId"));
+                    userData.setIntroduce(avUser.getString("introduce"));
+                    userData.setIsboy(avUser.getBoolean("isboy"));
+                    userData.setNickname(avUser.getString("nickname"));
+                    AVFile file = avUser.getAVFile("head");
+                    userData.setHeadUrl(file.getUrl());
+                    Log.d(TAG,userData.toString());
+                    onUserGet.getUserData(userData);
+                }
             }
         });
     }
