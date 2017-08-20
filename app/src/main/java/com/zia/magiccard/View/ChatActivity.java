@@ -2,6 +2,7 @@ package com.zia.magiccard.View;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,23 +15,36 @@ import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
+import com.zia.magiccard.Adapter.MessageRecyclerAdapter;
 import com.zia.magiccard.Base.BaseActivity;
+import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Presenter.ChatPresenter;
 import com.zia.magiccard.Presenter.ChatPresenterImp;
+import com.zia.magiccard.Presenter.RecyclerViewPresenter;
+import com.zia.magiccard.Presenter.RecyclerViewPresenterImp;
 import com.zia.magiccard.R;
+import com.zia.magiccard.View.Fragments.RecyclerViewImp;
 
 import java.util.Arrays;
 
-public class ChatActivity extends BaseActivity implements ChatImp {
+public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewImp {
 
     private ChatPresenterImp presenterImp;
+    private RecyclerViewPresenterImp recyclerViewPresenter;
+    private RecyclerView recyclerView;
+    public static MessageRecyclerAdapter adapter;
     private EditText editText;
     private Button sendButton;
     private AVIMClient client;
 
     @Override
     protected void onCreated() {
+        //设置adapter
+        recyclerViewPresenter.setRecyclerView();
+        //初始化recycler数据
+        presenterImp.initData();
+        //发送消息
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,44 +53,12 @@ public class ChatActivity extends BaseActivity implements ChatImp {
         });
     }
 
-    private void sendMessageToJerryFromTom(){
-        client.open(new AVIMClientCallback() {
-            @Override
-            public void done(AVIMClient avimClient, AVIMException e) {
-                if(e == null){
-                    avimClient.createConversation(Arrays.asList("599542005c497d0057d6838b"), "ziaTest", null,
-                            new AVIMConversationCreatedCallback() {
-                        @Override
-                        public void done(AVIMConversation avimConversation, AVIMException e) {
-                            if(e == null){
-                                final String text = editText.getText().toString();
-                                if(text.isEmpty()) return;
-                                AVIMTextMessage message = new AVIMTextMessage();
-                                message.setText(text);
-                                avimConversation.sendMessage(message, new AVIMConversationCallback() {
-                                    @Override
-                                    public void done(AVIMException e) {
-                                        if(e == null){
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    toast("发送成功："+text);
-                                                }
-                                            });
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    });
-                }
-            }
-        });
-    }
-
     @Override
     protected void findWidgets() {
+        recyclerViewPresenter = new RecyclerViewPresenter(this);
         presenterImp = new ChatPresenter(this);
+        adapter = new MessageRecyclerAdapter(this);
+        recyclerView = $(R.id.chat_recycler);
         editText = $(R.id.chat_edit);
         sendButton = $(R.id.chat_send);
         client = AVIMClient.getInstance(AVUser.getCurrentUser());
@@ -99,6 +81,12 @@ public class ChatActivity extends BaseActivity implements ChatImp {
     }
 
     @Override
+    public ConversationData getConversationData() {
+        if(getIntent() == null) return null;
+        return (ConversationData) getIntent().getSerializableExtra("conversationData");
+    }
+
+    @Override
     public EditText getEditText() {
         return editText;
     }
@@ -106,5 +94,20 @@ public class ChatActivity extends BaseActivity implements ChatImp {
     @Override
     public AVIMClient getAVIMClient() {
         return client;
+    }
+
+    @Override
+    public MessageRecyclerAdapter getMessageAdapter() {
+        return adapter;
+    }
+
+    @Override
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
+
+    @Override
+    public RecyclerView.Adapter getAdapter() {
+        return adapter;
     }
 }

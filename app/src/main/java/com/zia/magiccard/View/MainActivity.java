@@ -1,29 +1,19 @@
 package com.zia.magiccard.View;
 
-import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.transition.Explode;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.transition.Transition;
-import android.transition.TransitionSet;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabSelectListener;
+import com.zia.magiccard.Adapter.ConversationRecyclerAdapter;
 import com.zia.magiccard.Base.BaseActivity;
+import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Presenter.MainPresenter;
 import com.zia.magiccard.Presenter.MainPresenterImp;
 import com.zia.magiccard.R;
-import com.zia.magiccard.Transitions.SlideUpTransition;
-import com.zia.magiccard.View.Fragments.MessageFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends BaseActivity implements MainActivityImp {
 
@@ -31,15 +21,20 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     private ViewPager viewPager;
     private MainPresenterImp presenterImp;
     private ImageView titleImage;
+    //消息界面的变量
+    public static List<ConversationData> conversationList;
+    public static ConversationRecyclerAdapter adapter;
 
     @Override
     protected void onCreated() {
         presenterImp.setViewPager();
         presenterImp.setBottomBar();
+        adapter = new ConversationRecyclerAdapter(this);
     }
 
     @Override
     protected void findWidgets() {
+        conversationList = new ArrayList<>();
         presenterImp = new MainPresenter(this);
         bottomBar = $(R.id.main_bottomBar);
         viewPager = $(R.id.main_viewPager);

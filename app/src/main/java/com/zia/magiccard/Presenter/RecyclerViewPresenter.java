@@ -10,6 +10,7 @@ import com.zia.magiccard.View.Fragments.RecyclerViewImp;
 
 /**
  * Created by zia on 17-8-18.
+ * recyclerView统一适配器
  */
 
 public class RecyclerViewPresenter implements RecyclerViewPresenterImp {

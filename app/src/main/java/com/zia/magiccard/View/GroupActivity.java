@@ -1,10 +1,7 @@
 package com.zia.magiccard.View;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
-import com.zia.magiccard.Adapter.MessageRecyclerAdapter;
 import com.zia.magiccard.Adapter.PersonRecyclerAdapter;
 import com.zia.magiccard.Base.BaseActivity;
 import com.zia.magiccard.Presenter.RecyclerViewPresenter;

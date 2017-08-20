@@ -8,4 +8,5 @@ import com.avos.avoscloud.im.v2.AVIMClient;
 
 public interface ChatPresenterImp {
     void sendMessage();
+    void initData();
 }

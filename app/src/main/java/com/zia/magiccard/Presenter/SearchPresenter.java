@@ -2,15 +2,20 @@ package com.zia.magiccard.Presenter;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
+import com.avos.avoscloud.AVUser;
+import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Model.UserModel;
 import com.zia.magiccard.Util.PageUtil;
 import com.zia.magiccard.Util.ScreenUtil;
 import com.zia.magiccard.View.ChatActivity;
+import com.zia.magiccard.View.MainActivity;
 import com.zia.magiccard.View.SearchActivityImp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +26,7 @@ public class SearchPresenter implements SearchPresenterImp {
 
     private SearchActivityImp imp;
     private UserModel model;
+    private final static String TAG = "SearchPresenterTest";
 
     public SearchPresenter(SearchActivityImp imp){
         this.imp = imp;
@@ -52,7 +58,27 @@ public class SearchPresenter implements SearchPresenterImp {
     @Override
     public void gotoChatPage(UserData userData, View view) {
         Intent intent = new Intent(imp.getActivity(), ChatActivity.class);
-        intent.putExtra("userData",userData);
+        //在main集合中找是否建立过对话
+        if(MainActivity.conversationList == null) return;
+        for (ConversationData c : MainActivity.conversationList) {
+            for (String memberId : c.getMembers()) {
+                if(memberId.equals(userData.getObjectId()) && c.getMembers().size() == 2){
+                    Log.d(TAG,"memberId.equals(userData.getObjectId()) && c.getMembers().size() == 2");
+                    intent.putExtra("conversationData",c);
+                    PageUtil.gotoPageWithCard(imp.getActivity(),view,intent);
+                    return;
+                }
+            }
+        }
+        //没找到，新建一个
+        Log.d(TAG,"没找到，新建一个");
+        ConversationData conversationData = new ConversationData();
+        List<String> members = new ArrayList<>();
+        members.add(AVUser.getCurrentUser().getObjectId());
+        members.add(userData.getObjectId());
+        conversationData.setMembers(members);
+        conversationData.setName(userData.getNickname());
+        intent.putExtra("conversationData",conversationData);
         PageUtil.gotoPageWithCard(imp.getActivity(),view,intent);
     }
 }

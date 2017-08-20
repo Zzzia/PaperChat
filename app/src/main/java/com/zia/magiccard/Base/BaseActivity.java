@@ -3,17 +3,15 @@ package com.zia.magiccard.Base;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.Fade;
-import android.transition.Transition;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import com.avos.avoscloud.AVOSCloud;
 
 /**
  * Created by zxzhu on 2017/8/2.
@@ -34,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseImp 
     protected abstract void onCreated();
 
     public void initState() {
+        AVOSCloud.initialize(this,"0f7PFLssqz1aLp6PrOAlakNt-gzGzoHsz","IjQEGo2YnJtWRv9shnoxRDjC");
         View decorView = getWindow().getDecorView();
         int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
@@ -58,7 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseImp 
 
     @Override
     public void toast(final String msg) {
-        ToastUnit.showToast(this, msg);
+        MyToast.showToast(this, msg);
     }
 
     @Override

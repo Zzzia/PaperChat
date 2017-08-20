@@ -1,34 +1,33 @@
 package com.zia.magiccard.View.Fragments;
 
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
-import com.zia.magiccard.Adapter.MessageRecyclerAdapter;
 import com.zia.magiccard.Base.BaseFragment;
-import com.zia.magiccard.Presenter.MessageImp;
-import com.zia.magiccard.Presenter.MessagePresenter;
+import com.zia.magiccard.Presenter.MessagePresenterImp;
+import com.zia.magiccard.Presenter.MessagePresenterPresenter;
 import com.zia.magiccard.Presenter.RecyclerViewPresenter;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.MyRecyclerView;
 import com.zia.magiccard.Util.RecyclerItemDivider;
+import com.zia.magiccard.View.MainActivity;
 
 /**
  * ----消息界面
  */
-public class MessageFragment extends BaseFragment implements RecyclerViewImp {
+public class ConversationFragment extends BaseFragment implements RecyclerViewImp {
 
     private RecyclerViewPresenter recyclerViewPresenter;
-    private MessagePresenter messagePresenter;
+    private MessagePresenterImp messagePresenter;
     private MyRecyclerView recyclerView;
-    private MessageRecyclerAdapter adapter;
+    private static final String TAG = "MessageFragmentTest";
 
     @Override
     protected void findWidgets() {
         recyclerViewPresenter = new RecyclerViewPresenter(this);
-        adapter = new MessageRecyclerAdapter(getContext());
+        messagePresenter = new MessagePresenterPresenter(this);
         recyclerView = $(R.id.message_recycler);
     }
 
@@ -45,7 +44,9 @@ public class MessageFragment extends BaseFragment implements RecyclerViewImp {
         recyclerView.setMyListener(new MyRecyclerView.MyListener() {
             @Override
             public void onItemClick(View view, int position) {
-                recyclerViewPresenter.gotoChatActivity(view);
+                Log.d(TAG,position+"");
+                Log.d(TAG,MainActivity.conversationList.get(position).toString());
+                messagePresenter.gotoChatPage(MainActivity.conversationList.get(position),view);
             }
 
             @Override
@@ -57,11 +58,21 @@ public class MessageFragment extends BaseFragment implements RecyclerViewImp {
 
     @Override
     public RecyclerView getRecyclerView() {
+
         return recyclerView;
     }
 
     @Override
     public RecyclerView.Adapter getAdapter() {
-        return adapter;
+        if(MainActivity.adapter == null){
+            Log.d(TAG,"MainActivity.adapter == null");
+        }
+        return MainActivity.adapter;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MainActivity.adapter.freshMessageList(MainActivity.conversationList);
     }
 }

@@ -44,6 +44,6 @@ public abstract class BaseFragment extends Fragment implements BaseImp {
 
     @Override
     public void toast(String msg) {
-        ToastUnit.showToast(getContext(),msg);
+        MyToast.showToast(getContext(),msg);
     }
 }
