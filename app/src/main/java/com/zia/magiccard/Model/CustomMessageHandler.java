@@ -38,7 +38,7 @@ public class CustomMessageHandler extends AVIMMessageHandler {
 
     private Context context;
     private static final String TAG = "MessageHandlerTest";
-    private DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+    private DateFormat dateFormat = new SimpleDateFormat("HH:mm");
 
     public CustomMessageHandler(Context context) {
         this.context = context;
@@ -57,7 +57,7 @@ public class CustomMessageHandler extends AVIMMessageHandler {
                 final ConversationData conversationData = new ConversationData();
                 conversationData.setMembers(conversation.getMembers());
                 conversationData.setLastContent(((AVIMTextMessage) message).getText());
-                conversationData.setTime(dateFormat.format(message.getDeliveredAt()));
+                conversationData.setTime(dateFormat.format(System.currentTimeMillis()));
                 conversationData.setConversationId(conversation.getConversationId());
 
                 userModel.getUserById(message.getFrom(), new UserModel.OnUserGet() {
@@ -66,7 +66,7 @@ public class CustomMessageHandler extends AVIMMessageHandler {
                         conversationData.setName(userData.getNickname());
                         MessageData m = new MessageData();
                         m.setContent(((AVIMTextMessage) message).getText());
-                        m.setTime(dateFormat.format(message.getDeliveredAt()));
+                        m.setTime(dateFormat.format(System.currentTimeMillis()));
                         m.setNickname(userData.getNickname());
                         m.setHeadUrl(userData.getHeadUrl());
                         m.setType(TEXT_LEFT);
@@ -103,18 +103,18 @@ public class CustomMessageHandler extends AVIMMessageHandler {
                 });
                 //更新原有对话
             }else{
-                MainActivity.conversationList.get(position).setTime(dateFormat.format(message.getUpdateAt()));
+                MainActivity.conversationList.get(position).setTime(dateFormat.format(System.currentTimeMillis()));
                 userModel.getUserById(message.getFrom(), new UserModel.OnUserGet() {
                     @Override
                     public void getUserData(final UserData userData) {
                         MessageData m = new MessageData();
                         m.setContent(((AVIMTextMessage) message).getText());
-                        m.setTime(dateFormat.format(message.getDeliveredAt()));
+                        m.setTime(dateFormat.format(System.currentTimeMillis()));
                         m.setNickname(userData.getNickname());
                         m.setHeadUrl(userData.getHeadUrl());
                         m.setType(TEXT_LEFT);
                         m.setUserId(AVUser.getCurrentUser().getObjectId());
-                        MainActivity.conversationList.get(position).setTime(dateFormat.format(message.getDeliveredAt()));
+                        MainActivity.conversationList.get(position).setTime(dateFormat.format(System.currentTimeMillis()));
                         MainActivity.conversationList.get(position).setLastContent(((AVIMTextMessage) message).getText());
                         MainActivity.conversationList.get(position).getMessageDatas().add(m);
                         //刷新recyclerView

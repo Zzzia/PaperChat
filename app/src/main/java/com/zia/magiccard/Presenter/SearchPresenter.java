@@ -74,8 +74,9 @@ public class SearchPresenter implements SearchPresenterImp {
         Log.d(TAG,"没找到，新建一个");
         ConversationData conversationData = new ConversationData();
         List<String> members = new ArrayList<>();
-        members.add(AVUser.getCurrentUser().getObjectId());
         members.add(userData.getObjectId());
+        members.add(AVUser.getCurrentUser().getObjectId());
+        conversationData.setImageUrl(userData.getHeadUrl());
         conversationData.setMembers(members);
         conversationData.setName(userData.getNickname());
         intent.putExtra("conversationData",conversationData);

@@ -15,7 +15,7 @@
         android:elevation="0dp">
         <ImageView
             android:id="@+id/item_message_left_text_head"
-            android:src="@mipmap/ic_launcher"
+            android:src="@mipmap/head_default"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top"/>

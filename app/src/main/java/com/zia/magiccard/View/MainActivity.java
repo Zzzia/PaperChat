@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
 
     @Override
     protected void onCreated() {
-        presenterImp.setUserData();
+        PullUtil.pullCurrentUserData();
         presenterImp.setViewPager();
         presenterImp.setBottomBar();
         conversationRecyclerAdapter = new ConversationRecyclerAdapter(this);

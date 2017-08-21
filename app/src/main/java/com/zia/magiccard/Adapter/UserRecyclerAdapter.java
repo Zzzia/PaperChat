@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVUser;
 import com.bumptech.glide.Glide;
+import com.zia.magiccard.Base.MyToast;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.R;
 
@@ -49,6 +51,15 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         UserData userData = userDataList.get(position);
         holder.name.setText(userData.getNickname());
+        //如果是本人，取消监听
+        if(userData.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MyToast.showToast(context,"感觉自己萌萌哒?");
+                }
+            });
+        }
         if(userData.getIntroduce() != null){
             holder.introduce.setText(userData.getIntroduce());
         }

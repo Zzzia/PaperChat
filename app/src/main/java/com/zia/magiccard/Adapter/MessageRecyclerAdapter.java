@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zia.magiccard.Bean.MessageData;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.ConversationHelper;
@@ -70,10 +71,16 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             case TEXT_LEFT:
                 LeftTextHolder leftTextHolder = (LeftTextHolder) holder;
                 leftTextHolder.content.setText(messageData.getContent());
+                if(messageData.getHeadUrl() != null){
+                    Glide.with(context).load(messageData.getHeadUrl()).into(leftTextHolder.head);
+                }
                 break;
             case TEXT_RIGHT:
                 RightTextHolder rightTextHolder = (RightTextHolder) holder;
                 rightTextHolder.content.setText(messageData.getContent());
+                if(MainActivity.userData.getHeadUrl() != null){
+                    Glide.with(context).load(MainActivity.userData.getHeadUrl()).into(rightTextHolder.head);
+                }
                 break;
         }
     }

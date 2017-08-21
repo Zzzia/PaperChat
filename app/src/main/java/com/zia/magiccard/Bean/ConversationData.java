@@ -18,6 +18,15 @@ public class ConversationData implements Serializable {
     private List<String> members;
     private List<MessageData> messageDatas;
 
+    @Override
+    public String toString() {
+        return "conversationId: "+conversationId+"\n"
+                +"name: "+name+"\n"
+                +"lastContent: "+lastContent+"\n"
+                +"imageUrl: "+imageUrl+"\n"
+                +"time: "+time+"\n";
+    }
+
     public List<MessageData> getMessageDatas() {
         return messageDatas;
     }
@@ -32,13 +41,6 @@ public class ConversationData implements Serializable {
 
     public void setMembers(List<String> members) {
         this.members = members;
-    }
-
-    @Override
-    public String toString() {
-        return "conversationId: "+conversationId+"\n"
-                +"name: "+name+"\n"
-                +"lastContent: "+lastContent+"\n";
     }
 
     public String getName() {

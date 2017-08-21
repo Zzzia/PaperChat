@@ -33,13 +33,11 @@ public class ChatPresenter implements ChatPresenterImp {
 
     private ChatImp imp;
     private static final String TAG = "ChatPresenterTest";
-    private DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+    private DateFormat dateFormat = new SimpleDateFormat("HH:mm");
 
     public ChatPresenter(ChatImp imp) {
         this.imp = imp;
     }
-
-
 
 
     /**
@@ -82,7 +80,7 @@ public class ChatPresenter implements ChatPresenterImp {
                                             //组装信息
                                             conversationData.setConversationId(avimConversation.getConversationId());
                                             conversationData.setLastContent(text);
-                                            conversationData.setTime(dateFormat.format(avimConversation.getUpdatedAt()));
+                                            conversationData.setTime(dateFormat.format(System.currentTimeMillis()));
                                             conversationData.setMessageDatas(messages);
                                             Log.d(TAG,"新建的conversationData:"+conversationData.toString());
                                             //添加到main中
