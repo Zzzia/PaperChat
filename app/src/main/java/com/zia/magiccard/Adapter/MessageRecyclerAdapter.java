@@ -41,7 +41,6 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         int position = ConversationHelper.getPositionByConversationId(conversationId);
         if(position == -1) return;
         if(MainActivity.conversationList.size() == 0) Log.d(TAG,"MainActivity.conversationList.size() == 0");
-        //Log.d(TAG,MainActivity.conversationList.get(position).getMessageDatas().toString());
         messageDataList = MainActivity.conversationList.get(position).getMessageDatas();
         notifyDataSetChanged();
     }

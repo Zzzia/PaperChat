@@ -1,29 +1,21 @@
 package com.zia.magiccard.View;
 
-import android.animation.ObjectAnimator;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.zia.magiccard.Adapter.PersonRecyclerAdapter;
+import com.zia.magiccard.Adapter.UserRecyclerAdapter;
 import com.zia.magiccard.Base.BaseActivity;
-import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Presenter.RecyclerViewPresenter;
 import com.zia.magiccard.Presenter.RecyclerViewPresenterImp;
 import com.zia.magiccard.Presenter.SearchPresenter;
 import com.zia.magiccard.Presenter.SearchPresenterImp;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.MyRecyclerView;
-import com.zia.magiccard.Util.ScreenUtil;
 import com.zia.magiccard.View.Fragments.RecyclerViewImp;
 
 public class SearchActivity extends BaseActivity implements SearchActivityImp,RecyclerViewImp {
@@ -32,8 +24,9 @@ public class SearchActivity extends BaseActivity implements SearchActivityImp,Re
     private EditText editText;
     private SearchPresenterImp presenterImp;
     private MyRecyclerView recyclerView;
-    private PersonRecyclerAdapter adapter;
+    private UserRecyclerAdapter adapter;
     private RecyclerViewPresenterImp recyclerViewPresenterImp;
+    private CardView cardView;
 
     @Override
     protected void onCreated() {
@@ -86,7 +79,13 @@ public class SearchActivity extends BaseActivity implements SearchActivityImp,Re
 
             }
         });
+        //设置背景监听
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
+        });
     }
 
     @Override
@@ -97,7 +96,8 @@ public class SearchActivity extends BaseActivity implements SearchActivityImp,Re
         editText = $(R.id.search_edit);
         root = $(R.id.search_root);
         recyclerView = $(R.id.search_recycler);
-        adapter = new PersonRecyclerAdapter(this);
+        adapter = new UserRecyclerAdapter(this);
+        cardView = $(R.id.search_CardView);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class SearchActivity extends BaseActivity implements SearchActivityImp,Re
     }
 
     @Override
-    public PersonRecyclerAdapter getPersonAdapter() {
+    public UserRecyclerAdapter getPersonAdapter() {
         return adapter;
     }
 

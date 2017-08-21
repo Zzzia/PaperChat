@@ -12,8 +12,8 @@ import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.MessageData;
-import com.zia.magiccard.Bean.UserData;
-import com.zia.magiccard.Util.ConversationHelper;
+import com.zia.magiccard.Util.CollectionUtil;
+import com.zia.magiccard.Util.PushUtil;
 import com.zia.magiccard.View.ChatActivity;
 import com.zia.magiccard.View.ChatImp;
 import com.zia.magiccard.View.MainActivity;
@@ -54,71 +54,6 @@ public class ChatPresenter implements ChatPresenterImp {
 //        final UserData userData = imp.getUserData();
         final ConversationData conversationData = imp.getConversationData();
 
-        //如果有userData，组装成conversation，发送消息并同步到消息recyclerView
-//        if (userData != null){//通过搜索界面进入
-//            //发送信息
-//            imp.getAVIMClient().open(new AVIMClientCallback() {
-//                @Override
-//                public void done(AVIMClient avimClient, AVIMException e) {
-//                    if (e == null) {
-//                        final List<String> members = new ArrayList<String>();
-//                        members.add(userData.getObjectId());
-//                        members.add(AVUser.getCurrentUser().getObjectId());
-//                        avimClient.createConversation(members, AVUser.getCurrentUser().getString("nickname"), null,
-//                                false, true, new AVIMConversationCreatedCallback() {
-//                                    @Override
-//                                    public void done(AVIMConversation avimConversation, AVIMException e) {
-//                                        if (MainActivity.conversationList != null) {
-//                                            Log.d(TAG, "MainActivity.conversationList != null");
-//                                            Log.d(TAG,MainActivity.conversationList.toString());
-////                                          boolean isAdd = true;
-//                                            //遍历集合中的消息，如果没有和这次聊天室相同id的则添加，有就置顶
-//                                            for (ConversationData data : MainActivity.conversationList) {
-//                                                if (data.getConversationId().equals(avimConversation.getConversationId())) {
-//                                                    MainActivity.conversationList.remove(data);
-////                                                isAdd = false;
-//                                                    break;
-//                                                }
-//                                            }
-//                                            //创造数据并添加进集合
-//                                            ConversationData conversationData = new ConversationData();
-//                                            conversationData.setLastContent(text);
-//                                            DateFormat dateFormat = new SimpleDateFormat("hh:mm");
-//                                            conversationData.setTime(dateFormat.format(avimConversation.getCreatedAt()));
-//                                            conversationData.setConversationId(avimConversation.getConversationId());
-//                                            conversationData.setName(userData.getNickname());
-//                                            conversationData.setMembers(members);
-//                                            MainActivity.conversationList.add(conversationData);
-//                                            //刷新recyclerView
-//                                            MainActivity.adapter.freshMessageList(MainActivity.conversationList);
-//                                            Log.d(TAG, conversationData.toString());
-//                                        }
-//                                        if (e == null) {
-//                                            //发送消息
-//                                            AVIMTextMessage message = new AVIMTextMessage();
-//                                            message.setText(text);
-//                                            avimConversation.sendMessage(message, new AVIMConversationCallback() {
-//                                                @Override
-//                                                public void done(AVIMException e) {
-//                                                    if (e == null) {
-//                                                        imp.getActivity().runOnUiThread(new Runnable() {
-//                                                            @Override
-//                                                            public void run() {
-//                                                                imp.toast("发送成功：" + text);
-//                                                            }
-//                                                        });
-//                                                    }
-//                                                }
-//                                            });
-//                                        }
-//                                    }
-//                                });
-//                    }
-//                }
-//            });
-//            return;
-//        }
-
         if(conversationData != null){
             Log.d(TAG,conversationData.toString());
             imp.getAVIMClient().open(new AVIMClientCallback() {
@@ -152,10 +87,13 @@ public class ChatPresenter implements ChatPresenterImp {
                                             Log.d(TAG,"新建的conversationData:"+conversationData.toString());
                                             //添加到main中
                                             MainActivity.conversationList.add(conversationData);
-                                            MainActivity.adapter.freshMessageList(MainActivity.conversationList);
+                                            MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
                                             if(ChatActivity.adapter != null){
                                                 ChatActivity.adapter.freshData(conversationData.getConversationId());
                                             }
+                                            CollectionUtil.swap(MainActivity.conversationList,MainActivity.conversationList.size()-1,0);
+                                            //保存数据在服务器
+                                            PushUtil.saveConversations();
                                             //发送消息
                                             AVIMTextMessage message = new AVIMTextMessage();
                                             message.setText(text);
@@ -189,12 +127,16 @@ public class ChatPresenter implements ChatPresenterImp {
                                 conversationData.getMessageDatas().add(m);
                                 Log.d(TAG,"原有的conversationData:"+conversationData.toString());
                                 MainActivity.conversationList.add(conversationData);
-                                MainActivity.adapter.freshMessageList(MainActivity.conversationList);
+                                MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
                                 if(ChatActivity.adapter != null){
                                     ChatActivity.adapter.freshData(conversationData.getConversationId());
                                 }
+                                CollectionUtil.swap(MainActivity.conversationList,MainActivity.conversationList.size()-1,0);
+                                break;
                             }
                         }
+                        //保存数据在服务器
+                        PushUtil.saveConversations();
                         //发送消息
                         AVIMTextMessage message = new AVIMTextMessage();
                         message.setText(text);

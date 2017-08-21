@@ -64,15 +64,15 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
 
     @Override
     public RecyclerView.Adapter getAdapter() {
-        if(MainActivity.adapter == null){
-            Log.d(TAG,"MainActivity.adapter == null");
+        if(MainActivity.conversationRecyclerAdapter == null){
+            Log.d(TAG,"MainActivity.conversationRecyclerAdapter == null");
         }
-        return MainActivity.adapter;
+        return MainActivity.conversationRecyclerAdapter;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        MainActivity.adapter.freshMessageList(MainActivity.conversationList);
+        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
     }
 }

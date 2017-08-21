@@ -1,5 +1,7 @@
 package com.zia.magiccard.Bean;
 
+import com.avos.avoscloud.AVObject;
+
 import java.io.Serializable;
 import java.util.List;
 

@@ -26,8 +26,12 @@ public class MeFragmentPresenter implements MePresenterImp {
     @Override
     public void initData() {
         if(MainActivity.userData != null){
-            Glide.with(imp.getActivity()).load(MainActivity.userData.getHeadUrl()).into(imp.getHead());
-            imp.getIntroduce().setText(MainActivity.userData.getIntroduce());
+            if(MainActivity.userData.getHeadUrl() != null){
+                Glide.with(imp.getActivity()).load(MainActivity.userData.getHeadUrl()).into(imp.getHead());
+            }
+            if(MainActivity.userData.getIntroduce() != null){
+                imp.getIntroduce().setText(MainActivity.userData.getIntroduce());
+            }
             imp.getNickname().setText(MainActivity.userData.getNickname());
         }
     }

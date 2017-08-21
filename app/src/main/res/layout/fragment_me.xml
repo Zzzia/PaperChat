@@ -21,6 +21,8 @@
 
             <ImageView
                 android:id="@+id/me_head"
+                android:src="@mipmap/head_default"
+                android:layout_margin="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </android.support.v7.widget.CardView>

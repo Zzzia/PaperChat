@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.R;
 
@@ -19,12 +20,12 @@ import java.util.List;
  * Created by zia on 17-8-18.
  */
 
-public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAdapter.ViewHolder> {
+public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapter.ViewHolder> {
 
     private Context context;
     private List<UserData> userDataList = new ArrayList<>();
 
-    public PersonRecyclerAdapter(Context context){
+    public UserRecyclerAdapter(Context context){
         this.context = context;
     }
 
@@ -48,8 +49,12 @@ public class PersonRecyclerAdapter extends RecyclerView.Adapter<PersonRecyclerAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         UserData userData = userDataList.get(position);
         holder.name.setText(userData.getNickname());
-        holder.introduce.setText(userData.getIntroduce());
-
+        if(userData.getIntroduce() != null){
+            holder.introduce.setText(userData.getIntroduce());
+        }
+        if(userData.getHeadUrl() != null){
+            Glide.with(context).load(userData.getHeadUrl()).into(holder.image);
+        }
     }
 
     @Override

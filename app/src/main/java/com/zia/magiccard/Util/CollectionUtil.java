@@ -15,6 +15,7 @@ public class CollectionUtil {
      * @param <T>
      */
     public static <T> void swap(List<T> list, int oldPosition, int newPosition){
+        if(oldPosition == newPosition) return;
         if(null == list){
             throw new IllegalStateException("The list can not be empty...");
         }

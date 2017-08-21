@@ -3,22 +3,20 @@ package com.zia.magiccard.Presenter;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Model.ChangeModel;
 import com.zia.magiccard.Model.UserModel;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.PermissionsUtil;
+import com.zia.magiccard.Util.PullUtil;
 import com.zia.magiccard.View.ChangeActivity;
 import com.zia.magiccard.View.ChangeActivityImp;
 import com.zia.magiccard.View.Fragments.MeFragment;
@@ -87,6 +85,8 @@ public class ChangePresenter implements ChangePresenterImp {
             public void done(AVException e) {
                 if(e == null){
                     imp.toast("保存信息成功！");
+                    //更新数据
+                    PullUtil.pullCurrentUserData();
                 }else{
                     imp.toast("保存失败?");
                 }

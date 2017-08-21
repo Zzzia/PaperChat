@@ -13,12 +13,22 @@ public class MessageData implements Serializable {
     private String content;//文本或链接
     private String userId;//objectId
     private String nickname;//nickname
+    private String headUrl;
 
     @Override
     public String toString() {
         return "type: "+type+"\n"+
                 "content: "+ content+"\n"+
                 "userId: "+userId+"\n";
+    }
+
+
+    public String getHeadUrl() {
+        return headUrl;
+    }
+
+    public void setHeadUrl(String headUrl) {
+        this.headUrl = headUrl;
     }
 
     public String getNickname() {

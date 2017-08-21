@@ -23,9 +23,6 @@ import com.zia.magiccard.View.ChangeActivity;
 import com.zia.magiccard.View.LoginActivity;
 import com.zia.magiccard.View.MainActivity;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MeFragment extends BaseFragment implements MeFragmentImp {
 
     private TextView loginOutButton,nickname,introduce;

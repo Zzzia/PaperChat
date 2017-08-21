@@ -32,19 +32,29 @@ public class UserModel {
         this.context = context;
     }
 
+    public UserModel(){
+
+    }
+
     public void SearchUserByNickName(final String nickname, final OnUserGetListener listener) {
-        AVQuery<AVObject> userQuery = new AVQuery<>("_User");
-        userQuery.findInBackground(new FindCallback<AVObject>() {
+        AVQuery<AVUser> userQuery = new AVQuery<>("_User");
+        userQuery.findInBackground(new FindCallback<AVUser>() {
             @Override
-            public void done(List<AVObject> list, AVException e) {
+            public void done(List<AVUser> list, AVException e) {
                 List<UserData> userDataList = new ArrayList<>();
-                for (AVObject object: list){
+                for (AVUser object: list){
                     if(object.getString("nickname").contains(nickname)){
                         UserData userData = new UserData();
                         userData.setNickname(object.getString("nickname"));
                         userData.setInstallationId(object.getString("installationId"));
                         userData.setUsername(object.getString("username"));
                         userData.setObjectId(object.getObjectId());
+                        userData.setIsboy(object.getBoolean("isboy"));
+                        userData.setIntroduce(object.getString("introduce"));
+                        AVFile file = object.getAVFile("head");
+                        if(file != null){
+                            userData.setHeadUrl(file.getUrl());
+                        }
                         userDataList.add(userData);
                     }
                 }
@@ -76,7 +86,9 @@ public class UserModel {
                     userData.setIsboy(avUser.getBoolean("isboy"));
                     userData.setNickname(avUser.getString("nickname"));
                     AVFile file = avUser.getAVFile("head");
-                    userData.setHeadUrl(file.getUrl());
+                    if(file != null){
+                        userData.setHeadUrl(file.getUrl());
+                    }
                     Log.d(TAG,userData.toString());
                     onUserGet.getUserData(userData);
                 }
