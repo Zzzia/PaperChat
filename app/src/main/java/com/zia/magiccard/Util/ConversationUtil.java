@@ -2,6 +2,7 @@ package com.zia.magiccard.Util;
 
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.MessageData;
+import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.View.MainActivity;
 
 import java.util.ArrayList;

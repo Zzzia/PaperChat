@@ -35,6 +35,7 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     private RecyclerViewPresenterImp recyclerViewPresenter;
     private RecyclerView recyclerView;
     public static MessageRecyclerAdapter adapter;
+    public static String currentConversationId = null;
     private EditText editText;
     private Button sendButton;
     private AVIMClient client;
@@ -65,6 +66,13 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
         editText = $(R.id.chat_edit);
         sendButton = $(R.id.chat_send);
         client = AVIMClient.getInstance(AVUser.getCurrentUser());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        currentConversationId = null;
+        adapter = null;
     }
 
     @Override

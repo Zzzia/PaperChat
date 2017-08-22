@@ -16,7 +16,6 @@ public class ConversationData implements Serializable {
     private String conversationId;
     private String imageUrl;
     private List<String> members;
-    private List<MessageData> messageDatas;
 
     @Override
     public String toString() {
@@ -25,14 +24,6 @@ public class ConversationData implements Serializable {
                 +"lastContent: "+lastContent+"\n"
                 +"imageUrl: "+imageUrl+"\n"
                 +"time: "+time+"\n";
-    }
-
-    public List<MessageData> getMessageDatas() {
-        return messageDatas;
-    }
-
-    public void setMessageDatas(List<MessageData> messageDatas) {
-        this.messageDatas = messageDatas;
     }
 
     public List<String> getMembers() {

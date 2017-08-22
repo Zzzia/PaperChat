@@ -1,4 +1,4 @@
-package com.zia.magiccard.Model;
+package com.zia.magiccard.Util;
 
 import android.content.Context;
 import android.util.Log;
@@ -19,24 +19,15 @@ import java.util.List;
  * Created by zia on 17-8-19.
  */
 
-public class UserModel {
+public class UserUtil {
 
-    private Context context;
     private static final String TAG = "UserModelTest";
 
     public interface OnUserGetListener{
         void getUserList(List<UserData> userDataList);
     }
 
-    public UserModel(Context context){
-        this.context = context;
-    }
-
-    public UserModel(){
-
-    }
-
-    public void SearchUserByNickName(final String nickname, final OnUserGetListener listener) {
+    public static void SearchUserByNickName(final String nickname, final OnUserGetListener listener) {
         AVQuery<AVUser> userQuery = new AVQuery<>("_User");
         userQuery.findInBackground(new FindCallback<AVUser>() {
             @Override
@@ -69,7 +60,21 @@ public class UserModel {
         void onError(AVException e);
     }
 
-    public void getUserById(String userId, final OnUserGet onUserGet){
+    public static void getFirstUserByMembers(List<String> members,final OnUserGet onUserGet){
+        for(int i=0;i<members.size();i++){
+            if(members.get(i).equals(AVUser.getCurrentUser().getObjectId())){
+                members.remove(i);
+                break;
+            }
+        }
+        if(members.size() == 0){
+            Log.d(TAG,"error:  members.size() == 0");
+            return;
+        }
+        getUserById(members.get(0),onUserGet);
+    }
+
+    public static void getUserById(String userId, final OnUserGet onUserGet){
         AVQuery<AVUser> avQuery = new AVQuery<>("_User");
         avQuery.getInBackground(userId, new GetCallback<AVUser>() {
             @Override

@@ -9,6 +9,7 @@ import com.zia.magiccard.Base.BaseFragment;
 import com.zia.magiccard.Presenter.MessagePresenterImp;
 import com.zia.magiccard.Presenter.MessagePresenterPresenter;
 import com.zia.magiccard.Presenter.RecyclerViewPresenter;
+import com.zia.magiccard.Presenter.RecyclerViewPresenterImp;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.MyRecyclerView;
 import com.zia.magiccard.Util.RecyclerItemDivider;
@@ -19,7 +20,7 @@ import com.zia.magiccard.View.MainActivity;
  */
 public class ConversationFragment extends BaseFragment implements RecyclerViewImp {
 
-    private RecyclerViewPresenter recyclerViewPresenter;
+    private RecyclerViewPresenterImp recyclerViewPresenter;
     private MessagePresenterImp messagePresenter;
     private MyRecyclerView recyclerView;
     private static final String TAG = "ConversationTest";

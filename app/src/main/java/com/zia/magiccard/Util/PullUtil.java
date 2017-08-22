@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 import com.zia.magiccard.Bean.ClassifyData;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.UserData;
-import com.zia.magiccard.Model.UserModel;
 import com.zia.magiccard.View.Fragments.FriendFragment;
 import com.zia.magiccard.View.MainActivity;
 
@@ -30,8 +29,7 @@ public class PullUtil {
     private static final String TAG = "PullUtilTest";
 
     public static void pullCurrentUserData() {
-        UserModel userModel = new UserModel();
-        userModel.getUserById(AVUser.getCurrentUser().getObjectId(), new UserModel.OnUserGet() {
+        UserUtil.getUserById(AVUser.getCurrentUser().getObjectId(), new UserUtil.OnUserGet() {
             @Override
             public void getUserData(UserData userData) {
                 MainActivity.userData = userData;

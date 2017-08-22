@@ -2,20 +2,13 @@ package com.zia.magiccard.Presenter;
 
 import android.support.annotation.IdRes;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 
-import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVUser;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.zia.magiccard.Adapter.ViewPagerAdapter;
-import com.zia.magiccard.Bean.UserData;
-import com.zia.magiccard.Model.UserModel;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.PageUtil;
-import com.zia.magiccard.View.MainActivity;
 import com.zia.magiccard.View.MainActivityImp;
 import com.zia.magiccard.View.SearchActivity;
 

@@ -28,7 +28,7 @@ public class RecyclerViewPresenter implements RecyclerViewPresenterImp {
     }
 
     @Override
-    public void setReverseRecyclerView() {
+    public void setStackFromEndRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(imp.getActivity());
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);

@@ -14,6 +14,7 @@ import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.UserData;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +50,10 @@ public class MessageUtil {
                 }
             }
         });
+    }
+
+    public AVIMClient getClient(){
+        return client;
     }
 
     /**
@@ -122,6 +127,21 @@ public class MessageUtil {
                             final AVIMConversationCallback avimConversationCallback){
         String conversationName = getNameFromMembers(conversationData.getMembers());
         sMessage(text,conversationData.getMembers(),conversationName,map,avimConversationCreatedCallback,avimConversationCallback);
+    }
+
+    /**
+     * 通过userData创建对话得到对话id
+     * @param userData
+     * @param conversationCreatedCallback
+     */
+    public void createConversation(UserData userData,AVIMConversationCreatedCallback conversationCreatedCallback){
+        client.createConversation(Arrays.asList(userData.getObjectId()),
+                userData.getObjectId(), null, false, true,
+                conversationCreatedCallback);
+    }
+
+    public void getLastContent(String conversationId){
+        client.getConversation(conversationId).getLastMessage();
     }
 
     private String getNameFromMembers(List<String> members){

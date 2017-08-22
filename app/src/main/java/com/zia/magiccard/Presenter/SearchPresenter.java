@@ -1,21 +1,14 @@
 package com.zia.magiccard.Presenter;
 
 import android.animation.ObjectAnimator;
-import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
-import com.avos.avoscloud.AVUser;
-import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.UserData;
-import com.zia.magiccard.Model.UserModel;
+import com.zia.magiccard.Util.UserUtil;
 import com.zia.magiccard.Util.PageUtil;
 import com.zia.magiccard.Util.ScreenUtil;
-import com.zia.magiccard.View.ChatActivity;
-import com.zia.magiccard.View.MainActivity;
 import com.zia.magiccard.View.SearchActivityImp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,12 +18,10 @@ import java.util.List;
 public class SearchPresenter implements SearchPresenterImp {
 
     private SearchActivityImp imp;
-    private UserModel model;
     private final static String TAG = "SearchPresenterTest";
 
     public SearchPresenter(SearchActivityImp imp){
         this.imp = imp;
-        model = new UserModel(imp.getActivity());
     }
 
     @Override
@@ -47,7 +38,7 @@ public class SearchPresenter implements SearchPresenterImp {
     public void searchUser() {
         if(imp.getEditText().getText() == null) return;
         String nickname = imp.getEditText().getText().toString();
-        model.SearchUserByNickName(nickname, new UserModel.OnUserGetListener() {
+        UserUtil.SearchUserByNickName(nickname, new UserUtil.OnUserGetListener() {
             @Override
             public void getUserList(List<UserData> userDataList) {
                 imp.getPersonAdapter().refreshData(userDataList);

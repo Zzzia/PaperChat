@@ -1,10 +1,7 @@
 package com.zia.magiccard.Presenter;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,20 +10,13 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.zia.magiccard.Adapter.ClassifyRecyclerAdapter;
-import com.zia.magiccard.Adapter.UserRecyclerAdapter;
 import com.zia.magiccard.Bean.ClassifyData;
 import com.zia.magiccard.Bean.UserData;
-import com.zia.magiccard.Model.UserModel;
 import com.zia.magiccard.R;
-import com.zia.magiccard.Util.MyRecyclerView;
 import com.zia.magiccard.Util.PushUtil;
 import com.zia.magiccard.Util.RecyclerItemDivider;
 import com.zia.magiccard.View.AddFriendImp;
 import com.zia.magiccard.View.MainActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static android.widget.ListPopupWindow.WRAP_CONTENT;
 

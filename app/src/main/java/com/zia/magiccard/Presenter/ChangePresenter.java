@@ -13,7 +13,7 @@ import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Model.ChangeModel;
-import com.zia.magiccard.Model.UserModel;
+import com.zia.magiccard.Util.UserUtil;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.PermissionsUtil;
 import com.zia.magiccard.Util.PullUtil;
@@ -112,8 +112,8 @@ public class ChangePresenter implements ChangePresenterImp {
                 Glide.with(imp.getActivity()).load(MainActivity.userData.getHeadUrl()).into(imp.getHeadImage());
             }
         }else{
-            UserModel userModel = new UserModel(imp.getActivity());
-            userModel.getUserById(AVUser.getCurrentUser().getObjectId(), new UserModel.OnUserGet() {
+
+            UserUtil.getUserById(AVUser.getCurrentUser().getObjectId(), new UserUtil.OnUserGet() {
                 @Override
                 public void getUserData(UserData userData) {
                     MainActivity.userData = userData;

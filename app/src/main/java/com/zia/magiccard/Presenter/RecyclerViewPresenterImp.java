@@ -8,5 +8,5 @@ import android.view.View;
 
 public interface RecyclerViewPresenterImp {
     void setRecyclerView();
-    void setReverseRecyclerView();
+    void setStackFromEndRecyclerView();
 }
