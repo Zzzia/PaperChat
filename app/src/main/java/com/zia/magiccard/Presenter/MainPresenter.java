@@ -67,17 +67,9 @@ public class MainPresenter implements MainPresenterImp {
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
-                //淡入淡出动画
-//                AlphaAnimation appearAnimation = new AlphaAnimation(0,1);
-//                appearAnimation.setDuration(200);
-//                AlphaAnimation dismissAnimation = new AlphaAnimation(1,0);
-//                dismissAnimation.setDuration(200);
-//                activityImp.getToolbarImage().startAnimation(dismissAnimation);
-//                activityImp.getToolbarImage().startAnimation(appearAnimation);
-
                 switch (tabId){
                     case R.id.main:
-                        activityImp.getToolbarImage().setImageResource(R.mipmap.ic_add_white_24dp);
+                        activityImp.getToolbarImage().setImageResource(R.mipmap.ic_search_white_24dp);
                         viewPager.setCurrentItem(0);
                         activityImp.getToolbarImage().setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -106,19 +98,7 @@ public class MainPresenter implements MainPresenterImp {
     }
 
     @Override
-    public void setUserData() {
-        UserModel model = new UserModel(activityImp.getActivity());
-        model.getUserById(AVUser.getCurrentUser().getObjectId(), new UserModel.OnUserGet() {
-            @Override
-            public void getUserData(UserData userData) {
-                MainActivity.userData = userData;
-            }
+    public void initData() {
 
-            @Override
-            public void onError(AVException e) {
-                Log.d("MainPresenter","UserData获取失败");
-                e.printStackTrace();
-            }
-        });
     }
 }

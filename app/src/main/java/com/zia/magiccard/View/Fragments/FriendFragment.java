@@ -9,31 +9,21 @@ import com.zia.magiccard.Base.BaseFragment;
 import com.zia.magiccard.Presenter.RecyclerViewPresenter;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.MyRecyclerView;
+import com.zia.magiccard.Util.RecyclerItemDivider;
 
 /**
  * 联系人fragment
  */
 public class FriendFragment extends BaseFragment implements RecyclerViewImp {
 
-    private MyRecyclerView recyclerView;
-    private ClassifyRecyclerAdapter adapter;
+    private RecyclerView recyclerView;
+    public static ClassifyRecyclerAdapter adapter;
     private RecyclerViewPresenter recyclerViewPresenter;
 
     @Override
     protected void onCreated() {
         recyclerViewPresenter.setRecyclerView();
-        recyclerView.setExtraViewId(R.id.item_class_delete);
-        recyclerView.setMyListener(new MyRecyclerView.MyListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-            }
-
-            @Override
-            public void onDeleteClick(int position) {
-
-            }
-        });
+        recyclerView.addItemDecoration(new RecyclerItemDivider(getContext(),RecyclerItemDivider.VERTICAL_LIST));
     }
 
     @Override

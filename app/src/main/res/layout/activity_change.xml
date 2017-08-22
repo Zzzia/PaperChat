@@ -28,14 +28,13 @@
                 android:id="@+id/change_1"
                 android:elevation="0dp"
                 android:layout_centerHorizontal="true"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:layout_margin="10dp"
-                app:cardCornerRadius="55dp">
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="20dp"
+                app:cardCornerRadius="50dp">
                 <ImageView
                     android:src="@mipmap/head_default"
                     android:id="@+id/change_head"
-                    android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </android.support.v7.widget.CardView>

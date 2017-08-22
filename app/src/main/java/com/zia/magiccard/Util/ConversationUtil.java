@@ -36,4 +36,23 @@ public class ConversationUtil {
         }
         return -1;
     }
+
+    /**
+     * 以userId作为参数查找main中集合的conversation
+     * @param friendId
+     * @return -1则没找到
+     */
+    public static int getPositionByFriendId(String friendId){
+        for(int i =0;i<MainActivity.conversationList.size();i++){
+            ConversationData conversationData = MainActivity.conversationList.get(i);
+            if(conversationData.getMembers().size() <= 2){
+                for(String id : conversationData.getMembers()){
+                    if(id.equals(friendId)){
+                        return i;
+                    }
+                }
+            }
+        }
+        return -1;
+    }
 }

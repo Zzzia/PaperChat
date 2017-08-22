@@ -1,6 +1,7 @@
 package com.zia.magiccard.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.zia.magiccard.Bean.ClassifyData;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.PageUtil;
 import com.zia.magiccard.View.GroupActivity;
+import com.zia.magiccard.View.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +25,13 @@ import java.util.List;
 public class ClassifyRecyclerAdapter extends RecyclerView.Adapter<ClassifyRecyclerAdapter.ViewHolder> {
 
     private Context context;
-    private List<ClassifyData> list = new ArrayList<>();
 
     public ClassifyRecyclerAdapter(Context context){
         this.context = context;
     }
 
-    public void freshData(List<ClassifyData> list){
-        this.list = list;
+    public void freshData(){
+        notifyDataSetChanged();
     }
 
     @Override
@@ -44,7 +45,9 @@ public class ClassifyRecyclerAdapter extends RecyclerView.Adapter<ClassifyRecycl
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    PageUtil.gotoPageWithCard(context,view, GroupActivity.class);
+                    Intent intent = new Intent(context,GroupActivity.class);
+                    intent.putExtra("position",position);
+                    PageUtil.gotoPageWithCard(context, view, intent);
                 }
             });
     }
@@ -53,7 +56,7 @@ public class ClassifyRecyclerAdapter extends RecyclerView.Adapter<ClassifyRecycl
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return MainActivity.classifyDatas.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -61,7 +64,7 @@ public class ClassifyRecyclerAdapter extends RecyclerView.Adapter<ClassifyRecycl
         TextView gourp;
         CardView cardView;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             gourp = itemView.findViewById(R.id.item_friend_group);
             cardView = itemView.findViewById(R.id.item_friend_card);

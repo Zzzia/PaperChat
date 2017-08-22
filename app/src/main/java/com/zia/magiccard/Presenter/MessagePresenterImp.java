@@ -10,4 +10,5 @@ import com.zia.magiccard.Bean.ConversationData;
 
 public interface MessagePresenterImp {
     void gotoChatPage(ConversationData conversationData, View view);
+    void deleteConversation(int position);
 }

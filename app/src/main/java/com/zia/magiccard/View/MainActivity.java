@@ -34,7 +34,10 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
 
     @Override
     protected void onCreated() {
+        //下载当前用户信息
         PullUtil.pullCurrentUserData();
+        //下载用户好友分组信息
+        PullUtil.pullClassifyData();
         presenterImp.setViewPager();
         presenterImp.setBottomBar();
         conversationRecyclerAdapter = new ConversationRecyclerAdapter(this);

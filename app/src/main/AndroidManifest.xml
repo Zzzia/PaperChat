@@ -48,7 +48,8 @@
         <activity android:name=".View.ChatActivity" />
         <activity android:name=".View.GroupActivity" />
         <activity android:name=".View.SearchActivity" />
-        <activity android:name=".View.ChangeActivity"></activity>
+        <activity android:name=".View.ChangeActivity" />
+        <activity android:name=".View.AddFriendActivity"></activity>
     </application>
 
 </manifest>

@@ -56,7 +56,11 @@
 
     <TextView
         android:id="@+id/item_person_sendCard"
+        android:text="@string/delete"
+        android:textColor="@color/paperWhite"
+        android:textSize="20sp"
+        android:gravity="center"
         android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:background="#ff3399" />
+        android:background="#ff3b2a" />
 </LinearLayout>

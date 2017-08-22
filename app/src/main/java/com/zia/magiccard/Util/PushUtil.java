@@ -56,7 +56,42 @@ public class PushUtil {
                 }
             }
         });
+    }
 
-
+    /**
+     * 保存好友分类信息
+     */
+    public static void pushClassifyData(){
+        AVQuery<AVObject> query = new AVQuery<>("UserData");
+        query.whereEqualTo("userId",AVUser.getCurrentUser().getObjectId());
+        query.findInBackground(new FindCallback<AVObject>() {
+            @Override
+            public void done(List<AVObject> list, AVException e) {
+                if(e == null){
+                    AVObject avObject = null;
+                    if(list.size() == 0){//服务器上没有数据，新建
+                        avObject = new AVObject("UserData");
+                        avObject.put("userId", AVUser.getCurrentUser().getObjectId());
+                    }else{//服务器上有数据，直接更新数据
+                        avObject = list.get(0);
+                    }
+                    avObject.put("classifyList",MainActivity.classifyDatas);
+                    avObject.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            if(e == null){
+                                Log.d(TAG,"保存Conversations成功！");
+                            }else{
+                                e.printStackTrace();
+                                Log.d(TAG,"保存Conversations失败！");
+                            }
+                        }
+                    });
+                }else{
+                    e.printStackTrace();
+                    Log.d(TAG,"query.findInBackground error!");
+                }
+            }
+        });
     }
 }

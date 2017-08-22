@@ -51,7 +51,8 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
 
             @Override
             public void onDeleteClick(int position) {
-
+                Log.d(TAG,"delete conversation "+position);
+                messagePresenter.deleteConversation(position);
             }
         });
     }

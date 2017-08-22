@@ -6,11 +6,11 @@
     tools:context="com.zia.magiccard.View.Fragments.FriendFragment"
     android:background="@color/paperWhite">
 
-    <com.zia.magiccard.Util.MyRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/friend_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-    </com.zia.magiccard.Util.MyRecyclerView>
+    </android.support.v7.widget.RecyclerView>
 
 </FrameLayout>

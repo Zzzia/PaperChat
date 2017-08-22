@@ -15,4 +15,7 @@
     <string name="search">搜索</string>
     <string name="lazy">这个人很懒，还没有写个人信息</string>
     <string name="delete">删除</string>
+    <string name="man">男</string>
+    <string name="add_friend">加为好友</string>
+    <string name="choose_group">请选择分组</string>
 </resources>

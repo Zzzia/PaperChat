@@ -1,6 +1,7 @@
 package com.zia.magiccard.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.zia.magiccard.Base.MyToast;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.R;
+import com.zia.magiccard.Util.PageUtil;
+import com.zia.magiccard.View.AddFriendActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,14 +52,22 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        UserData userData = userDataList.get(position);
+        final UserData userData = userDataList.get(position);
         holder.name.setText(userData.getNickname());
+        holder.imageCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AddFriendActivity.class);
+                intent.putExtra("userData",userData);
+                PageUtil.gotoPageWithCard(context,view,intent);
+            }
+        });
         //如果是本人，取消监听
         if(userData.getObjectId().equals(AVUser.getCurrentUser().getObjectId())){
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MyToast.showToast(context,"感觉自己萌萌哒?");
+                    MyToast.showToast(context,"感觉自己萌萌哒");
                 }
             });
         }

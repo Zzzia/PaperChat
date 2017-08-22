@@ -1,72 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_message_card"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:elevation="0dp"
-    app:cardCornerRadius="0dp"
+    android:foreground="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:foreground="?android:attr/selectableItemBackground">
+    app:cardCornerRadius="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <android.support.v7.widget.CardView
             android:id="@+id/item_message_imageCard"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_margin="10dp"
             android:layout_centerVertical="true"
-            app:cardCornerRadius="30dp"
-            android:elevation="0dp">
+            android:layout_margin="10dp"
+            android:elevation="0dp"
+            app:cardCornerRadius="30dp">
+
             <ImageView
-                android:src="@mipmap/head_default"
                 android:id="@+id/item_message_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:src="@mipmap/head_default" />
         </android.support.v7.widget.CardView>
+
         <TextView
             android:id="@+id/item_message_name"
-            android:text="消息"
-            android:maxEms="11"
-            android:layout_toRightOf="@+id/item_message_imageCard"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:layout_alignTop="@+id/item_message_imageCard"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="3dp"
+            android:layout_toRightOf="@+id/item_message_imageCard"
+            android:maxEms="11"
+            android:text="消息"
             android:textColor="@color/textColor"
-            android:textSize="18sp"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp" />
+            android:textSize="18sp" />
+
         <TextView
             android:id="@+id/item_message_content"
-            android:text="今天是17号"
-            android:maxEms="19"
-            android:textColor="@color/textColorGray"
-            android:layout_below="@+id/item_message_name"
-            android:layout_toRightOf="@+id/item_message_imageCard"
-            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="20dp" />
+            android:layout_height="20dp"
+            android:layout_below="@+id/item_message_name"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/item_message_imageCard"
+            android:maxEms="19"
+            android:text="今天是17号"
+            android:textColor="@color/textColorGray" />
+
         <TextView
             android:id="@+id/item_message_time"
-            android:text="下午16:39"
-            android:layout_marginRight="10dp"
-            android:layout_alignTop="@+id/item_message_name"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/textColorGray"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/item_message_name"
+            android:layout_marginRight="10dp"
+            android:text="下午16:39"
+            android:textColor="@color/textColorGray" />
     </RelativeLayout>
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/item_message_delete"
         android:layout_width="100dp"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/item_message_delete"
-            android:background="#ff3b2a"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:background="#ff3b2a"
+        android:gravity="center"
+        android:text="@string/delete"
+        android:textColor="@color/paperWhite"
+        android:textSize="20sp" />
+
 </LinearLayout>

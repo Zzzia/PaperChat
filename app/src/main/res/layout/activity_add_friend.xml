@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/add_friend_root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.zia.magiccard.View.AddFriendActivity">
+    <android.support.v7.widget.CardView
+        android:transitionName="card"
+        android:layout_gravity="center"
+        android:id="@+id/add_friend_CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="30dp">
+            <android.support.v7.widget.CardView
+                android:id="@+id/add_friend_1"
+                android:elevation="0dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:cardCornerRadius="50dp"
+                android:layout_margin="20dp">
+                <ImageView
+                    android:src="@mipmap/head_default"
+                    android:id="@+id/add_friend_head"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </android.support.v7.widget.CardView>
+            <TextView
+                android:text="@string/nickname"
+                android:layout_below="@+id/add_friend_1"
+                android:layout_centerHorizontal="true"
+                android:textSize="30sp"
+                android:id="@+id/add_friend_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="@string/man"
+                android:textSize="23sp"
+                android:layout_margin="5dp"
+                android:layout_below="@id/add_friend_nickname"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/add_friend_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:gravity="center"
+                android:text="@string/lazy"
+                android:textColor="@color/textColorGray"
+                android:textSize="20sp"
+                android:padding="10dp"
+                android:layout_margin="20dp"
+                android:id="@+id/add_friend_introduce"
+                android:layout_width="match_parent"
+                android:layout_below="@id/add_friend_sex"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/add_friend_add"
+                android:background="@drawable/bt"
+                android:text="@string/add_friend"
+                android:layout_margin="20dp"
+                android:layout_below="@+id/add_friend_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
