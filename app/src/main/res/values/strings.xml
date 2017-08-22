@@ -18,4 +18,5 @@
     <string name="man">男</string>
     <string name="add_friend">加为好友</string>
     <string name="choose_group">请选择分组</string>
+    <string name="load_more">点击加载更多</string>
 </resources>

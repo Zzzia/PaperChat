@@ -67,13 +67,17 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         messageDataList = new ArrayList<>();
     }
 
-    public void freshData(){
+    private interface OnDataFreshed{
+        void onFresh();
+    }
+
+    private void freshData(int count, final int scrollPosition, final OnDataFreshed call){
         if(ChatActivity.currentConversationId == null) return;
         messageDataList.clear();
         MessageUtil.getInstance()
                 .getClient()
                 .getConversation(ChatActivity.currentConversationId)
-                .queryMessages(8,new AVIMMessagesQueryCallback() {
+                .queryMessages(count,new AVIMMessagesQueryCallback() {
                     @Override
                     public void done(List<AVIMMessage> list, AVIMException e) {
                         Log.d(TAG,"listSize:"+list.size());
@@ -119,8 +123,9 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                             public void run() {
                                                 notifyDataSetChanged();
                                                 if(recyclerView != null){
-                                                    recyclerView.smoothScrollToPosition(messageDataList.size());
+                                                    recyclerView.smoothScrollToPosition(scrollPosition);
                                                 }
+                                                if(call != null) call.onFresh();
                                             }
                                         });
                                     }
@@ -142,6 +147,10 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 });
     }
 
+    public void freshData(){
+        freshData(8,8,null);
+    }
+
     public void addData(MessageData messageData){
         messageDataList.add(messageData);
         notifyDataSetChanged();
@@ -159,6 +168,10 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         View view;
         RecyclerView.ViewHolder holder = null;
         switch (viewType){
+            case HEADER:
+                view = LayoutInflater.from(context).inflate(R.layout.item_head,parent,false);
+                holder = new HeadHolder(view);
+                break;
             case TEXT_LEFT:
                 view = LayoutInflater.from(context).inflate(R.layout.item_message_left_text,parent,false);
                 holder = new LeftTextHolder(view);
@@ -172,12 +185,26 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final MessageData messageData = messageDataList.get(position);
-        Log.d("messageRecyclerTest","message:\n"+messageData.toString());
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        final MessageData messageData;
         int itemViewType = getItemViewType(position);
         switch (itemViewType){
+            case HEADER:
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ((HeadHolder) holder).textView.setText("正在加载...");
+                        freshData(messageDataList.size() + 8, messageDataList.size(), new OnDataFreshed() {
+                            @Override
+                            public void onFresh() {
+                                ((HeadHolder) holder).textView.setText("点击加载更多");
+                            }
+                        });
+                    }
+                });
+                break;
             case TEXT_LEFT:
+                messageData = messageDataList.get(position-1);
                 LeftTextHolder leftTextHolder = (LeftTextHolder) holder;
                 leftTextHolder.content.setText(messageData.getContent());
                 //点击头像访问资料
@@ -204,6 +231,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
                 break;
             case TEXT_RIGHT:
+                messageData = messageDataList.get(position-1);
                 RightTextHolder rightTextHolder = (RightTextHolder) holder;
                 rightTextHolder.content.setText(messageData.getContent());
                 if(MainActivity.userData.getHeadUrl() != null){
@@ -216,12 +244,14 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public int getItemViewType(int position) {
-        return messageDataList.get(position).getType();
+        if(position == 0) return HEADER;
+        return messageDataList.get(position-1).getType();
     }
 
     @Override
     public int getItemCount() {
-        return messageDataList.size();
+        if(messageDataList.size() == 0) return 0;
+        return messageDataList.size()+1;
     }
 
     class LeftTextHolder extends RecyclerView.ViewHolder {
@@ -245,6 +275,16 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             super(itemView);
             head = itemView.findViewById(R.id.item_message_right_text_head);
             content = itemView.findViewById(R.id.item_message_right_text_tv);
+        }
+    }
+
+    class HeadHolder extends  RecyclerView.ViewHolder {
+
+        TextView textView;
+
+        public HeadHolder(View itemView) {
+            super(itemView);
+            textView = itemView.findViewById(R.id.item_head_text);
         }
     }
 }
