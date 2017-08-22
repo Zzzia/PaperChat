@@ -23,7 +23,7 @@
             app:cardCornerRadius="30dp"
             android:elevation="0dp">
             <ImageView
-                android:src="@mipmap/ic_launcher"
+                android:src="@mipmap/head_default"
                 android:id="@+id/item_message_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

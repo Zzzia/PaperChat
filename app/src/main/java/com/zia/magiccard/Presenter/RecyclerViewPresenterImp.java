@@ -7,6 +7,6 @@ import android.view.View;
  */
 
 public interface RecyclerViewPresenterImp {
-    void gotoChatActivity(View view);
     void setRecyclerView();
+    void setReverseRecyclerView();
 }

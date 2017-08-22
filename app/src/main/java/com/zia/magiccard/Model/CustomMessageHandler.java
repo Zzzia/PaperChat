@@ -5,9 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMMessage;
@@ -18,7 +16,7 @@ import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.MessageData;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Util.CollectionUtil;
-import com.zia.magiccard.Util.ConversationHelper;
+import com.zia.magiccard.Util.ConversationUtil;
 import com.zia.magiccard.Util.PushUtil;
 import com.zia.magiccard.View.ChatActivity;
 import com.zia.magiccard.View.MainActivity;
@@ -46,12 +44,12 @@ public class CustomMessageHandler extends AVIMMessageHandler {
 
     @Override
     public void onMessage(final AVIMMessage message, final AVIMConversation conversation, AVIMClient client) {
-        Log.d(TAG, "message From: "+message.getFrom());
         super.onMessage(message, conversation, client);
+        Log.d(TAG, "message From: "+message.getFrom());
         UserModel userModel = new UserModel();
         if (message instanceof AVIMTextMessage) {
             //查找main中的集合，判断时候新建对话
-            final int position = ConversationHelper.getPositionByConversationId(conversation.getConversationId());
+            final int position = ConversationUtil.getPositionByConversationId(conversation.getConversationId());
             //新建对话
             if(position == -1){
                 final ConversationData conversationData = new ConversationData();
@@ -73,7 +71,9 @@ public class CustomMessageHandler extends AVIMMessageHandler {
                         m.setUserId(AVUser.getCurrentUser().getObjectId());
                         List<MessageData> messages = new ArrayList<MessageData>();
                         messages.add(m);
-                        conversationData.setImageUrl(userData.getHeadUrl());
+                        if(userData.getHeadUrl() != null){
+                            conversationData.setImageUrl(userData.getHeadUrl());
+                        }
                         conversationData.setMessageDatas(messages);
                         MainActivity.conversationList.add(conversationData);
                         //刷新recyclerView

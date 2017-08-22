@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVException;
 import com.bumptech.glide.Glide;
 import com.zia.magiccard.Bean.MessageData;
+import com.zia.magiccard.Bean.UserData;
+import com.zia.magiccard.Model.UserModel;
 import com.zia.magiccard.R;
-import com.zia.magiccard.Util.ConversationHelper;
+import com.zia.magiccard.Util.ConversationUtil;
 import com.zia.magiccard.View.MainActivity;
 
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private Context context;
     private List<MessageData> messageDataList;
+    private RecyclerView recyclerView = null;
 
 
     public MessageRecyclerAdapter(Context context){
@@ -39,11 +43,16 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public void freshData(String conversationId){
-        int position = ConversationHelper.getPositionByConversationId(conversationId);
+        int position = ConversationUtil.getPositionByConversationId(conversationId);
         if(position == -1) return;
         if(MainActivity.conversationList.size() == 0) Log.d(TAG,"MainActivity.conversationList.size() == 0");
         messageDataList = MainActivity.conversationList.get(position).getMessageDatas();
         notifyDataSetChanged();
+        if(recyclerView != null) recyclerView.smoothScrollToPosition(messageDataList.size());
+    }
+
+    public void setRecyclerView(RecyclerView recyclerView){
+        this.recyclerView = recyclerView;
     }
 
     @Override
@@ -65,7 +74,8 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        MessageData messageData = messageDataList.get(position);
+        final MessageData messageData = messageDataList.get(position);
+        Log.d("messageRecyclerTest","message:\n"+messageData.toString());
         int itemViewType = getItemViewType(position);
         switch (itemViewType){
             case TEXT_LEFT:

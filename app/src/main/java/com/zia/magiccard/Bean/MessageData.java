@@ -19,7 +19,10 @@ public class MessageData implements Serializable {
     public String toString() {
         return "type: "+type+"\n"+
                 "content: "+ content+"\n"+
-                "userId: "+userId+"\n";
+                "userId: "+userId+"\n"
+                +"nickname : "+nickname+"\n"
+                +"headUrl :"+headUrl+"\n"
+                +"time :"+time+"\n";
     }
 
 

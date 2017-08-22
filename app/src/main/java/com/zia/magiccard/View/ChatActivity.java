@@ -2,6 +2,7 @@ package com.zia.magiccard.View;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +43,8 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     protected void onCreated() {
         //设置adapter
         recyclerViewPresenter.setRecyclerView();
+        //为adapter设置recycler，接收到消息滑到最下面
+        adapter.setRecyclerView(recyclerView);
         //初始化recycler数据
         presenterImp.initData();
         //发送消息

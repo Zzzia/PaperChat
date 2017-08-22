@@ -22,7 +22,7 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
     private RecyclerViewPresenter recyclerViewPresenter;
     private MessagePresenterImp messagePresenter;
     private MyRecyclerView recyclerView;
-    private static final String TAG = "MessageFragmentTest";
+    private static final String TAG = "ConversationTest";
 
     @Override
     protected void findWidgets() {
@@ -44,7 +44,7 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
         recyclerView.setMyListener(new MyRecyclerView.MyListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.d(TAG,position+"");
+                Log.d(TAG,"click position:"+position);
                 Log.d(TAG,MainActivity.conversationList.get(position).toString());
                 messagePresenter.gotoChatPage(MainActivity.conversationList.get(position),view);
             }

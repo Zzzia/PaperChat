@@ -11,9 +11,9 @@ import java.util.List;
  * Created by zia on 17-8-20.
  */
 
-public class ConversationHelper {
+public class ConversationUtil {
     public static ConversationData getConversationFromMainByConversationId(String conversationId){
-        List<MessageData> list = new ArrayList<>();
+//        List<MessageData> list = new ArrayList<>();
         for (int i = 0; i< MainActivity.conversationList.size(); i++){
             if(MainActivity.conversationList.get(i).getConversationId().equals(conversationId)){
                 return MainActivity.conversationList.get(i);

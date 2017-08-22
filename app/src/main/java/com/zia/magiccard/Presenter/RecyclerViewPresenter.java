@@ -22,14 +22,19 @@ public class RecyclerViewPresenter implements RecyclerViewPresenterImp {
     }
 
     @Override
-    public void gotoChatActivity(View view) {
-        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(imp.getActivity(), view, "card");
-        imp.getActivity().startActivity(new Intent(imp.getActivity(),ChatActivity.class), optionsCompat.toBundle());
-    }
-
-    @Override
     public void setRecyclerView() {
         imp.getRecyclerView().setLayoutManager(new LinearLayoutManager(imp.getActivity()));
         imp.getRecyclerView().setAdapter(imp.getAdapter());
     }
+
+    @Override
+    public void setReverseRecyclerView() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(imp.getActivity());
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+        imp.getRecyclerView().setLayoutManager(linearLayoutManager);
+        imp.getRecyclerView().setAdapter(imp.getAdapter());
+    }
+
+
 }
