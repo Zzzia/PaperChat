@@ -57,26 +57,6 @@ public class SearchPresenter implements SearchPresenterImp {
 
     @Override
     public void gotoChatPage(UserData userData, View view) {
-//        Intent intent = new Intent(imp.getActivity(), ChatActivity.class);
-////        //在main集合中找是否建立过对话
-//        if(MainActivity.conversationList == null) return;
-//        ConversationData conversationData = new ConversationData();
-//        out:for (ConversationData c : MainActivity.conversationList) {
-//            for (String memberId : c.getMembers()) {
-//                if(memberId.equals(userData.getObjectId()) && c.getMembers().size() <= 2){
-//                    Log.d(TAG,"在main中找到对话 && c.getMembers().size() <= 2");
-//                    conversationData.setConversationId(c.getConversationId());
-//                    break out;
-//                }
-//            }
-//        }
-//        List<String> member = new ArrayList<>();
-//        member.add(userData.getObjectId());
-//        conversationData.setImageUrl(userData.getHeadUrl());
-//        conversationData.setMembers(member);
-//        conversationData.setName(userData.getNickname());
-//        intent.putExtra("conversationData",conversationData);
-//        PageUtil.gotoPageWithCard(imp.getActivity(),view,intent);
         PageUtil.gotoChatPage(imp.getActivity(),userData,view);
     }
 }

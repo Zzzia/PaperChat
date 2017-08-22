@@ -14,11 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.im.v2.AVIMClient;
 import com.bumptech.glide.Glide;
 import com.zia.magiccard.Base.BaseFragment;
 import com.zia.magiccard.Presenter.MeFragmentPresenter;
 import com.zia.magiccard.Presenter.MePresenterImp;
 import com.zia.magiccard.R;
+import com.zia.magiccard.Util.MessageUtil;
 import com.zia.magiccard.View.ChangeActivity;
 import com.zia.magiccard.View.LoginActivity;
 import com.zia.magiccard.View.MainActivity;
@@ -53,6 +55,7 @@ public class MeFragment extends BaseFragment implements MeFragmentImp {
             @Override
             public void onClick(View view) {
                 AVUser.logOut();
+                MessageUtil.getInstance().loginOut();
                 presenterImp.gotoLoginActivity();
             }
         });
