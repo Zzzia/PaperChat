@@ -42,12 +42,11 @@ public class MessageUtil {
         client.createConversation(members, conversationName, map, false, true, new AVIMConversationCreatedCallback() {
             @Override
             public void done(AVIMConversation avimConversation, AVIMException e) {
+                if(e != null)e.printStackTrace();
                 avimConversationCreatedCallback.done(avimConversation,e);
-                if(e == null){
-                    AVIMTextMessage message = new AVIMTextMessage();
-                    message.setText(text);
-                    avimConversation.sendMessage(message, avimConversationCallback);
-                }
+                AVIMTextMessage message = new AVIMTextMessage();
+                message.setText(text);
+                avimConversation.sendMessage(message, avimConversationCallback);
             }
         });
     }

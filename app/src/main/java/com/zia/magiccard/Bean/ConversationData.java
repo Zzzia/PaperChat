@@ -12,7 +12,7 @@ import java.util.List;
 public class ConversationData implements Serializable {
     private String name;
     private String lastContent;
-    private String time;
+    private long time;
     private String conversationId;
     private String imageUrl;
     private List<String> members;
@@ -50,11 +50,11 @@ public class ConversationData implements Serializable {
         this.lastContent = lastContent;
     }
 
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

@@ -40,7 +40,6 @@ public class CustomMessageHandler extends AVIMMessageHandler {
 
     private Context context;
     private static final String TAG = "MessageHandlerTest";
-    private DateFormat dateFormat = new SimpleDateFormat("HH:mm");
 
     public CustomMessageHandler(Context context) {
         this.context = context;
@@ -56,7 +55,7 @@ public class CustomMessageHandler extends AVIMMessageHandler {
             final ConversationData conversationData = new ConversationData();
             conversationData.setMembers(conversation.getMembers());
             conversationData.setLastContent(((AVIMTextMessage) message).getText());
-            conversationData.setTime(dateFormat.format(System.currentTimeMillis()));
+            conversationData.setTime(System.currentTimeMillis());
             conversationData.setConversationId(conversation.getConversationId());
             //删除原有对话
             if(position != -1){
@@ -70,7 +69,7 @@ public class CustomMessageHandler extends AVIMMessageHandler {
                     if(ChatActivity.adapter != null && ChatActivity.currentConversationId != null &&
                             ChatActivity.currentConversationId.equals(conversation.getConversationId())){
                         MessageData messageData = new MessageData();
-                        messageData.setTime(dateFormat.format(System.currentTimeMillis()));
+                        messageData.setTime(System.currentTimeMillis());
                         messageData.setType(TEXT_LEFT);
                         messageData.setUserId(userData.getObjectId());
                         messageData.setNickname(userData.getNickname());

@@ -45,9 +45,4 @@ public class SearchPresenter implements SearchPresenterImp {
             }
         });
     }
-
-    @Override
-    public void gotoChatPage(UserData userData, View view) {
-        PageUtil.gotoChatPage(imp.getActivity(),userData,view);
-    }
 }

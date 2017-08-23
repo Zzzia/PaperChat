@@ -62,7 +62,28 @@ public class ChatPresenter implements ChatPresenterImp {
         final ConversationData conversationData = imp.getConversationData();
         //发送信息
         if (conversationData != null) {
-            modelImp.sendTextMessage(text,conversationData);
+            modelImp.sendTextMessage(text, conversationData, new AVIMConversationCallback() {
+                @Override
+                public void done(AVIMException e) {
+                    if(e==null){
+                        Log.e(TAG,"发送消息成功");
+                    }else{
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        if(imp.getUserData() != null){
+            modelImp.sendTextMessage(text, imp.getUserData(), new AVIMConversationCallback() {
+                @Override
+                public void done(AVIMException e) {
+                    if(e==null){
+                        Log.e(TAG,"发送消息成功");
+                    }else{
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
         imp.getEditText().setText("");
     }
@@ -73,14 +94,15 @@ public class ChatPresenter implements ChatPresenterImp {
     @Override
     public void initData() {
         if(imp.getConversationData() != null){
-            String conversationId = imp.getConversationData().getConversationId();
-            ChatActivity.currentConversationId = conversationId;
+            Log.d(TAG,"conversationId:"+imp.getConversationData().getConversationId());
+            ChatActivity.currentConversationId = imp.getConversationData().getConversationId();
             imp.getMessageAdapter().freshData();
         }
         if(imp.getUserData() != null){
             MessageUtil.getInstance().createConversation(imp.getUserData(), new AVIMConversationCreatedCallback() {
                 @Override
                 public void done(AVIMConversation avimConversation, AVIMException e) {
+                    Log.d(TAG,"conversationId:"+avimConversation.getConversationId());
                     ChatActivity.currentConversationId = avimConversation.getConversationId();
                     imp.getMessageAdapter().freshData();
                 }

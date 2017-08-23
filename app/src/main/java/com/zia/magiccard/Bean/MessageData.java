@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class MessageData implements Serializable {
 
     private int type;//消息类型
-    private String time;//时间
+    private long time;//时间
     private String content;//文本或链接
     private String userId;//objectId
     private String nickname;//nickname
@@ -50,12 +50,11 @@ public class MessageData implements Serializable {
         this.userId = userId;
     }
 
-
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

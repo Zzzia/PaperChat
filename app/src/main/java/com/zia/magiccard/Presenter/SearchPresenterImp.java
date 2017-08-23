@@ -11,5 +11,4 @@ import com.zia.magiccard.Bean.UserData;
 public interface SearchPresenterImp {
     void moveEditText();
     void searchUser();
-    void gotoChatPage(UserData userData, View view);
 }

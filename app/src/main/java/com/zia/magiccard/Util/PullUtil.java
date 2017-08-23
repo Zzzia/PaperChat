@@ -29,7 +29,8 @@ public class PullUtil {
     private static final String TAG = "PullUtilTest";
 
     public static void pullCurrentUserData() {
-        UserUtil.getUserById(AVUser.getCurrentUser().getObjectId(), new UserUtil.OnUserGet() {
+        UserUtil userUtil = new UserUtil();
+        userUtil.getUserById(AVUser.getCurrentUser().getObjectId(), new UserUtil.OnUserGet() {
             @Override
             public void getUserData(UserData userData) {
                 MainActivity.userData = userData;

@@ -1,5 +1,6 @@
 package com.zia.magiccard.View;
 
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -16,6 +17,7 @@ import com.zia.magiccard.Presenter.SearchPresenter;
 import com.zia.magiccard.Presenter.SearchPresenterImp;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.MyRecyclerView;
+import com.zia.magiccard.Util.PageUtil;
 import com.zia.magiccard.View.Fragments.RecyclerViewImp;
 
 public class SearchActivity extends BaseActivity implements SearchActivityImp,RecyclerViewImp {
@@ -38,7 +40,9 @@ public class SearchActivity extends BaseActivity implements SearchActivityImp,Re
         recyclerView.setMyListener(new MyRecyclerView.MyListener() {
             @Override
             public void onItemClick(View view, int position) {
-                presenterImp.gotoChatPage(adapter.getUserDataList().get(position),view);
+                Intent intent = new Intent(SearchActivity.this,ChatActivity.class);
+                intent.putExtra("userData",adapter.getUserDataList().get(position));
+                PageUtil.gotoPageWithCard(getActivity(),view,intent);
             }
 
             @Override

@@ -28,6 +28,8 @@ import com.zia.magiccard.R;
 import com.zia.magiccard.Util.ConversationUtil;
 import com.zia.magiccard.Util.MessageUtil;
 import com.zia.magiccard.Util.PageUtil;
+import com.zia.magiccard.Util.TimeUtil;
+import com.zia.magiccard.Util.UserCacheUtil;
 import com.zia.magiccard.Util.UserUtil;
 import com.zia.magiccard.View.AddFriendActivity;
 import com.zia.magiccard.View.ChatActivity;
@@ -57,6 +59,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final String TAG = "MessageRecyclerTest";
 
     private Context context;
+    private int currentCount = 0;
     private List<MessageData> messageDataList;
     private RecyclerView recyclerView = null;
     private DateFormat dateFormat = new SimpleDateFormat("HH:mm");
@@ -71,7 +74,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         void onFresh();
     }
 
-    private void freshData(int count, final int scrollPosition, final OnDataFreshed call){
+    private void freshData(int count, final OnDataFreshed call){
         if(ChatActivity.currentConversationId == null) return;
         messageDataList.clear();
         MessageUtil.getInstance()
@@ -87,20 +90,15 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                 .map(new Func1<AVIMMessage, MessageData>() {
                                     @Override
                                     public MessageData call(AVIMMessage avimMessage) {
-
                                         if(avimMessage instanceof AVIMTextMessage){
                                             MessageData messageData = new MessageData();
-                                            AVQuery<AVUser> query = new AVQuery<AVUser>("_User");
                                             try {
-                                                AVUser user = query.get(avimMessage.getFrom());
-                                                AVFile file = user.getAVFile("head");
-                                                if(file != null){
-                                                    messageData.setHeadUrl(file.getUrl());
-                                                }
-                                                messageData.setTime(dateFormat.format(avimMessage.getTimestamp()));
+                                                UserData userData = UserCacheUtil.getInstance().getUserDataById(avimMessage.getFrom());
+                                                messageData.setTime(avimMessage.getTimestamp());
                                                 messageData.setContent(((AVIMTextMessage) avimMessage).getText());
-                                                messageData.setNickname(user.getString("nickname"));
-                                                messageData.setUserId(user.getObjectId());
+                                                messageData.setNickname(userData.getNickname());
+                                                messageData.setHeadUrl(userData.getHeadUrl());
+                                                messageData.setUserId(userData.getObjectId());
                                                 if(avimMessage.getFrom().equals(AVUser.getCurrentUser().getObjectId())){
                                                     messageData.setType(TEXT_RIGHT);
                                                 }else{
@@ -111,20 +109,17 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                             }
                                             return messageData;
                                         }
-
                                         return null;
                                     }
                                 })
                                 .subscribe(new Subscriber<MessageData>() {
                                     @Override
                                     public void onCompleted() {
+                                        currentCount = messageDataList.size();
                                         ((Activity)context).runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 notifyDataSetChanged();
-                                                if(recyclerView != null){
-                                                    recyclerView.smoothScrollToPosition(scrollPosition);
-                                                }
                                                 if(call != null) call.onFresh();
                                             }
                                         });
@@ -148,7 +143,14 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public void freshData(){
-        freshData(8,8,null);
+        freshData(8, new OnDataFreshed() {
+            @Override
+            public void onFresh() {
+                if(recyclerView != null){
+                    recyclerView.scrollToPosition(8);
+                }
+            }
+        });
     }
 
     public void addData(MessageData messageData){
@@ -194,10 +196,23 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     @Override
                     public void onClick(View view) {
                         ((HeadHolder) holder).textView.setText("正在加载...");
-                        freshData(messageDataList.size() + 8, messageDataList.size(), new OnDataFreshed() {
+                        final int count = currentCount;
+                        freshData(messageDataList.size() + 8, new OnDataFreshed() {
                             @Override
                             public void onFresh() {
+                                if(count == currentCount){
+                                    ((HeadHolder) holder).textView.setText("没有更多了");
+                                    ((HeadHolder) holder).textView.setClickable(false);
+                                    if(recyclerView != null){
+                                        recyclerView.scrollToPosition(0);
+                                    }
+                                    return;
+                                }
+                                if(recyclerView != null){
+                                    recyclerView.scrollToPosition(8);
+                                }
                                 ((HeadHolder) holder).textView.setText("点击加载更多");
+
                             }
                         });
                     }
@@ -211,17 +226,12 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 leftTextHolder.head.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View view) {
-                        UserUtil.getUserById(messageData.getUserId(), new UserUtil.OnUserGet() {
+                        UserCacheUtil.getInstance().getUserDataAsyncById(messageData.getUserId(), new UserCacheUtil.OnUserDataGet() {
                             @Override
-                            public void getUserData(UserData userData) {
+                            public void onUserFind(UserData userData) {
                                 Intent intent = new Intent(context, AddFriendActivity.class);
                                 intent.putExtra("userData",userData);
                                 PageUtil.gotoPageWithCard(context,view,intent);
-                            }
-
-                            @Override
-                            public void onError(AVException e) {
-                                MyToast.showToast(context,"网络出现了问题呢");
                             }
                         });
                     }
@@ -229,13 +239,20 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 if(messageData.getHeadUrl() != null){
                     Glide.with(context).load(messageData.getHeadUrl()).into(leftTextHolder.head);
                 }
+                if(position >=2 && (float)((Long.valueOf(messageData.getTime()) - Long.valueOf(messageDataList.get(position-2).getTime()))/(60*1000)) > 3){
+                    ((LeftTextHolder) holder).time.setText(TimeUtil.getDateString(Long.valueOf(messageData.getTime())));
+                }
                 break;
             case TEXT_RIGHT:
                 messageData = messageDataList.get(position-1);
                 RightTextHolder rightTextHolder = (RightTextHolder) holder;
                 rightTextHolder.content.setText(messageData.getContent());
-                if(MainActivity.userData.getHeadUrl() != null){
+                if(MainActivity.userData != null && MainActivity.userData.getHeadUrl() != null){
                     Glide.with(context).load(MainActivity.userData.getHeadUrl()).into(rightTextHolder.head);
+                }
+                //时间超过三分钟，显示时间
+                if(position >=2 && (float)((Long.valueOf(messageData.getTime()) - Long.valueOf(messageDataList.get(position-2).getTime()))/(60*1000)) > 3){
+                    ((RightTextHolder) holder).time.setText(TimeUtil.getDateString(Long.valueOf(messageData.getTime())));
                 }
                 break;
         }
@@ -257,24 +274,26 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     class LeftTextHolder extends RecyclerView.ViewHolder {
 
         private ImageView head;
-        private TextView nickname,content;
+        private TextView time,content;
 
         LeftTextHolder(View itemView) {
             super(itemView);
             head = itemView.findViewById(R.id.item_message_left_text_head);
             content = itemView.findViewById(R.id.item_message_left_text_tv);
+            time = itemView.findViewById(R.id.item_message_left_text_time);
         }
     }
 
     class RightTextHolder extends  RecyclerView.ViewHolder {
 
         private ImageView head;
-        private TextView nickname,content;
+        private TextView time,content;
 
         RightTextHolder(View itemView) {
             super(itemView);
             head = itemView.findViewById(R.id.item_message_right_text_head);
             content = itemView.findViewById(R.id.item_message_right_text_tv);
+            time = itemView.findViewById(R.id.item_message_right_text_time);
         }
     }
 

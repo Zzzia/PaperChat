@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.R;
+import com.zia.magiccard.Util.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class ConversationRecyclerAdapter extends RecyclerView.Adapter<Conversati
         ConversationData conversationData = messageList.get(position);
         holder.name.setText(conversationData.getName());
         holder.content.setText(conversationData.getLastContent());
-        holder.time.setText(conversationData.getTime());
+        holder.time.setText(TimeUtil.getDateString(conversationData.getTime()));
         if(conversationData.getImageUrl() != null){
             Glide.with(context).load(conversationData.getImageUrl()).into(holder.headImage);
         }

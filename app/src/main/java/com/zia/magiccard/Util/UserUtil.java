@@ -60,43 +60,11 @@ public class UserUtil {
         void onError(AVException e);
     }
 
-    public static void getFirstUserByMembers(List<String> members,final OnUserGet onUserGet){
-        for(int i=0;i<members.size();i++){
-            if(members.get(i).equals(AVUser.getCurrentUser().getObjectId())){
-                members.remove(i);
-                break;
-            }
-        }
-        if(members.size() == 0){
-            Log.d(TAG,"error:  members.size() == 0");
-            return;
-        }
-        getUserById(members.get(0),onUserGet);
-    }
-
     public static void getUserById(String userId, final OnUserGet onUserGet){
-        AVQuery<AVUser> avQuery = new AVQuery<>("_User");
-        avQuery.getInBackground(userId, new GetCallback<AVUser>() {
+        UserCacheUtil.getInstance().getUserDataAsyncById(userId, new UserCacheUtil.OnUserDataGet() {
             @Override
-            public void done(AVUser avUser, AVException e) {
-                if(e != null){
-                    onUserGet.onError(e);
-                }
-                else{
-                    UserData userData = new UserData();
-                    userData.setObjectId(avUser.getObjectId());
-                    userData.setUsername(avUser.getUsername());
-                    userData.setInstallationId(avUser.getString("installationId"));
-                    userData.setIntroduce(avUser.getString("introduce"));
-                    userData.setIsboy(avUser.getBoolean("isboy"));
-                    userData.setNickname(avUser.getString("nickname"));
-                    AVFile file = avUser.getAVFile("head");
-                    if(file != null){
-                        userData.setHeadUrl(file.getUrl());
-                    }
-                    Log.d(TAG,userData.toString());
-                    onUserGet.getUserData(userData);
-                }
+            public void onUserFind(UserData userData) {
+                onUserGet.getUserData(userData);
             }
         });
     }

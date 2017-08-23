@@ -50,6 +50,7 @@ public class ClassifyRecyclerAdapter extends RecyclerView.Adapter<ClassifyRecycl
                     PageUtil.gotoPageWithCard(context, view, intent);
                 }
             });
+        holder.gourp.setText(MainActivity.classifyDatas.get(position).getClassName());
     }
 
 
