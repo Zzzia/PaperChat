@@ -1,5 +1,7 @@
 package com.zia.magiccard.Presenter;
 
+import android.widget.TextView;
+
 import com.avos.avoscloud.im.v2.AVIMClient;
 
 /**
@@ -9,4 +11,5 @@ import com.avos.avoscloud.im.v2.AVIMClient;
 public interface ChatPresenterImp {
     void sendMessage();
     void initData();
+    void sendAudio(TextView hintView);
 }

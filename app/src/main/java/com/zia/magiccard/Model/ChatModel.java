@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zia.magiccard.Adapter.MessageRecyclerAdapter.AUDIO_RIGHT;
 import static com.zia.magiccard.Adapter.MessageRecyclerAdapter.TEXT_RIGHT;
 
 /**
@@ -104,14 +105,57 @@ public class ChatModel implements ChatModelImp {
     }
 
     @Override
-    public void sendTextMessage(final String text,
-                                final UserData userData,
-                                final AVIMConversationCallback avimConversationCallback){
+    public void sendTextMessage(final String text, final UserData userData, final AVIMConversationCallback avimConversationCallback){
         ConversationData conversationData = new ConversationData();
+        conversationData.setMembers(getMembersByUser(userData));
+        sendTextMessage(text,conversationData,avimConversationCallback);
+    }
+
+    @Override
+    public void sendAudioMessage(byte[] bytes, final ConversationData conversationData, final AVIMConversationCallback avimConversationCallback) {
+        MessageUtil.getInstance().sendAudioMessage(bytes, conversationData, null, new AVIMConversationCreatedCallback() {
+            @Override
+            public void done(AVIMConversation avimConversation, AVIMException e) {
+                int position = ConversationUtil.getPositionByConversationId(avimConversation.getConversationId());
+                if (position != -1) {
+                    MainActivity.conversationList.remove(position);
+                }
+                conversationData.setConversationId(avimConversation.getConversationId());
+                conversationData.setTime(System.currentTimeMillis());
+                conversationData.setLastContent("语音消息");
+                //更新conversation列表数据
+                UserCacheUtil.getInstance().getUserDataAsyncByMember(conversationData.getMembers(), new UserCacheUtil.OnUserDataGet() {
+                    @Override
+                    public void onUserFind(UserData userData) {
+                        conversationData.setName(userData.getNickname());
+                        conversationData.setImageUrl(userData.getHeadUrl());
+                        MainActivity.conversationList.add(conversationData);
+                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
+                        CollectionUtil.swap(MainActivity.conversationList, MainActivity.conversationList.size() - 1, 0);
+                    }
+                });
+            }
+        }, new AVIMConversationCallback() {
+            @Override
+            public void done(AVIMException e) {
+                avimConversationCallback.done(e);
+                //上传完成后刷新recycler
+                ChatActivity.adapter.freshData();
+            }
+        });
+    }
+
+    @Override
+    public void sendAudioMessage(byte[] bytes, UserData userData, AVIMConversationCallback avimConversationCallback) {
+        ConversationData conversationData = new ConversationData();
+        conversationData.setMembers(getMembersByUser(userData));
+        sendAudioMessage(bytes,conversationData,avimConversationCallback);
+    }
+
+    private List<String> getMembersByUser(UserData userData){
         List<String> members = new ArrayList<>();
         members.add(AVUser.getCurrentUser().getObjectId());
         members.add(userData.getObjectId());
-        conversationData.setMembers(members);
-        sendTextMessage(text,conversationData,avimConversationCallback);
+        return members;
     }
 }

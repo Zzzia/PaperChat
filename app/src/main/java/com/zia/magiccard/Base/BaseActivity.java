@@ -35,12 +35,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseImp 
     public void initState() {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         AVOSCloud.initialize(this,"0f7PFLssqz1aLp6PrOAlakNt-gzGzoHsz","IjQEGo2YnJtWRv9shnoxRDjC");
-        View decorView = getWindow().getDecorView();
-        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        decorView.setSystemUiVisibility(option);
-        //getWindow().setNavigationBarColor(Color.TRANSPARENT);
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
+//        View decorView = getWindow().getDecorView();
+//        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+//        decorView.setSystemUiVisibility(option);
+//        //getWindow().setNavigationBarColor(Color.TRANSPARENT);
+//        getWindow().setStatusBarColor(Color.TRANSPARENT);
     }
 
     //用于初始化数据

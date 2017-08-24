@@ -1,18 +1,24 @@
 package com.zia.magiccard.Util;
 
+import android.os.Environment;
+
+import com.avos.avoscloud.AVException;
+import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.SaveCallback;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMException;
-import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMSingleMessageQueryCallback;
+import com.avos.avoscloud.im.v2.messages.AVIMAudioMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.UserData;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +42,7 @@ public class MessageUtil {
      * @param avimConversationCreatedCallback 对话建立成功回调
      * @param avimConversationCallback 信息发送成功回调
      */
-    private void sMessage(final String text, List<String> members, String conversationName, Map<String,Object> map,
+    private void tMessage(final String text, List<String> members, String conversationName, Map<String,Object> map,
                           final AVIMConversationCreatedCallback avimConversationCreatedCallback,
                           final AVIMConversationCallback avimConversationCallback){
         client.createConversation(members, conversationName, map, false, true, new AVIMConversationCreatedCallback() {
@@ -49,6 +55,50 @@ public class MessageUtil {
                 avimConversation.sendMessage(message, avimConversationCallback);
             }
         });
+    }
+
+    /**
+     * 音频最底层封装
+     * @param bytes
+     * @param members
+     * @param conversationName
+     * @param map
+     * @param avimConversationCreatedCallback
+     * @param avimConversationCallback
+     */
+    private void aMessage(final byte[] bytes, List<String> members, String conversationName, Map<String,Object> map,
+                          final AVIMConversationCreatedCallback avimConversationCreatedCallback,
+                          final AVIMConversationCallback avimConversationCallback){
+        client.createConversation(members, conversationName, map, false, true, new AVIMConversationCreatedCallback() {
+            @Override
+            public void done(final AVIMConversation avimConversation, AVIMException e) {
+                if(e != null) e.printStackTrace();
+                avimConversationCreatedCallback.done(avimConversation,e);
+                File appDir = new File(Environment.getExternalStorageDirectory(), "MagicCard");
+                AVFile avFile = null;
+                try {
+                    avFile = AVFile.withAbsoluteLocalPath("record.pcm",appDir.getPath()+"/record.pcm");
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+                AVIMAudioMessage audioMessage = new AVIMAudioMessage(avFile);
+                audioMessage.setText("语音消息");
+                avimConversation.sendMessage(audioMessage, new AVIMConversationCallback() {
+                    @Override
+                    public void done(AVIMException e) {
+                        if(e != null) e.printStackTrace();
+                        avimConversationCallback.done(e);
+                    }
+                });
+            }
+        });
+    }
+
+    public void sendAudioMessage(final byte[] bytes, ConversationData conversationData, Map<String,Object> map,
+                                 final AVIMConversationCreatedCallback avimConversationCreatedCallback,
+                                 final AVIMConversationCallback avimConversationCallback){
+        String name = getNameFromMembers(conversationData.getMembers());
+        aMessage(bytes,conversationData.getMembers(),name,map,avimConversationCreatedCallback,avimConversationCallback);
     }
 
     public AVIMClient getClient(){
@@ -85,7 +135,7 @@ public class MessageUtil {
     public void sendMessage(String text, UserData userData,Map<String,Object> map,
                             final AVIMConversationCreatedCallback avimConversationCreatedCallback,
                             final AVIMConversationCallback avimConversationCallback){
-        sMessage(text,getMembersFromUserData(userData),
+        tMessage(text,getMembersFromUserData(userData),
                 getNameFromMembers(getMembersFromUserData(userData)),
                 map,avimConversationCreatedCallback,avimConversationCallback);
     }
@@ -125,7 +175,7 @@ public class MessageUtil {
                             final AVIMConversationCreatedCallback avimConversationCreatedCallback,
                             final AVIMConversationCallback avimConversationCallback){
         String conversationName = getNameFromMembers(conversationData.getMembers());
-        sMessage(text,conversationData.getMembers(),conversationName,map,avimConversationCreatedCallback,avimConversationCallback);
+        tMessage(text,conversationData.getMembers(),conversationName,map,avimConversationCreatedCallback,avimConversationCallback);
     }
 
     /**

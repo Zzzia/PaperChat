@@ -2,41 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context="com.zia.magiccard.View.MainActivity">
 
     <include layout="@layout/toolbar" />
 
-<android.support.v7.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    app:cardCornerRadius="0dp"
-    android:elevation="2dp">
-    <android.support.v4.view.ViewPager
-        android:background="@color/paperWhite"
-        android:transitionName="card"
-        android:id="@+id/main_viewPager"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
-</android.support.v7.widget.CardView>
+        android:layout_weight="1"
+        android:elevation="2dp"
+        app:cardCornerRadius="0dp">
 
-
-
-    <!--<android.support.v7.widget.CardView-->
-        <!--app:cardCornerRadius="0dp"-->
-        <!--app:elevation="20dp"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="60dp">-->
-        <com.roughike.bottombar.BottomBar
-            android:id="@+id/main_bottomBar"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/main_viewPager"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            app:bb_tabXmlResource="@xml/bottombar_tabs"/>
-    <!--</android.support.v7.widget.CardView>-->
+            android:layout_height="match_parent"
+            android:background="@color/paperWhite"
+            android:transitionName="card" />
+    </android.support.v7.widget.CardView>
+
+
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/main_bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:bb_tabXmlResource="@xml/bottombar_tabs" />
 
 </LinearLayout>

@@ -43,4 +43,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/item_message_left_text_CardView" />
+    <ImageView
+        android:id="@+id/item_message_left_text_record"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/record"
+        android:layout_margin="5dp"
+        android:layout_alignRight="@+id/item_message_left_text_tv"
+        android:layout_alignTop="@+id/item_message_left_text_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

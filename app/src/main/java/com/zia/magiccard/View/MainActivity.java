@@ -25,7 +25,7 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     private MainPresenterImp presenterImp;
     private ImageView titleImage;
     //消息界面的变量
-    public static List<ConversationData> conversationList;
+    public static List<ConversationData> conversationList = new ArrayList<>();
     public static ConversationRecyclerAdapter conversationRecyclerAdapter;
     //当前登录用户信息
     public static UserData userData = null;
@@ -43,6 +43,15 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
         conversationRecyclerAdapter = new ConversationRecyclerAdapter(this);
         //从服务器获取对话资料加载到recycler上
         PullUtil.pullConversationList();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+//        userData = null;
+//        conversationList = null;
+//        conversationRecyclerAdapter = null;
+//        classifyDatas = null;
     }
 
     @Override

@@ -14,11 +14,11 @@ public class TimeUtil {
         if(minutes < 2){
             return "刚刚";
         }
-        else if (minutes >= 2 && minutes <= 60*24*7){
+        else if (minutes >= 2 && minutes <= 60*24){
             DateFormat todayFormat = new SimpleDateFormat("HH:mm");
             return "今天 " + todayFormat.format(date);
         }
-        else if(minutes < 60*24*7){
+        else if(minutes >= 60*24 && minutes < 60*24*7){
             DateFormat yesterdayFormat = new SimpleDateFormat("E HH:mm");
             return yesterdayFormat.format(date);
         }

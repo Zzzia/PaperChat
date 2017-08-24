@@ -14,6 +14,7 @@ public class MessageData implements Serializable {
     private String userId;//objectId
     private String nickname;//nickname
     private String headUrl;
+    private String audioUrl;
 
     @Override
     public String toString() {
@@ -25,6 +26,13 @@ public class MessageData implements Serializable {
                 +"time :"+time+"\n";
     }
 
+    public String getAudioUrl() {
+        return audioUrl;
+    }
+
+    public void setAudioUrl(String audioUrl) {
+        this.audioUrl = audioUrl;
+    }
 
     public String getHeadUrl() {
         return headUrl;

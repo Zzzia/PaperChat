@@ -4,10 +4,12 @@
 
     <!-- 基础模块（必须加入以下声明）START -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!-- 基础模块 END -->
     <application
@@ -45,7 +47,9 @@
         <activity android:name=".View.LoginActivity" />
         <activity android:name=".View.RegisterActivity" />
         <activity android:name=".View.MainActivity" />
-        <activity android:name=".View.ChatActivity" />
+        <activity
+            android:name=".View.ChatActivity"
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".View.GroupActivity" />
         <activity android:name=".View.SearchActivity" />
         <activity android:name=".View.ChangeActivity" />

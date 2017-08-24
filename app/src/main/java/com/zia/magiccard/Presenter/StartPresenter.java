@@ -50,6 +50,7 @@ public class StartPresenter implements StartImp {
         AVOSCloud.setDebugLogEnabled(true);
         //初始化消息接收类
         AVIMMessageManager.registerDefaultMessageHandler(new CustomMessageHandler(imp.getActivity()));
+
         //尝试保存installation
         AVInstallation.getCurrentInstallation().saveInBackground();
         //开启聊天室，登录用户

@@ -12,44 +12,129 @@
         android:id="@+id/chat_card"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="30dp"
         android:layout_weight="1"
-        android:transitionName="card">
+        android:transitionName="card"
+        app:cardBackgroundColor="@color/paperWhite">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/chat_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1sp"
-                android:background="@color/textColorGray"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/chat_edit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/bg_edit"
+                    android:padding="5dp" />
 
+
+
+                <ImageView
+                    android:id="@+id/chat_record"
+                    android:src="@mipmap/record"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_below="@+id/chat_edit"
+                    />
+
+                <ImageView
+                    android:id="@+id/chat_pick_photo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="20dp"
+                    android:src="@mipmap/album"
+                    android:layout_toRightOf="@+id/chat_record"
+                    android:layout_alignTop="@+id/chat_record"
+                    />
+
+                <ImageView
+                    android:id="@+id/chat_camera"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/camera"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/chat_pick_photo"
+                    android:layout_alignTop="@+id/chat_pick_photo"
+                    />
                 <Button
                     android:id="@+id/chat_send"
+                    android:textSize="18sp"
+                    android:background="@drawable/bt_send"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/chat_record"
                     android:text="@string/send" />
-            </LinearLayout>
-        </LinearLayout>
 
+                <RelativeLayout
+                    android:id="@+id/chat_extra_recordLayout"
+                    android:visibility="gone"
+                    android:layout_below="@+id/chat_record"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@color/paperWhite">
+                    <Chronometer
+                        android:id="@+id/chat_extra_timer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:visibility="invisible"
+                        android:textColor="#71c4ff"
+                        android:layout_above="@+id/chat_recordingCardView"
+                        android:layout_centerHorizontal="true"
+                        android:padding="10dp"
+                        android:format="%s"/>
+                    <TextView
+                        android:text="按下以录音，上滑取消录音"
+                        android:padding="10dp"
+                        android:textColor="#71c4ff"
+                        android:id="@+id/chat_extra_hint"
+                        android:textSize="18sp"
+                        android:layout_above="@+id/chat_recordingCardView"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/chat_recordingCardView"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        app:cardCornerRadius="60dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true">
+                        <com.zia.magiccard.Util.MyRecordButton
+                            android:longClickable="true"
+                            android:id="@+id/chat_recording"
+                            android:src="@mipmap/record_large"
+                            android:background="@drawable/bg_record"
+                            android:padding="30dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </android.support.v7.widget.CardView>
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

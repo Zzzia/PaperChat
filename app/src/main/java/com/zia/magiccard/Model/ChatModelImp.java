@@ -10,7 +10,7 @@ import com.zia.magiccard.Bean.UserData;
 
 public interface ChatModelImp {
     void sendTextMessage(String text, ConversationData conversationData,AVIMConversationCallback avimConversationCallback);
-    void sendTextMessage(final String text,
-                                final UserData userData,
-                                final AVIMConversationCallback avimConversationCallback);
+    void sendTextMessage(String text, UserData userData, AVIMConversationCallback avimConversationCallback);
+    void sendAudioMessage(byte[] bytes, ConversationData conversationData,AVIMConversationCallback avimConversationCallback);
+    void sendAudioMessage(byte[] bytes, UserData userData,AVIMConversationCallback avimConversationCallback);
 }

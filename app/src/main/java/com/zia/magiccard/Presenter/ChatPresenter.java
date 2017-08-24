@@ -1,6 +1,7 @@
 package com.zia.magiccard.Presenter;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
@@ -88,6 +89,8 @@ public class ChatPresenter implements ChatPresenterImp {
         imp.getEditText().setText("");
     }
 
+
+
     /**
      * 初始化recycler数据
      */
@@ -105,6 +108,41 @@ public class ChatPresenter implements ChatPresenterImp {
                     Log.d(TAG,"conversationId:"+avimConversation.getConversationId());
                     ChatActivity.currentConversationId = avimConversation.getConversationId();
                     imp.getMessageAdapter().freshData();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void sendAudio(final TextView hintView) {
+        //if(bytes == null) return;
+        if(imp.getConversationData() != null){
+            modelImp.sendAudioMessage(null, imp.getConversationData(), new AVIMConversationCallback() {
+                @Override
+                public void done(AVIMException e) {
+                    if(e == null){
+                        imp.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                hintView.setText("发送成功");
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        if(imp.getUserData() != null){
+            modelImp.sendAudioMessage(null, imp.getUserData(), new AVIMConversationCallback() {
+                @Override
+                public void done(AVIMException e) {
+                    if(e == null){
+                        imp.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                hintView.setText("发送成功");
+                            }
+                        });
+                    }
                 }
             });
         }
