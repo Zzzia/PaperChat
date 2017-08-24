@@ -23,7 +23,7 @@ import com.zia.magiccard.R;
 
 public class LoginActivity extends BaseActivity implements CheckUserImp {
 
-    private TextView registerButton,skip,login;
+    private TextView registerButton,login;
     private TextInputLayout username,password;
     private LoginImp presenter;
 
@@ -49,7 +49,6 @@ public class LoginActivity extends BaseActivity implements CheckUserImp {
         registerButton = $(R.id.login_register);
         username = $(R.id.login_username);
         password = $(R.id.login_password);
-        skip = $(R.id.login_skip);
         login = $(R.id.login_login);
     }
 

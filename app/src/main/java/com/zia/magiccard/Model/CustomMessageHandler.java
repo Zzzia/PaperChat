@@ -54,6 +54,7 @@ public class CustomMessageHandler extends AVIMMessageHandler {
     @Override
     public void onMessage(final AVIMMessage message, final AVIMConversation conversation, AVIMClient client) {
         super.onMessage(message, conversation, client);
+        Log.e("handler get unread:",conversation.getUnreadMessagesCount()+"");
         Log.d(TAG, "message From: "+message.getFrom());
         //创建一个messageData
         final MessageData messageData = new MessageData();
@@ -62,6 +63,11 @@ public class CustomMessageHandler extends AVIMMessageHandler {
         int position = ConversationUtil.getPositionByConversationId(conversation.getConversationId());
         //创建conversationData
         final ConversationData conversationData = new ConversationData();
+        conversationData.setUnreadCount(conversation.getUnreadMessagesCount());
+        if(ChatActivity.currentConversationId != null && conversation.getConversationId().equals(ChatActivity.currentConversationId)){
+            conversationData.setUnreadCount(0);
+            conversation.read();
+        }
         conversationData.setMembers(conversation.getMembers());
         conversationData.setTime(System.currentTimeMillis());
         conversationData.setConversationId(conversation.getConversationId());

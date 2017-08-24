@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
 
+import com.avos.avoscloud.AVInstallation;
 import com.roughike.bottombar.BottomBar;
 import com.zia.magiccard.Adapter.ConversationRecyclerAdapter;
 import com.zia.magiccard.Base.BaseActivity;
@@ -13,6 +14,7 @@ import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Presenter.MainPresenter;
 import com.zia.magiccard.Presenter.MainPresenterImp;
 import com.zia.magiccard.R;
+import com.zia.magiccard.Util.MessageUtil;
 import com.zia.magiccard.Util.PullUtil;
 
 import java.util.ArrayList;
@@ -34,6 +36,10 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
 
     @Override
     protected void onCreated() {
+        //尝试保存installation
+        AVInstallation.getCurrentInstallation().saveInBackground();
+        //得到一个消息工具的实例
+        MessageUtil.getInstance();
         //下载当前用户信息
         PullUtil.pullCurrentUserData();
         //下载用户好友分组信息

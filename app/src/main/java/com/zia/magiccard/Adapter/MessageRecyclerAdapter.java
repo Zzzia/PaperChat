@@ -487,25 +487,22 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 if(messageData.getPhotoUrl() != null){
                     Glide.with(context).load(messageData.getPhotoUrl()).into(rightVideoHolder.photo);
                 }
-                if(messageData.getVideoUrl() != null){
-                    rightVideoHolder.videoView.setMediaController(new MediaController(context));
-                    rightVideoHolder.videoView.setVideoURI(Uri.parse(messageData.getVideoUrl()));
-                    rightVideoHolder.videoView.requestFocus();
-                    isPlay = false;
-                }
-                rightVideoHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                rightVideoHolder.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        rightVideoHolder.play.setVisibility(View.VISIBLE);
+                        rightVideoHolder.photo.setVisibility(View.VISIBLE);
+                        rightVideoHolder.videoView.pause();
+                    }
+                });
+                rightVideoHolder.play.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(!isPlay){
-                            rightVideoHolder.videoView.start();
-                            rightVideoHolder.photo.setVisibility(View.GONE);
-                            rightVideoHolder.play.setVisibility(View.GONE);
-                            isPlay = true;
-                        }else{
-                            rightVideoHolder.play.setVisibility(View.VISIBLE);
-                            rightVideoHolder.videoView.pause();
-                            isPlay = false;
-                        }
+                        rightVideoHolder.play.setVisibility(View.GONE);
+                        rightVideoHolder.photo.setVisibility(View.GONE);
+                        rightVideoHolder.videoView.setMediaController(new MediaController(context));
+                        rightVideoHolder.videoView.setVideoURI(Uri.parse(messageData.getVideoUrl()));
+                        rightVideoHolder.videoView.start();
                     }
                 });
                 break;

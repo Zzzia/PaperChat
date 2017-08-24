@@ -16,6 +16,7 @@ public class ConversationData implements Serializable {
     private String conversationId;
     private String imageUrl;
     private List<String> members;
+    private int unreadCount;
 
     @Override
     public String toString() {
@@ -23,7 +24,16 @@ public class ConversationData implements Serializable {
                 +"name: "+name+"\n"
                 +"lastContent: "+lastContent+"\n"
                 +"imageUrl: "+imageUrl+"\n"
-                +"time: "+time+"\n";
+                +"time: "+time+"\n"
+                +"unreadCount: "+unreadCount+"\n";
+    }
+
+    public int getUnreadCount() {
+        return unreadCount;
+    }
+
+    public void setUnreadCount(int unreadCount) {
+        this.unreadCount = unreadCount;
     }
 
     public List<String> getMembers() {

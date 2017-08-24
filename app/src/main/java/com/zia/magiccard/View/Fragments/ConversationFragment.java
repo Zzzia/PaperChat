@@ -46,6 +46,8 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
             @Override
             public void onItemClick(View view, int position) {
                 Log.d(TAG,"click position:"+position);
+                MainActivity.conversationList.get(position).setUnreadCount(0);
+                MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
                 Log.d(TAG,MainActivity.conversationList.get(position).toString());
                 messagePresenter.gotoChatPage(MainActivity.conversationList.get(position),view);
             }

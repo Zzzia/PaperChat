@@ -72,46 +72,24 @@
                 android:id="@+id/login_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:text="@string/register_new"
                 android:textColor="@color/colorAccent"
-                android:textSize="16sp" />
+                android:textSize="17sp" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:id="@+id/login_skip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="bottom"
-                    android:layout_margin="5dp"
-                    android:text="@string/login_skip"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:id="@+id/login_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="5dp"
-                    android:text="@string/login"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="20sp" />
-            </RelativeLayout>
+            <TextView
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:id="@+id/login_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="5dp"
+                android:text="@string/login"
+                android:textColor="@color/colorAccent"
+                android:textSize="21sp" />
 
 
         </LinearLayout>

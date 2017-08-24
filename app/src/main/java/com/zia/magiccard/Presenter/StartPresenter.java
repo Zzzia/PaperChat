@@ -11,6 +11,7 @@ import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMMessageManager;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.zia.magiccard.Base.BaseImp;
+import com.zia.magiccard.Model.CustomConversationEventHandler;
 import com.zia.magiccard.Model.CustomMessageHandler;
 import com.zia.magiccard.Util.MessageUtil;
 import com.zia.magiccard.View.LoginActivity;
@@ -52,20 +53,8 @@ public class StartPresenter implements StartImp {
         AVOSCloud.setDebugLogEnabled(true);
         //初始化消息接收类
         AVIMMessageManager.registerDefaultMessageHandler(new CustomMessageHandler(imp.getActivity()));
-        //尝试保存installation
-        AVInstallation.getCurrentInstallation().saveInBackground();
-        //开启聊天室，登录用户
-        AVUser user = AVUser.getCurrentUser();
-        if(user == null) return;
-        AVIMClient client = AVIMClient.getInstance(user);
-        client.open(new AVIMClientCallback() {
-            @Override
-            public void done(AVIMClient avimClient, AVIMException e) {
-                if(e != null) e.printStackTrace();
-            }
-        });
-        //得到一个消息工具的实例
-        MessageUtil.getInstance();
+        //初始化事件接收类
+        AVIMMessageManager.setConversationEventHandler(new CustomConversationEventHandler());
     }
 
     @Override

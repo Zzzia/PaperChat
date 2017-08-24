@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.im.v2.AVIMClient;
 import com.bumptech.glide.Glide;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.R;
+import com.zia.magiccard.Util.PushUtil;
 import com.zia.magiccard.Util.TimeUtil;
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class ConversationRecyclerAdapter extends RecyclerView.Adapter<Conversati
     public void freshMessageList(List<ConversationData> messageList){
         this.messageList = messageList;
         notifyDataSetChanged();
+        PushUtil.saveConversations();
     }
 
     @Override
@@ -49,6 +52,12 @@ public class ConversationRecyclerAdapter extends RecyclerView.Adapter<Conversati
         if(conversationData.getImageUrl() != null){
             Glide.with(context).load(conversationData.getImageUrl()).into(holder.headImage);
         }
+        holder.unread.setText(conversationData.getUnreadCount()+"");
+        if(conversationData.getUnreadCount() != 0){
+            holder.unread.setVisibility(View.VISIBLE);
+        }else{
+            holder.unread.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -59,7 +68,7 @@ public class ConversationRecyclerAdapter extends RecyclerView.Adapter<Conversati
     class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView headImage;
-        TextView name,content,time;
+        TextView name,content,time,unread;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -67,6 +76,7 @@ public class ConversationRecyclerAdapter extends RecyclerView.Adapter<Conversati
             name = itemView.findViewById(R.id.item_message_name);
             content = itemView.findViewById(R.id.item_message_content);
             time = itemView.findViewById(R.id.item_message_time);
+            unread = itemView.findViewById(R.id.item_conversation_count);
         }
     }
 }
