@@ -13,12 +13,14 @@ import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.avos.avoscloud.im.v2.messages.AVIMAudioMessage;
+import com.avos.avoscloud.im.v2.messages.AVIMImageMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.UserData;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -92,6 +94,48 @@ public class MessageUtil {
                 });
             }
         });
+    }
+
+    /**
+     * 发送照片最底层封装
+     * @param path
+     * @param members
+     * @param conversationName
+     * @param map
+     * @param avimConversationCreatedCallback
+     * @param avimConversationCallback
+     */
+    private void pMessage(final String path, List<String> members, String conversationName, final Map<String,Object> map,
+                          final AVIMConversationCreatedCallback avimConversationCreatedCallback,
+                          final AVIMConversationCallback avimConversationCallback){
+        client.createConversation(members, conversationName, map, false, true, new AVIMConversationCreatedCallback() {
+            @Override
+            public void done(AVIMConversation avimConversation, AVIMException e) {
+                if(e != null) e.printStackTrace();
+                avimConversationCreatedCallback.done(avimConversation,e);
+                AVIMImageMessage picture;
+                try {
+                    picture = new AVIMImageMessage(path);
+                    picture.setAttrs(map);
+                    avimConversation.sendMessage(picture, new AVIMConversationCallback() {
+                        @Override
+                        public void done(AVIMException e) {
+                            if(e != null) e.printStackTrace();
+                            avimConversationCallback.done(e);
+                        }
+                    });
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void sendPhotoMessage(final String path, ConversationData conversationData, final Map<String,Object> map,
+                                 final AVIMConversationCreatedCallback avimConversationCreatedCallback,
+                                 final AVIMConversationCallback avimConversationCallback){
+        String name = getNameFromMembers(conversationData.getMembers());
+        pMessage(path,conversationData.getMembers(),name,map,avimConversationCreatedCallback,avimConversationCallback);
     }
 
     public void sendAudioMessage(final byte[] bytes, ConversationData conversationData, Map<String,Object> map,

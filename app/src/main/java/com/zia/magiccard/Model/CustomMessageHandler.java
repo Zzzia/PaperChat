@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.zia.magiccard.Adapter.MessageRecyclerAdapter.AUDIO_LEFT;
+import static com.zia.magiccard.Adapter.MessageRecyclerAdapter.PICTURE_LEFT;
 import static com.zia.magiccard.Adapter.MessageRecyclerAdapter.TEXT_LEFT;
 import static com.zia.magiccard.Adapter.MessageRecyclerAdapter.TEXT_RIGHT;
 
@@ -119,6 +120,7 @@ public class CustomMessageHandler extends AVIMMessageHandler {
                     if(ChatActivity.adapter != null && ChatActivity.currentConversationId != null &&
                             ChatActivity.currentConversationId.equals(conversation.getConversationId())){
                         messageData.setType(AUDIO_LEFT);
+                        messageData.setAudioUrl(((AVIMAudioMessage) message).getFileUrl());
                         messageData.setUserId(userData.getObjectId());
                         messageData.setNickname(userData.getNickname());
                         messageData.setHeadUrl(userData.getHeadUrl());
@@ -153,7 +155,47 @@ public class CustomMessageHandler extends AVIMMessageHandler {
             });
         }
         else if(message instanceof AVIMImageMessage){
-
+            UserUtil.getUserById(message.getFrom(), new UserUtil.OnUserGet() {
+                @Override
+                public void getUserData(final UserData userData) {
+                    conversationData.setLastContent("[图片]");
+                    //如果当前页面在聊天页面，则先刷新该界面
+                    if(ChatActivity.adapter != null && ChatActivity.currentConversationId != null &&
+                            ChatActivity.currentConversationId.equals(conversation.getConversationId())){
+                        messageData.setType(PICTURE_LEFT);
+                        messageData.setPhotoUrl(((AVIMImageMessage) message).getFileUrl());
+                        messageData.setUserId(userData.getObjectId());
+                        messageData.setNickname(userData.getNickname());
+                        messageData.setHeadUrl(userData.getHeadUrl());
+                        messageData.setContent(((AVIMImageMessage) message).getText());
+                        ChatActivity.adapter.addData(messageData);
+                    }
+                    //刷新main中的conversations
+                    conversationData.setName(userData.getNickname());
+                    if(userData.getHeadUrl() != null){
+                        conversationData.setImageUrl(userData.getHeadUrl());
+                    }
+                    //刷新main中对话信息
+                    freshConversationRecycler(conversationData);
+                    //对话信息
+                    Log.d(TAG, conversationData.toString());
+                    //没有在聊天界面时toast提示
+                    if(ChatActivity.currentConversationId == null){
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                MyToast.showToast(context, userData.getNickname()+" 给你发送了图片");
+                            }
+                        });
+                    }
+                    //保存conversations到服务器
+                    PushUtil.saveConversations();
+                }
+                @Override
+                public void onError(AVException e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 

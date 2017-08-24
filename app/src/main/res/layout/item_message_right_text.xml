@@ -10,6 +10,7 @@
         android:id="@+id/item_message_right_text_time"
         android:textColor="@color/textColorGray"
         android:gravity="center"
+        android:visibility="gone"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_width="wrap_content"

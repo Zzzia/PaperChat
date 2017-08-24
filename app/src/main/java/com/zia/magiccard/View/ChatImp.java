@@ -1,5 +1,6 @@
 package com.zia.magiccard.View;
 
+import android.app.ProgressDialog;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 
@@ -19,7 +20,7 @@ public interface ChatImp extends BaseImp {
     UserData getUserData();
     ConversationData getConversationData();
     EditText getEditText();
-    AVIMClient getAVIMClient();
     MessageRecyclerAdapter getMessageAdapter();
     RecyclerView getRecyclerView();
+    ProgressDialog getDialog();
 }

@@ -15,11 +15,11 @@ import com.zia.magiccard.View.MainActivity;
  * Created by zia on 17-8-17.
  */
 
-public class MessagePresenterPresenter implements MessagePresenterImp {
+public class MessagePresenter implements MessagePresenterImp {
 
     private BaseImp fragmentImp;
 
-    public MessagePresenterPresenter(BaseImp fragmentImp){
+    public MessagePresenter(BaseImp fragmentImp){
         this.fragmentImp = fragmentImp;
     }
 

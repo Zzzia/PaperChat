@@ -152,6 +152,48 @@ public class ChatModel implements ChatModelImp {
         sendAudioMessage(bytes,conversationData,avimConversationCallback);
     }
 
+    @Override
+    public void sendPictureMessage(String path, final ConversationData conversationData, final AVIMConversationCallback avimConversationCallback) {
+        MessageUtil.getInstance().sendPhotoMessage(path, conversationData, null, new AVIMConversationCreatedCallback() {
+            @Override
+            public void done(AVIMConversation avimConversation, AVIMException e) {
+                int position = ConversationUtil.getPositionByConversationId(avimConversation.getConversationId());
+                if (position != -1) {
+                    MainActivity.conversationList.remove(position);
+                }
+                conversationData.setConversationId(avimConversation.getConversationId());
+                conversationData.setTime(System.currentTimeMillis());
+                conversationData.setLastContent("[图片]");
+                //更新conversation列表数据
+                UserCacheUtil.getInstance().getUserDataAsyncByMember(conversationData.getMembers(), new UserCacheUtil.OnUserDataGet() {
+                    @Override
+                    public void onUserFind(UserData userData) {
+                        conversationData.setName(userData.getNickname());
+                        conversationData.setImageUrl(userData.getHeadUrl());
+                        MainActivity.conversationList.add(conversationData);
+                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
+                        CollectionUtil.swap(MainActivity.conversationList, MainActivity.conversationList.size() - 1, 0);
+                    }
+                });
+            }
+        }, new AVIMConversationCallback() {
+            @Override
+            public void done(AVIMException e) {
+                avimConversationCallback.done(e);
+                //上传完成后刷新recycler
+                ChatActivity.adapter.freshData();
+            }
+        });
+    }
+
+    @Override
+    public void sendPictureMessage(String path, UserData userData, AVIMConversationCallback avimConversationCallback) {
+        ConversationData conversationData = new ConversationData();
+        conversationData.setMembers(getMembersByUser(userData));
+        sendPictureMessage(path,conversationData,avimConversationCallback);
+    }
+
+
     private List<String> getMembersByUser(UserData userData){
         List<String> members = new ArrayList<>();
         members.add(AVUser.getCurrentUser().getObjectId());

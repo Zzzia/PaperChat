@@ -7,7 +7,7 @@
     android:background="@color/paperWhite"
     android:layout_margin="10dp">
     <TextView
-        android:id="@+id/item_message_left_text_time"
+        android:id="@+id/item_message_left_picture_time"
         android:textColor="@color/textColorGray"
         android:gravity="center"
         android:visibility="gone"
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <android.support.v7.widget.CardView
-        android:id="@+id/item_message_left_text_CardView"
+        android:id="@+id/item_message_left_picture_CardView"
         android:layout_below="@+id/item_message_left_text_time"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -25,33 +25,22 @@
         android:layout_marginLeft="6dp"
         android:elevation="0dp">
         <ImageView
-            android:id="@+id/item_message_left_text_head"
+            android:id="@+id/item_message_left_picture_head"
             android:src="@mipmap/head_default"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="top"/>
     </android.support.v7.widget.CardView>
-    <TextView
-        android:text="消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息消息"
-        android:id="@+id/item_message_left_text_tv"
-        android:layout_below="@+id/item_message_left_text_time"
-        android:textSize="20sp"
-        android:maxWidth="220dp"
-        android:padding="15dp"
-        android:background="@drawable/pop_left"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/item_message_left_text_CardView" />
     <ImageView
-        android:id="@+id/item_message_left_text_record"
-        android:visibility="gone"
+        android:id="@+id/item_message_left_picture_image"
         android:layout_centerVertical="true"
-        android:src="@mipmap/record"
-        android:layout_margin="5dp"
-        android:layout_alignRight="@+id/item_message_left_text_tv"
-        android:layout_alignTop="@+id/item_message_left_text_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:src="@mipmap/album"
+        android:padding="2dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/bg_picture"
+        android:layout_toRightOf="@+id/item_message_left_picture_CardView"
+        android:layout_below="@+id/item_message_left_picture_time"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop" />
 </RelativeLayout>

@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.zia.magiccard.Base.BaseFragment;
 import com.zia.magiccard.Presenter.MessagePresenterImp;
-import com.zia.magiccard.Presenter.MessagePresenterPresenter;
+import com.zia.magiccard.Presenter.MessagePresenter;
 import com.zia.magiccard.Presenter.RecyclerViewPresenter;
 import com.zia.magiccard.Presenter.RecyclerViewPresenterImp;
 import com.zia.magiccard.R;
@@ -28,7 +28,7 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
     @Override
     protected void findWidgets() {
         recyclerViewPresenter = new RecyclerViewPresenter(this);
-        messagePresenter = new MessagePresenterPresenter(this);
+        messagePresenter = new MessagePresenter(this);
         recyclerView = $(R.id.message_recycler);
     }
 

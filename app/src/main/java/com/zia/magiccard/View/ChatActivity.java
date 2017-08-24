@@ -1,17 +1,17 @@
 package com.zia.magiccard.View;
 
+import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -22,12 +22,6 @@ import android.widget.TextView;
 
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.im.v2.AVIMClient;
-import com.avos.avoscloud.im.v2.AVIMConversation;
-import com.avos.avoscloud.im.v2.AVIMException;
-import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
-import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
@@ -44,7 +38,6 @@ import com.zia.magiccard.Util.MyRecordButton;
 import com.zia.magiccard.Util.PermissionsUtil;
 import com.zia.magiccard.View.Fragments.RecyclerViewImp;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewImp {
@@ -52,7 +45,7 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     private ChatPresenterImp presenterImp;
     private RecyclerViewPresenterImp recyclerViewPresenter;
     private RecyclerView recyclerView;
-    public static MessageRecyclerAdapter adapter;
+    public static MessageRecyclerAdapter adapter = null;
     public static String currentConversationId = null;
     private EditText editText;
     private Button sendButton;
@@ -62,10 +55,13 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     private RelativeLayout recordLayout;
     private TextView recordHint;
     private Chronometer timer;
+    private ProgressDialog dialog;
     private boolean isRecord = false;
     private static final int PERMISSION_MIC = 0;
-    private static final int PERMISION_DISK = 1;
+    private static final int PERMISSION_DISK = 1;
+    private static final int PERMISSION_CAMERA = 3;
     private static final int PICTURE_CODE = 2;
+    private static final int PICTURE_CAMERA = 4;
 
     @Override
     protected void onCreated() {
@@ -97,24 +93,47 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
                     }
                     isRecord = !isRecord;
                 }
-
             }
         });
         //录音按钮监听
         setRecording();
         setPhoto();
+        setCamera();
+        setProgressDialog();
+    }
+
+    private void setProgressDialog() {
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
+        dialog.setCancelable(true);// 设置是否可以通过点击Back键取消
+        dialog.setCanceledOnTouchOutside(true);// 设置在点击Dialog外是否取消Dialog进度条
+        dialog.setTitle("请等待");
+        dialog.setMessage("正在发送");
+    }
+
+    private void setCamera() {
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(PermissionsUtil.hasCameraPermission(getActivity(),PERMISSION_CAMERA)){
+
+                }
+            }
+        });
     }
 
     private void setPhoto() {
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(PermissionsUtil.hasDiskPermission(getActivity(),PERMISION_DISK)){
+                if(PermissionsUtil.hasDiskPermission(getActivity(), PERMISSION_DISK)){
                     Matisse.from(getActivity())
                             .choose(MimeType.allOf())
+                            .countable(true)
                             .maxSelectable(6)
+                            .theme(R.style.Matisse_PhotoPicker)
                             .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                            .thumbnailScale(0.5f)
+                            .thumbnailScale(0.6f)
                             .imageEngine(new GlideEngine())
                             .forResult(PICTURE_CODE);
                 }
@@ -186,8 +205,8 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     @Override
     protected void onStop() {
         super.onStop();
-        currentConversationId = null;
-        adapter = null;
+//        currentConversationId = null;
+//        adapter = null;
     }
 
     @Override
@@ -218,11 +237,6 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     }
 
     @Override
-    public AVIMClient getAVIMClient() {
-        return client;
-    }
-
-    @Override
     public MessageRecyclerAdapter getMessageAdapter() {
         return adapter;
     }
@@ -230,6 +244,11 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     @Override
     public RecyclerView getRecyclerView() {
         return recyclerView;
+    }
+
+    @Override
+    public ProgressDialog getDialog() {
+        return dialog;
     }
 
     @Override
@@ -248,7 +267,7 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
                     toast("没有录音权限");
                 }
                 break;
-            case PERMISION_DISK:
+            case PERMISSION_DISK:
                 if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
                 }else{
@@ -258,12 +277,40 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
         }
     }
 
+    private String getRealFilePath(final Uri uri ) {
+        if ( null == uri ) return null;
+        final String scheme = uri.getScheme();
+        String data = null;
+        if ( scheme == null )
+            data = uri.getPath();
+        else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+            data = uri.getPath();
+        } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
+            Cursor cursor = getContentResolver().query( uri, new String[] { MediaStore.Images.ImageColumns.DATA }, null, null, null );
+            if ( null != cursor ) {
+                if ( cursor.moveToFirst() ) {
+                    int index = cursor.getColumnIndex( MediaStore.Images.ImageColumns.DATA );
+                    if ( index > -1 ) {
+                        data = cursor.getString( index );
+                    }
+                }
+                cursor.close();
+            }
+        }
+        return data;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICTURE_CODE && resultCode == RESULT_OK) {
             List<Uri> mSelected = Matisse.obtainResult(data);
-            Log.d("Matisse", "mSelected: " + mSelected);
+            Log.d("Matisse", "mSelected: " + mSelected.get(0).getPath());
+            for (Uri uri : mSelected){
+                String path = getRealFilePath(uri);
+                Log.d("path:", path);
+                presenterImp.sendPicture(path);
+            }
         }
     }
 }

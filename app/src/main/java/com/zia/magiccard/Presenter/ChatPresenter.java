@@ -115,7 +115,6 @@ public class ChatPresenter implements ChatPresenterImp {
 
     @Override
     public void sendAudio(final TextView hintView) {
-        //if(bytes == null) return;
         if(imp.getConversationData() != null){
             modelImp.sendAudioMessage(null, imp.getConversationData(), new AVIMConversationCallback() {
                 @Override
@@ -140,6 +139,42 @@ public class ChatPresenter implements ChatPresenterImp {
                             @Override
                             public void run() {
                                 hintView.setText("发送成功");
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void sendPicture(String path) {
+        if(path == null || path.isEmpty()) return;
+        imp.getDialog().show();
+        if(imp.getConversationData() != null){
+            modelImp.sendPictureMessage(path, imp.getConversationData(), new AVIMConversationCallback() {
+                @Override
+                public void done(AVIMException e) {
+                    if(e == null){
+                        imp.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imp.getDialog().hide();
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        if(imp.getUserData() != null){
+            modelImp.sendAudioMessage(null, imp.getUserData(), new AVIMConversationCallback() {
+                @Override
+                public void done(AVIMException e) {
+                    if(e == null){
+                        imp.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imp.getDialog().hide();
                             }
                         });
                     }
