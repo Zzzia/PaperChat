@@ -38,7 +38,7 @@ public class ChangeModel {
         FileOutputStream foutput = null;
         String imagePath = null;
         try {
-            File appDir = new File(Environment.getExternalStorageDirectory(), "MagicCard");
+            File appDir = new File(Environment.getExternalStorageDirectory(), "PaperChat");
             if (!appDir.exists()) {
                 appDir.mkdir();
             }

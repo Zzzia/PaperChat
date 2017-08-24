@@ -167,7 +167,43 @@ public class ChatPresenter implements ChatPresenterImp {
             });
         }
         if(imp.getUserData() != null){
-            modelImp.sendAudioMessage(null, imp.getUserData(), new AVIMConversationCallback() {
+            modelImp.sendPictureMessage(path, imp.getUserData(), new AVIMConversationCallback() {
+                @Override
+                public void done(AVIMException e) {
+                    if(e == null){
+                        imp.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imp.getDialog().hide();
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void sendVideo(String path) {
+        if(path == null || path.isEmpty()) return;
+        imp.getDialog().show();
+        if(imp.getConversationData() != null){
+            modelImp.sendVideoMessage(path, imp.getConversationData(), new AVIMConversationCallback() {
+                @Override
+                public void done(AVIMException e) {
+                    if(e == null){
+                        imp.getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                imp.getDialog().hide();
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        if(imp.getUserData() != null){
+            modelImp.sendVideoMessage(path, imp.getUserData(), new AVIMConversationCallback() {
                 @Override
                 public void done(AVIMException e) {
                     if(e == null){

@@ -16,6 +16,7 @@ public class MessageData implements Serializable {
     private String headUrl;
     private String audioUrl;
     private String photoUrl;
+    private String VideoUrl;
 
     @Override
     public String toString() {
@@ -25,7 +26,16 @@ public class MessageData implements Serializable {
                 +"nickname : "+nickname+"\n"
                 +"headUrl :"+headUrl+"\n"
                 +"time :"+time+"\n"
-                +"photoUrl :"+photoUrl+"\n";
+                +"photoUrl :"+photoUrl+"\n"
+                +"VideoUrl :"+VideoUrl+"\n";
+    }
+
+    public String getVideoUrl() {
+        return VideoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        VideoUrl = videoUrl;
     }
 
     public String getPhotoUrl() {

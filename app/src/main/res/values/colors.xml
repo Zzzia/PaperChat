@@ -9,4 +9,5 @@
     <color name="colorPressed">#28534540</color>
     <color name="textColorGray">#929092</color>
     <color name="salmonRed">#FA8072</color>
+    <color name="black">#000000</color>
 </resources>

@@ -15,4 +15,7 @@ public interface ChatModelImp {
     void sendAudioMessage(byte[] bytes, UserData userData,AVIMConversationCallback avimConversationCallback);
     void sendPictureMessage(String path, ConversationData conversationData,AVIMConversationCallback avimConversationCallback);
     void sendPictureMessage(String path, UserData userData,AVIMConversationCallback avimConversationCallback);
+    //照片路径为默认
+    void sendVideoMessage(String videoPath, ConversationData conversationData,AVIMConversationCallback avimConversationCallback);
+    void sendVideoMessage(String videoPath, UserData userData,AVIMConversationCallback avimConversationCallback);
 }

@@ -69,7 +69,7 @@ public class ChatModel implements ChatModelImp {
                 messageData.setNickname(MainActivity.userData.getNickname());
                 messageData.setHeadUrl(MainActivity.userData.getHeadUrl());
                 messageData.setContent(text);
-                if(ChatActivity.currentConversationId != null && ChatActivity.currentConversationId.equals(avimConversation.getConversationId())){
+                if(ChatActivity.currentConversationId != null){
                     ChatActivity.adapter.addData(messageData);
                 }
                 //更新conversation列表数据
@@ -191,6 +191,47 @@ public class ChatModel implements ChatModelImp {
         ConversationData conversationData = new ConversationData();
         conversationData.setMembers(getMembersByUser(userData));
         sendPictureMessage(path,conversationData,avimConversationCallback);
+    }
+
+    @Override
+    public void sendVideoMessage(String videoPath, final ConversationData conversationData, final AVIMConversationCallback avimConversationCallback) {
+        MessageUtil.getInstance().sendVideoMessage(videoPath, conversationData, null, new AVIMConversationCreatedCallback() {
+            @Override
+            public void done(AVIMConversation avimConversation, AVIMException e) {
+                int position = ConversationUtil.getPositionByConversationId(avimConversation.getConversationId());
+                if (position != -1) {
+                    MainActivity.conversationList.remove(position);
+                }
+                conversationData.setConversationId(avimConversation.getConversationId());
+                conversationData.setTime(System.currentTimeMillis());
+                conversationData.setLastContent("[视频]");
+                //更新conversation列表数据
+                UserCacheUtil.getInstance().getUserDataAsyncByMember(conversationData.getMembers(), new UserCacheUtil.OnUserDataGet() {
+                    @Override
+                    public void onUserFind(UserData userData) {
+                        conversationData.setName(userData.getNickname());
+                        conversationData.setImageUrl(userData.getHeadUrl());
+                        MainActivity.conversationList.add(conversationData);
+                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
+                        CollectionUtil.swap(MainActivity.conversationList, MainActivity.conversationList.size() - 1, 0);
+                    }
+                });
+            }
+        }, new AVIMConversationCallback() {
+            @Override
+            public void done(AVIMException e) {
+                avimConversationCallback.done(e);
+                //上传完成后刷新recycler
+                ChatActivity.adapter.freshData();
+            }
+        });
+    }
+
+    @Override
+    public void sendVideoMessage(String videoPath, UserData userData, AVIMConversationCallback avimConversationCallback) {
+        ConversationData conversationData = new ConversationData();
+        conversationData.setMembers(getMembersByUser(userData));
+        sendVideoMessage(videoPath,conversationData,avimConversationCallback);
     }
 
 

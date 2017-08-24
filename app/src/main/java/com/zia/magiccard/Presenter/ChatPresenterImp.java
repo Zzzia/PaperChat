@@ -13,4 +13,5 @@ public interface ChatPresenterImp {
     void initData();
     void sendAudio(TextView hintView);
     void sendPicture(String path);
+    void sendVideo(String path);
 }

@@ -15,7 +15,7 @@
         <!-- 背景颜色 与共享相关 -->
         <item name="android:windowBackground">@color/colorTranslate</item>
         <!-- 底部栏颜色 -->
-        <item name="android:navigationBarColor">@color/colorTranslate</item>
+        <item name="android:navigationBarColor">@color/black</item>
         <!-- ListView的分割线颜色，switch滑动区域色-->
         <item name="android:colorForeground">@color/colorPrimary</item>
         <!-- popMenu的背景色 -->
@@ -58,7 +58,7 @@
         <item name="page.bg">@color/zhihu_page_bg</item>
         <item name="bottomToolbar.bg">@color/zhihu_bottom_toolbar_bg</item>
         <item name="bottomToolbar.preview.color">@color/zhihu_bottom_toolbar_preview</item>
-        <item name="bottomToolbar.apply.color">@color/colorPrimary</item>
+        <item name="bottomToolbar.apply.color">@color/zhihu_bottom_toolbar_apply</item>
         <item name="listPopupWindowStyle">@style/Popup.Zhihu</item>
         <item name="capture.color">@color/zhihu_capture</item>
     </style>

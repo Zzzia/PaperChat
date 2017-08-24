@@ -42,6 +42,7 @@ import java.util.List;
 
 public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewImp {
 
+    private static final String TAG = "ChatActivityTest";
     private ChatPresenterImp presenterImp;
     private RecyclerViewPresenterImp recyclerViewPresenter;
     private RecyclerView recyclerView;
@@ -49,7 +50,6 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     public static String currentConversationId = null;
     private EditText editText;
     private Button sendButton;
-    private AVIMClient client;
     private ImageView record,photo,camera;
     private MyRecordButton recording;
     private RelativeLayout recordLayout;
@@ -62,6 +62,7 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     private static final int PERMISSION_CAMERA = 3;
     private static final int PICTURE_CODE = 2;
     private static final int PICTURE_CAMERA = 4;
+    private static final int FOR_RESULT = 5;
 
     @Override
     protected void onCreated() {
@@ -115,8 +116,10 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(PermissionsUtil.hasCameraPermission(getActivity(),PERMISSION_CAMERA)){
-
+                if(PermissionsUtil.hasCameraPermission(getActivity(),PERMISSION_CAMERA)
+                && PermissionsUtil.hasMicPermission(getActivity(),PERMISSION_MIC)){
+                    Intent intent = new Intent(getActivity(),CameraActivity.class);
+                    startActivityForResult(intent, FOR_RESULT);
                 }
             }
         });
@@ -199,7 +202,6 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
         recording = $(R.id.chat_recording);
         recordHint = $(R.id.chat_extra_hint);
         timer = $(R.id.chat_extra_timer);
-        client = AVIMClient.getInstance(AVUser.getCurrentUser());
     }
 
     @Override
@@ -310,6 +312,15 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
                 String path = getRealFilePath(uri);
                 Log.d("path:", path);
                 presenterImp.sendPicture(path);
+            }
+        }
+
+        if(requestCode == FOR_RESULT && resultCode == RESULT_OK){
+            String photoPath = data.getStringExtra("photo");
+            if(data.getStringExtra("videoPath") != null){
+                presenterImp.sendVideo(data.getStringExtra("videoPath"));
+            }else{
+                presenterImp.sendPicture(photoPath);
             }
         }
     }

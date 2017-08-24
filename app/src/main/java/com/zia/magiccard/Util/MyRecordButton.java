@@ -65,7 +65,7 @@ public class MyRecordButton extends android.support.v7.widget.AppCompatImageView
             case MotionEvent.ACTION_DOWN:
                 Log.e("record", "开始录音");
                 recordListener.onBegin();
-                File appDir = new File(Environment.getExternalStorageDirectory(), "MagicCard");
+                File appDir = new File(Environment.getExternalStorageDirectory(), "PaperChat");
                 if (!appDir.exists()) {
                     appDir.mkdir();
                 }

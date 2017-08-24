@@ -10,6 +10,11 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <!-- 基础模块 END -->
     <application
@@ -54,7 +59,8 @@
         <activity android:name=".View.SearchActivity" />
         <activity android:name=".View.ChangeActivity" />
         <activity android:name=".View.AddFriendActivity" />
-        <activity android:name=".View.CameraActivity"></activity>
+        <activity android:name=".View.CameraActivity" />
+        <activity android:name=".View.VideoActivity"></activity>
     </application>
 
 </manifest>

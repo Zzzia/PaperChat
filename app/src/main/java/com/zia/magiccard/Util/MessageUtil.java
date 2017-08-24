@@ -1,6 +1,7 @@
 package com.zia.magiccard.Util;
 
 import android.os.Environment;
+import android.util.Log;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
@@ -15,6 +16,7 @@ import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.avos.avoscloud.im.v2.messages.AVIMAudioMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMImageMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
+import com.avos.avoscloud.im.v2.messages.AVIMVideoMessage;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.UserData;
 
@@ -23,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +79,7 @@ public class MessageUtil {
             public void done(final AVIMConversation avimConversation, AVIMException e) {
                 if(e != null) e.printStackTrace();
                 avimConversationCreatedCallback.done(avimConversation,e);
-                File appDir = new File(Environment.getExternalStorageDirectory(), "MagicCard");
+                File appDir = new File(Environment.getExternalStorageDirectory(), "PaperChat");
                 AVFile avFile = null;
                 try {
                     avFile = AVFile.withAbsoluteLocalPath("record.pcm",appDir.getPath()+"/record.pcm");
@@ -129,6 +132,65 @@ public class MessageUtil {
                 }
             }
         });
+    }
+
+    /**
+     *
+     * @param path
+     * @param members
+     * @param conversationName
+     * @param map
+     * @param avimConversationCreatedCallback
+     * @param avimConversationCallback
+     */
+    private void vMessage(final String path, List<String> members, String conversationName, final Map<String,Object> map,
+                          final AVIMConversationCreatedCallback avimConversationCreatedCallback,
+                          final AVIMConversationCallback avimConversationCallback){
+        client.createConversation(members, conversationName, map, false, true, new AVIMConversationCreatedCallback() {
+            @Override
+            public void done(final AVIMConversation avimConversation, AVIMException e) {
+                if(e != null) e.printStackTrace();
+                avimConversationCreatedCallback.done(avimConversation,e);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            File appDir = new File(Environment.getExternalStorageDirectory(), "PaperChat");
+                            final AVFile video = AVFile.withAbsoluteLocalPath("video.mp4",path);
+                            Log.e(TAG,appDir.getPath()+"/PaperChat/photo/picture.jpg");
+                            final AVFile pic = AVFile.withAbsoluteLocalPath("photo.jpg",appDir.getPath()+"/photo/picture.jpg");
+                            pic.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(AVException e) {
+                                    AVIMVideoMessage videoMessage = new AVIMVideoMessage(video);
+                                    Map < String, Object > attributes = new HashMap < String, Object > ();
+                                    Log.e(TAG,"sendPhotoUrl:"+pic.getUrl());
+                                    attributes.put("photoUrl",pic.getUrl());
+                                    videoMessage.setAttrs(attributes);
+                                    avimConversation.sendMessage(videoMessage, new AVIMConversationCallback() {
+                                        @Override
+                                        public void done(AVIMException e) {
+                                            if(e != null) e.printStackTrace();
+                                            avimConversationCallback.done(e);
+                                        }
+                                    });
+                                }
+                            });
+
+                        } catch (FileNotFoundException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }).start();
+            }
+        });
+    }
+
+    public void sendVideoMessage(final String path, ConversationData conversationData, final Map<String,Object> map,
+                                 final AVIMConversationCreatedCallback avimConversationCreatedCallback,
+                                 final AVIMConversationCallback avimConversationCallback){
+        String name = getNameFromMembers(conversationData.getMembers());
+        vMessage(path,conversationData.getMembers(),name,map,avimConversationCreatedCallback,avimConversationCallback);
     }
 
     public void sendPhotoMessage(final String path, ConversationData conversationData, final Map<String,Object> map,

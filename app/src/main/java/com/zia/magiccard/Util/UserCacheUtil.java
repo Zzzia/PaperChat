@@ -74,7 +74,7 @@ public class UserCacheUtil {
      * @param userId
      * @param onUserDataGet
      */
-    private void getUserDataAsync(String userId, final OnUserDataGet onUserDataGet){
+    public void getUserDataAsync(String userId, final OnUserDataGet onUserDataGet){
         AVQuery<AVUser> query = new AVQuery<AVUser>("_User");
         query.getInBackground(userId, new GetCallback<AVUser>() {
             @Override
