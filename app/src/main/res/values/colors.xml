@@ -10,4 +10,5 @@
     <color name="textColorGray">#929092</color>
     <color name="salmonRed">#FA8072</color>
     <color name="black">#000000</color>
+    <color name="split">#d9d9d9</color>
 </resources>

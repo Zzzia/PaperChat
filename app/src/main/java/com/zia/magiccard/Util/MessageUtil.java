@@ -295,6 +295,17 @@ public class MessageUtil {
                 conversationCreatedCallback);
     }
 
+    /**
+     * 通过conversation建立对话
+     * @param conversationData
+     * @param conversationCreatedCallback
+     */
+    public void createConversation(ConversationData conversationData,AVIMConversationCreatedCallback conversationCreatedCallback){
+        client.createConversation(conversationData.getMembers(),
+                getNameFromMembers(conversationData.getMembers()),null,
+                false,true,conversationCreatedCallback);
+    }
+
     public void getLastContent(String conversationId){
         client.getConversation(conversationId).getLastMessage();
     }

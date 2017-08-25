@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="50dp">
+    <ImageView
+        android:id="@+id/item_choose_select"
+        android:src="@mipmap/select"
+        android:layout_margin="10dp"
+        android:layout_centerVertical="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/item_choose_selected"
+        android:src="@mipmap/selected"
+        android:layout_margin="10dp"
+        android:layout_centerVertical="true"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_toRightOf="@+id/item_choose_select"
+        android:id="@+id/item_choose_head"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerVertical="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+    <TextView
+        android:text="zia"
+        android:id="@+id/item_choose_nickname"
+        android:textSize="20sp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/item_choose_head"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -479,7 +479,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     Glide.with(context).load(messageData.getHeadUrl()).into(rightVideoHolder.head);
                 }
                 //时间超过三分钟，显示时间
-                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 1).getTime())/(60*1000)) > 3)
+                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 2).getTime())/(60*1000)) > 3)
                         || position == 1){
                     rightVideoHolder.time.setVisibility(View.VISIBLE);
                     rightVideoHolder.time.setText(TimeUtil.getDateString(messageData.getTime()));

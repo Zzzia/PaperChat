@@ -98,10 +98,15 @@ public class ChatPresenter implements ChatPresenterImp {
     public void initData() {
         if(imp.getConversationData() != null){
             Log.d(TAG,"conversationId:"+imp.getConversationData().getConversationId());
-            MessageUtil.getInstance().getClient().getConversation(imp.getConversationData().getConversationId()).read();
-            MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
-            ChatActivity.currentConversationId = imp.getConversationData().getConversationId();
-            imp.getMessageAdapter().freshData();
+            MessageUtil.getInstance().createConversation(imp.getConversationData(), new AVIMConversationCreatedCallback() {
+                @Override
+                public void done(AVIMConversation avimConversation, AVIMException e) {
+                    avimConversation.read();
+                    MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
+                    ChatActivity.currentConversationId = avimConversation.getConversationId();
+                    imp.getMessageAdapter().freshData();
+                }
+            });
         }
         if(imp.getUserData() != null){
             MessageUtil.getInstance().createConversation(imp.getUserData(), new AVIMConversationCreatedCallback() {

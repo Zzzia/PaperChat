@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MagicCard</string>
+    <string name="app_name">PaperChat</string>
     <string name="page_main">消息</string>
     <string name="page_friend">联系人</string>
     <string name="page_me">设置</string>

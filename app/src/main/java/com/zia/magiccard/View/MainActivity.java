@@ -3,6 +3,7 @@ package com.zia.magiccard.View;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.avos.avoscloud.AVInstallation;
 import com.roughike.bottombar.BottomBar;
@@ -26,6 +27,7 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     private ViewPager viewPager;
     private MainPresenterImp presenterImp;
     private ImageView titleImage;
+    private LinearLayout root;
     //消息界面的变量
     public static List<ConversationData> conversationList = new ArrayList<>();
     public static ConversationRecyclerAdapter conversationRecyclerAdapter;
@@ -68,6 +70,7 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
         bottomBar = $(R.id.main_bottomBar);
         viewPager = $(R.id.main_viewPager);
         titleImage = $(R.id.toolbar_right);
+        root = $(R.id.main_root);
     }
 
     @Override
@@ -98,5 +101,10 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     @Override
     public ImageView getToolbarImage() {
         return titleImage;
+    }
+
+    @Override
+    public LinearLayout getRoot() {
+        return root;
     }
 }

@@ -48,7 +48,7 @@ public class ClassifyRecyclerAdapter extends RecyclerView.Adapter<ClassifyRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(context,GroupActivity.class);
@@ -56,7 +56,7 @@ public class ClassifyRecyclerAdapter extends RecyclerView.Adapter<ClassifyRecycl
                     PageUtil.gotoPageWithCard(context, view, intent);
                 }
             });
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 new AlertDialog.Builder(context).setTitle("提示").setMessage("是否删除该分组？\n好友将转移到我的好友列表")
@@ -86,12 +86,10 @@ public class ClassifyRecyclerAdapter extends RecyclerView.Adapter<ClassifyRecycl
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView gourp;
-        CardView cardView;
 
         ViewHolder(View itemView) {
             super(itemView);
             gourp = itemView.findViewById(R.id.item_friend_group);
-            cardView = itemView.findViewById(R.id.item_friend_card);
         }
     }
 }

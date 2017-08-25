@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:orientation="vertical"
+    android:id="@+id/main_root"
     tools:context="com.zia.magiccard.View.MainActivity">
 
     <include layout="@layout/toolbar" />

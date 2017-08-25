@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_friend_card"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="0dp"
-    app:cardCornerRadius="0dp"
+    android:layout_height="55dp"
     app:cardBackgroundColor="@color/paperWhite">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <ImageView
+            android:id="@+id/item_class_logo"
             android:src="@mipmap/right"
             android:layout_marginLeft="10dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="23dp"
+            android:layout_centerVertical="true"
+            android:layout_height="23dp"
             android:layout_gravity="center"/>
         <TextView
             android:id="@+id/item_friend_group"
             android:layout_width="match_parent"
+            android:layout_toRightOf="@+id/item_class_logo"
             android:layout_height="wrap_content"
             android:textColor="@color/textColor"
             android:layout_gravity="center"
@@ -27,5 +25,4 @@
             android:padding="15dp"
             android:text="我的好友"
             android:textSize="20sp" />
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+</RelativeLayout>

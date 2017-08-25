@@ -25,7 +25,8 @@ public class ConversationData implements Serializable {
                 +"lastContent: "+lastContent+"\n"
                 +"imageUrl: "+imageUrl+"\n"
                 +"time: "+time+"\n"
-                +"unreadCount: "+unreadCount+"\n";
+                +"unreadCount: "+unreadCount+"\n"
+                +"userCount: "+members.size()+"\n";
     }
 
     public int getUnreadCount() {
