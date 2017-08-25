@@ -57,7 +57,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="退出登录"
-        android:textColor="#ff3399"
+        android:textColor="@color/colorPrimary"
         android:textSize="20sp" />
 
 </LinearLayout>

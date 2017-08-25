@@ -1,5 +1,6 @@
 package com.zia.magiccard.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -56,15 +57,6 @@ public class ConversationRecyclerAdapter extends RecyclerView.Adapter<Conversati
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final ConversationData conversationData = messageList.get(position);
         holder.name.setText(conversationData.getName());
-        if(conversationData.getMembers().size() > 2){
-            String name = "";
-            for(int i=0;i<3;i++){
-                name += conversationData.getMembers().get(i);
-                if(i != 2) name += "、";
-                if(i == 2) name  = name + "等" + conversationData.getMembers().size() + "人";
-            }
-            holder.name.setText(name);
-        }
         holder.content.setText(conversationData.getLastContent());
         holder.time.setText(TimeUtil.getDateString(conversationData.getTime()));
         //两个人对话
@@ -72,8 +64,38 @@ public class ConversationRecyclerAdapter extends RecyclerView.Adapter<Conversati
             Glide.with(context).load(conversationData.getImageUrl()).into(holder.headImage);
         }
         //群聊
-        if(conversationData.getMembers().size() >= 2){
+        if(conversationData.getMembers().size() > 2){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    String name = "";
+                    for(int i=0;i<3;i++){
+                        try {
+                            UserData userData = UserCacheUtil.getInstance().getUserDataById(conversationData.getMembers().get(i));
+                            name += userData.getNickname();
+                            if(i != 2) name += "、";
 
+                            if(i == 2) {
+                                if(conversationData.getMembers().size() > 3){
+                                    name  = name + "等" + conversationData.getMembers().size() + "人的聊天";
+                                }else{
+                                    name  = name + "的聊天";
+                                }
+                            }
+                        } catch (AVException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    final String finalName = name;
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            holder.name.setText(finalName);
+                            Glide.with(context).load(R.mipmap.group).into(holder.headImage);
+                        }
+                    });
+                }
+            }).start();
         }
         holder.unread.setText(conversationData.getUnreadCount()+"");
         if(conversationData.getUnreadCount() != 0){

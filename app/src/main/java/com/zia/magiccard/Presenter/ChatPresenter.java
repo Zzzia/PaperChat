@@ -102,6 +102,8 @@ public class ChatPresenter implements ChatPresenterImp {
                 @Override
                 public void done(AVIMConversation avimConversation, AVIMException e) {
                     avimConversation.read();
+                    if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
+                    else imp.getMessageAdapter().setIsGroup(false);
                     MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
                     ChatActivity.currentConversationId = avimConversation.getConversationId();
                     imp.getMessageAdapter().freshData();
@@ -113,6 +115,8 @@ public class ChatPresenter implements ChatPresenterImp {
                 @Override
                 public void done(AVIMConversation avimConversation, AVIMException e) {
                     avimConversation.read();
+                    if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
+                    else imp.getMessageAdapter().setIsGroup(false);
                     MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
                     Log.d(TAG,"conversationId:"+avimConversation.getConversationId());
                     ChatActivity.currentConversationId = avimConversation.getConversationId();

@@ -5,12 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.zia.magiccard.View.Fragments.ConversationFragment"
     android:background="@color/paperWhite">
-
         <com.zia.magiccard.Util.MyRecyclerView
             android:id="@+id/message_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
         </com.zia.magiccard.Util.MyRecyclerView>
-
 </FrameLayout>

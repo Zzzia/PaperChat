@@ -60,7 +60,8 @@
         <activity android:name=".View.ChangeActivity" />
         <activity android:name=".View.AddFriendActivity" />
         <activity android:name=".View.CameraActivity" />
-        <activity android:name=".View.VideoActivity"></activity>
+        <activity android:name=".View.VideoActivity" />
+        <activity android:name=".View.PhotoActivity"></activity>
     </application>
 
 </manifest>

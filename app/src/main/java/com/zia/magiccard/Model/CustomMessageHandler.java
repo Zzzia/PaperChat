@@ -69,6 +69,7 @@ public class CustomMessageHandler extends AVIMMessageHandler {
             conversation.read();
         }
         conversationData.setMembers(conversation.getMembers());
+        Log.e("从服务器上获取对话人数:",conversation.getMembers().size()+"");
         conversationData.setTime(System.currentTimeMillis());
         conversationData.setConversationId(conversation.getConversationId());
         //删除原有对话

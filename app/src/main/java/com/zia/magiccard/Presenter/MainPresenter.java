@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVUser;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 import com.zia.magiccard.Adapter.ChooseAdapter;
@@ -134,11 +135,13 @@ public class MainPresenter implements MainPresenterImp {
                                                 for(UserData userData : adapter.getSelecteds()){
                                                     members.add(userData.getObjectId());
                                                 }
+                                                members.add(AVUser.getCurrentUser().getObjectId());
                                                 Log.e("select",members.toString());
                                                 conversationData.setMembers(members);
                                                 Intent intent = new Intent(activityImp.getActivity(), ChatActivity.class);
                                                 intent.putExtra("conversationData",conversationData);
                                                 PageUtil.gotoPageWithCard(activityImp.getActivity(),selector.getContentView(),intent);
+                                                selector.dismiss();
                                             }
                                         });
                                         selector.setFocusable(true);
@@ -162,7 +165,7 @@ public class MainPresenter implements MainPresenterImp {
                                 window.setBackgroundDrawable(new ColorDrawable(0));//背景透明
                                 window.setContentView(R.layout.classify_dialog);
                                 final EditText editText = window.findViewById(R.id.classify_dialog_edit);
-                                Button button = window.findViewById(R.id.classify_dialog_button);
+                                TextView button = window.findViewById(R.id.classify_dialog_button);
                                 button.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {

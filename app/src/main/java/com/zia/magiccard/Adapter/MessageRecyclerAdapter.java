@@ -43,6 +43,7 @@ import com.zia.magiccard.Util.UserUtil;
 import com.zia.magiccard.View.AddFriendActivity;
 import com.zia.magiccard.View.ChatActivity;
 import com.zia.magiccard.View.MainActivity;
+import com.zia.magiccard.View.PhotoActivity;
 import com.zia.magiccard.View.VideoActivity;
 
 import java.io.InputStream;
@@ -82,12 +83,17 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private RecyclerView recyclerView = null;
     private boolean isPlaying = false;//录音
     private AudioPlayer audioPlayer;
-    private boolean isPlay = false;//视频
+    private boolean isGroup = false;
 
 
     public MessageRecyclerAdapter(Context context){
         this.context = context;
         messageDataList = new ArrayList<>();
+    }
+
+    //设置是否为群聊
+    public void setIsGroup(boolean t){
+        isGroup = t;
     }
 
     private interface OnDataFreshed{
@@ -305,7 +311,6 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                     recyclerView.scrollToPosition(15);
                                 }
                                 ((HeadHolder) holder).textView.setText("点击加载更多");
-
                             }
                         });
                     }
@@ -336,10 +341,14 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 if(messageData.getHeadUrl() != null){
                     Glide.with(context).load(messageData.getHeadUrl()).into(leftTextHolder.head);
                 }
-                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 1).getTime())/(60*1000)) > 3)
+                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 2).getTime())/(60*1000)) > 3)
                         || position == 1){
                     leftTextHolder.time.setVisibility(View.VISIBLE);
                     leftTextHolder.time.setText(TimeUtil.getDateString(messageData.getTime()));
+                }
+                if(isGroup){
+                    leftTextHolder.nickname.setVisibility(View.VISIBLE);
+                    leftTextHolder.nickname.setText(messageData.getNickname());
                 }
                 break;
             case TEXT_RIGHT:
@@ -350,7 +359,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     Glide.with(context).load(MainActivity.userData.getHeadUrl()).into(rightTextHolder.head);
                 }
                 //时间超过三分钟，显示时间
-                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 1).getTime())/(60*1000)) > 3)
+                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 2).getTime())/(60*1000)) > 3)
                         || position == 1){
                     rightTextHolder.time.setVisibility(View.VISIBLE);
                     rightTextHolder.time.setText(TimeUtil.getDateString(messageData.getTime()));
@@ -364,7 +373,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     Glide.with(context).load(MainActivity.userData.getHeadUrl()).into(rightTextHolder.head);
                 }
                 //时间超过三分钟，显示时间
-                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 1).getTime())/(60*1000)) > 3)
+                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 2).getTime())/(60*1000)) > 3)
                         || position == 1){
                     rightTextHolder.time.setVisibility(View.VISIBLE);
                     rightTextHolder.time.setText(TimeUtil.getDateString(messageData.getTime()));
@@ -400,7 +409,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     Glide.with(context).load(messageData.getHeadUrl()).into(leftTextHolder.head);
                 }
                 //时间超过三分钟，显示时间
-                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 1).getTime())/(60*1000)) > 3)
+                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 2).getTime())/(60*1000)) > 3)
                         || position == 1){
                     leftTextHolder.time.setVisibility(View.VISIBLE);
                     leftTextHolder.time.setText(TimeUtil.getDateString(messageData.getTime()));
@@ -427,6 +436,10 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         }
                     }
                 });
+                if(isGroup){
+                    leftTextHolder.nickname.setVisibility(View.VISIBLE);
+                    leftTextHolder.nickname.setText(messageData.getNickname());
+                }
                 break;
             case PICTURE_RIGHT:
                 messageData = messageDataList.get(position-1);
@@ -435,7 +448,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     Glide.with(context).load(MainActivity.userData.getHeadUrl()).into(rightPictureHolder.head);
                 }
                 //时间超过三分钟，显示时间
-                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 1).getTime())/(60*1000)) > 3)
+                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 2).getTime())/(60*1000)) > 3)
                         || position == 1){
                     rightPictureHolder.time.setVisibility(View.VISIBLE);
                     rightPictureHolder.time.setText(TimeUtil.getDateString(messageData.getTime()));
@@ -446,7 +459,9 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 rightPictureHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Intent intent = new Intent(context, PhotoActivity.class);
+                        intent.putExtra("url",messageData.getPhotoUrl());
+                        PageUtil.gotoPageWithCard(context,view,intent);
                     }
                 });
                 break;
@@ -457,7 +472,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     Glide.with(context).load(messageData.getHeadUrl()).into(leftPictureHolder.head);
                 }
                 //时间超过三分钟，显示时间
-                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 1).getTime())/(60*1000)) > 3)
+                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 2).getTime())/(60*1000)) > 3)
                         || position == 1){
                     leftPictureHolder.time.setVisibility(View.VISIBLE);
                     leftPictureHolder.time.setText(TimeUtil.getDateString(messageData.getTime()));
@@ -468,9 +483,15 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 leftPictureHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Intent intent = new Intent(context, PhotoActivity.class);
+                        intent.putExtra("url",messageData.getPhotoUrl());
+                        PageUtil.gotoPageWithCard(context,view,intent);
                     }
                 });
+                if(isGroup){
+                    leftPictureHolder.nickname.setVisibility(View.VISIBLE);
+                    leftPictureHolder.nickname.setText(messageData.getNickname());
+                }
                 break;
             case VIDEO_RIGHT:
                 messageData = messageDataList.get(position-1);
@@ -513,7 +534,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     Glide.with(context).load(messageData.getHeadUrl()).into(leftVideoHolder.head);
                 }
                 //时间超过三分钟，显示时间
-                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 1).getTime())/(60*1000)) > 3)
+                if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 2).getTime())/(60*1000)) > 3)
                         || position == 1){
                     leftVideoHolder.time.setVisibility(View.VISIBLE);
                     leftVideoHolder.time.setText(TimeUtil.getDateString(messageData.getTime()));
@@ -539,6 +560,10 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         leftVideoHolder.videoView.start();
                     }
                 });
+                if(isGroup){
+                    leftVideoHolder.nickname.setVisibility(View.VISIBLE);
+                    leftVideoHolder.nickname.setText(messageData.getNickname());
+                }
                 break;
 
         }
@@ -559,7 +584,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private class LeftTextHolder extends RecyclerView.ViewHolder {
 
         private ImageView head,record;
-        private TextView time,content;
+        private TextView time,content,nickname;
 
         LeftTextHolder(View itemView) {
             super(itemView);
@@ -567,13 +592,14 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             content = itemView.findViewById(R.id.item_message_left_text_tv);
             time = itemView.findViewById(R.id.item_message_left_text_time);
             record = itemView.findViewById(R.id.item_message_left_text_record);
+            nickname = itemView.findViewById(R.id.item_message_left_text_nickname);
         }
     }
 
     private class RightTextHolder extends  RecyclerView.ViewHolder {
 
         private ImageView head,record;
-        private TextView time,content;
+        private TextView time,content,nickname;
 
         RightTextHolder(View itemView) {
             super(itemView);
@@ -581,6 +607,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             content = itemView.findViewById(R.id.item_message_right_text_tv);
             time = itemView.findViewById(R.id.item_message_right_text_time);
             record = itemView.findViewById(R.id.item_message_right_text_record);
+            nickname = itemView.findViewById(R.id.item_message_right_text_nickname);
         }
     }
 
@@ -597,26 +624,28 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private class LeftPictureHolder extends RecyclerView.ViewHolder {
 
         private ImageView head,image;
-        private TextView time;
+        private TextView time,nickname;
 
         LeftPictureHolder(View itemView) {
             super(itemView);
             head = itemView.findViewById(R.id.item_message_left_picture_head);
             image = itemView.findViewById(R.id.item_message_left_picture_image);
             time = itemView.findViewById(R.id.item_message_left_picture_time);
+            nickname = itemView.findViewById(R.id.item_message_left_picture_nickname);
         }
     }
 
     private class RightPictureHolder extends RecyclerView.ViewHolder {
 
         private ImageView head,image;
-        private TextView time;
+        private TextView time,nickname;
 
         RightPictureHolder(View itemView) {
             super(itemView);
             head = itemView.findViewById(R.id.item_message_right_picture_head);
             image = itemView.findViewById(R.id.item_message_right_picture_image);
             time = itemView.findViewById(R.id.item_message_right_picture_time);
+            nickname = itemView.findViewById(R.id.item_message_right_picture_nickname);
         }
     }
 
@@ -624,7 +653,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         private VideoView videoView;
         private ImageView photo,head,play;
-        private TextView time;
+        private TextView time,nickname;
 
         RightVideoHolder(View itemView) {
             super(itemView);
@@ -633,6 +662,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             photo = itemView.findViewById(R.id.item_message_right_video_photo);
             play = itemView.findViewById(R.id.item_message_right_video_play);
             time = itemView.findViewById(R.id.item_message_right_video_time);
+            nickname = itemView.findViewById(R.id.item_message_right_video_nickname);
         }
     }
 
@@ -640,7 +670,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         private VideoView videoView;
         private ImageView photo,head,play;
-        private TextView time;
+        private TextView time,nickname;
 
         LeftVideoHolder(View itemView) {
             super(itemView);
@@ -649,6 +679,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             photo = itemView.findViewById(R.id.item_message_left_video_photo);
             play = itemView.findViewById(R.id.item_message_left_video_play);
             time = itemView.findViewById(R.id.item_message_left_video_time);
+            nickname = itemView.findViewById(R.id.item_message_left_video_nickname);
         }
     }
 }

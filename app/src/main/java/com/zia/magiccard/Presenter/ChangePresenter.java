@@ -1,6 +1,7 @@
 package com.zia.magiccard.Presenter;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,6 +12,9 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SaveCallback;
 import com.bumptech.glide.Glide;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Model.ChangeModel;
 import com.zia.magiccard.Util.UserUtil;
@@ -37,9 +41,16 @@ public class ChangePresenter implements ChangePresenterImp {
     }
     @Override
     public void sendGetImageIntent(int code) {
-        if(PermissionsUtil.hasDiskPermission(imp.getActivity(), ChangeActivity.GET_DISK_PERMISSION)){//如果有权限才执行
-            Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            imp.getActivity().startActivityForResult(intent,code);
+        if(PermissionsUtil.hasDiskPermission(imp.getActivity(), ChangeActivity.GET_DISK_PERMISSION)){
+            Matisse.from(imp.getActivity())
+                    .choose(MimeType.allOf())
+                    .countable(false)
+                    .maxSelectable(1)
+                    .theme(R.style.Matisse_PhotoPicker)
+                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .thumbnailScale(0.6f)
+                    .imageEngine(new GlideEngine())
+                    .forResult(code);
         }
     }
 

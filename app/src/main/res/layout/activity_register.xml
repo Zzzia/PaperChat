@@ -82,6 +82,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
+                    android:inputType="textPassword"
                     android:hint="@string/password"
                     android:maxEms="15"
                     android:minEms="6"

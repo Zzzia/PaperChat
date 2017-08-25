@@ -12,7 +12,7 @@ public class TimeUtil {
     public static String getDateString(Long date){
         float minutes = (System.currentTimeMillis() - date) / 60000;
         if(minutes < 2){
-            return "刚刚";
+            return "一分钟前";
         }
         else if (minutes >= 2 && minutes <= 60*24){
             DateFormat todayFormat = new SimpleDateFormat("HH:mm");

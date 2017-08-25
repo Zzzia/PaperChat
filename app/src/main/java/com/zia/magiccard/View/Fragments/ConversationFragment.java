@@ -15,6 +15,7 @@ import com.zia.magiccard.Util.MyRecyclerView;
 import com.zia.magiccard.Util.RecyclerItemDivider;
 import com.zia.magiccard.View.MainActivity;
 
+
 /**
  * ----消息界面
  */
