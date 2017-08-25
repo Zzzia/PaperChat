@@ -10,6 +10,7 @@ import com.avos.avoscloud.FindCallback;
 import com.google.gson.Gson;
 import com.zia.magiccard.Bean.ClassifyData;
 import com.zia.magiccard.Bean.ConversationData;
+import com.zia.magiccard.Bean.MarkdownData;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.View.Fragments.FriendFragment;
 import com.zia.magiccard.View.MainActivity;
@@ -58,6 +59,38 @@ public class PullUtil {
                             MainActivity.conversationList.add(conversationData);
                         }
                         MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    e.printStackTrace();
+                    Log.d(TAG, "pullConversationList error!");
+                }
+            }
+        });
+    }
+
+    /**
+     * 拉取markdown数据
+     */
+    public static void pullMarkdownData(){
+        AVQuery<AVObject> avQuery = new AVQuery<>("UserData");
+        avQuery.whereEqualTo("userId", AVUser.getCurrentUser().getObjectId());
+        avQuery.findInBackground(new FindCallback<AVObject>() {
+            @Override
+            public void done(List<AVObject> list, AVException e) {
+                if (e == null) {
+                    if (list.size() == 0) return;
+                    AVObject avObject = list.get(0);
+                    MainActivity.conversationList.clear();
+                    try {
+                        for (int i = 0; i < avObject.getJSONArray("markdownList").length(); i++) {
+                            Log.d(TAG, "i: " + i);
+                            Gson gson = new Gson();
+                            MarkdownData markdownData = gson.fromJson(avObject.getJSONArray("markdownList").get(i).toString(), MarkdownData.class);
+                            Log.d(TAG, markdownData.toString());
+                            MainActivity.markdownDatas.add(markdownData);
+                        }
                     } catch (JSONException e1) {
                         e1.printStackTrace();
                     }

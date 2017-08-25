@@ -10,13 +10,19 @@ import android.net.Uri;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,9 +31,11 @@ import com.avos.avoscloud.im.v2.AVIMClient;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
+import com.zia.magiccard.Adapter.MarkdownChooseAdapter;
 import com.zia.magiccard.Adapter.MessageRecyclerAdapter;
 import com.zia.magiccard.Base.BaseActivity;
 import com.zia.magiccard.Bean.ConversationData;
+import com.zia.magiccard.Bean.MarkdownData;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Presenter.ChatPresenter;
 import com.zia.magiccard.Presenter.ChatPresenterImp;
@@ -35,7 +43,10 @@ import com.zia.magiccard.Presenter.RecyclerViewPresenter;
 import com.zia.magiccard.Presenter.RecyclerViewPresenterImp;
 import com.zia.magiccard.R;
 import com.zia.magiccard.Util.MyRecordButton;
+import com.zia.magiccard.Util.PageUtil;
 import com.zia.magiccard.Util.PermissionsUtil;
+import com.zia.magiccard.Util.PushUtil;
+import com.zia.magiccard.Util.ScreenUtil;
 import com.zia.magiccard.View.Fragments.RecyclerViewImp;
 
 import java.util.List;
@@ -48,9 +59,11 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     private RecyclerView recyclerView;
     public static MessageRecyclerAdapter adapter = null;
     public static String currentConversationId = null;
+    private CardView cardView;
     private EditText editText;
     private Button sendButton;
-    private ImageView record,photo,camera;
+    private LinearLayout rootView;
+    private ImageView record,photo,camera,markdown;
     private MyRecordButton recording;
     private RelativeLayout recordLayout;
     private TextView recordHint;
@@ -63,6 +76,7 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     private static final int PICTURE_CODE = 2;
     private static final int PICTURE_CAMERA = 4;
     private static final int FOR_RESULT = 5;
+    public static final int FOR_MARKDOWN = 6;
 
     @Override
     protected void onCreated() {
@@ -70,6 +84,8 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
         recyclerViewPresenter.setRecyclerView();
         //为adapter设置recycler，接收到消息滑到最下面
         adapter.setRecyclerView(recyclerView);
+
+        adapter.setRootView(rootView);
         //初始化recycler数据
         presenterImp.initData();
         //发送消息
@@ -101,6 +117,45 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
         setPhoto();
         setCamera();
         setProgressDialog();
+        setMarkDown();
+    }
+
+    private void setMarkDown() {
+        markdown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int width = ScreenUtil.bulid(getActivity()).getPxWide();
+                int height = ScreenUtil.bulid(getActivity()).getPxHiget();
+                View pop = LayoutInflater.from(ChatActivity.this).inflate(R.layout.choose_markdown,null);
+                RecyclerView recyclerView = pop.findViewById(R.id.choose_markdown_recycler);
+                TextView write = pop.findViewById(R.id.choose_markdown_new);
+                TextView send = pop.findViewById(R.id.choose_markdown_save);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                final MarkdownChooseAdapter adapter = new MarkdownChooseAdapter(getActivity(),MainActivity.markdownDatas);
+                final PopupWindow popupWindow = new PopupWindow(pop,width/6*5,height/4*3);
+                popupWindow.setFocusable(true);
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.showAtLocation(cardView, Gravity.CENTER,0,0);
+                send.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        List<MarkdownData> markdownDatas = adapter.getSelecteds();
+                        for(MarkdownData markdownData : markdownDatas){
+                            presenterImp.sendMessage(markdownData.getContent());
+                        }
+                        popupWindow.dismiss();
+                    }
+                });
+                write.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(),MarkDownActivity.class);
+                        startActivityForResult(intent,FOR_MARKDOWN);
+                        popupWindow.dismiss();
+                    }
+                });
+            }
+        });
     }
 
     private void setProgressDialog() {
@@ -198,10 +253,13 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
         record = $(R.id.chat_record);
         photo = $(R.id.chat_pick_photo);
         camera = $(R.id.chat_camera);
+        markdown = $(R.id.chat_markdown);
+        cardView = $(R.id.chat_card);
         recordLayout = $(R.id.chat_extra_recordLayout);
         recording = $(R.id.chat_recording);
         recordHint = $(R.id.chat_extra_hint);
         timer = $(R.id.chat_extra_timer);
+        rootView = $(R.id.chat_rootView);
     }
 
     @Override
@@ -321,6 +379,19 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
                 presenterImp.sendVideo(data.getStringExtra("videoPath"));
             }else{
                 presenterImp.sendPicture(photoPath);
+            }
+        }
+
+        if(requestCode == FOR_MARKDOWN && resultCode == RESULT_OK){
+            String markdown = data.getStringExtra("markdown");
+            if(markdown != null){
+                markdown = markdown + "#md";
+                presenterImp.sendMessage(markdown);
+                MarkdownData markdownData = new MarkdownData();
+                markdownData.setTitle("md");
+                markdownData.setContent(markdown);
+                MainActivity.markdownDatas.add(markdownData);
+                PushUtil.pushMarkdownData();
             }
         }
     }

@@ -80,10 +80,44 @@ public class PushUtil {
                         @Override
                         public void done(AVException e) {
                             if(e == null){
-                                Log.d(TAG,"保存Conversations成功！");
+                                Log.d(TAG,"保存ClassifyData成功！");
                             }else{
                                 e.printStackTrace();
-                                Log.d(TAG,"保存Conversations失败！");
+                                Log.d(TAG,"保存ClassifyData失败！");
+                            }
+                        }
+                    });
+                }else{
+                    e.printStackTrace();
+                    Log.d(TAG,"query.findInBackground error!");
+                }
+            }
+        });
+    }
+
+    public static void pushMarkdownData(){
+        AVQuery<AVObject> query = new AVQuery<>("UserData");
+        query.whereEqualTo("userId",AVUser.getCurrentUser().getObjectId());
+        query.findInBackground(new FindCallback<AVObject>() {
+            @Override
+            public void done(List<AVObject> list, AVException e) {
+                if(e == null){
+                    AVObject avObject = null;
+                    if(list.size() == 0){//服务器上没有数据，新建
+                        avObject = new AVObject("UserData");
+                        avObject.put("userId", AVUser.getCurrentUser().getObjectId());
+                    }else{//服务器上有数据，直接更新数据
+                        avObject = list.get(0);
+                    }
+                    avObject.put("markdownList",MainActivity.markdownDatas);
+                    avObject.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(AVException e) {
+                            if(e == null){
+                                Log.d(TAG,"保存markdowns成功！");
+                            }else{
+                                e.printStackTrace();
+                                Log.d(TAG,"保存markdowns失败！");
                             }
                         }
                     });

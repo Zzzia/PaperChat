@@ -19,9 +19,9 @@
     <!-- 基础模块 END -->
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/paper_64"
+        android:icon="@mipmap/markchat"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/paper_64"
+        android:roundIcon="@mipmap/markchat"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -61,7 +61,8 @@
         <activity android:name=".View.AddFriendActivity" />
         <activity android:name=".View.CameraActivity" />
         <activity android:name=".View.VideoActivity" />
-        <activity android:name=".View.PhotoActivity"></activity>
+        <activity android:name=".View.PhotoActivity" />
+        <activity android:name=".View.MarkDownActivity"></activity>
     </application>
 
 </manifest>

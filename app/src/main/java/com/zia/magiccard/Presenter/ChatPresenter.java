@@ -60,6 +60,11 @@ public class ChatPresenter implements ChatPresenterImp {
         if (imp.getEditText().getText() == null) return;
         final String text = imp.getEditText().getText().toString();
         if (text.isEmpty()) return;
+        sendMessage(text);
+    }
+
+    @Override
+    public void sendMessage(String text) {
         final ConversationData conversationData = imp.getConversationData();
         //发送信息
         if (conversationData != null) {
@@ -88,7 +93,6 @@ public class ChatPresenter implements ChatPresenterImp {
         }
         imp.getEditText().setText("");
     }
-
 
 
     /**

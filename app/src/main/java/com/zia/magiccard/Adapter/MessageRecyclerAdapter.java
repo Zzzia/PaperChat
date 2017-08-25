@@ -35,6 +35,7 @@ import com.zia.magiccard.R;
 import com.zia.magiccard.Util.AudioPlayer;
 import com.zia.magiccard.Util.AudioTrackManager;
 import com.zia.magiccard.Util.ConversationUtil;
+import com.zia.magiccard.Util.MarkdownUtil;
 import com.zia.magiccard.Util.MessageUtil;
 import com.zia.magiccard.Util.PageUtil;
 import com.zia.magiccard.Util.TimeUtil;
@@ -45,6 +46,7 @@ import com.zia.magiccard.View.ChatActivity;
 import com.zia.magiccard.View.MainActivity;
 import com.zia.magiccard.View.PhotoActivity;
 import com.zia.magiccard.View.VideoActivity;
+import com.zzhoujay.richtext.RichText;
 
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -84,11 +86,17 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private boolean isPlaying = false;//录音
     private AudioPlayer audioPlayer;
     private boolean isGroup = false;
+    private View rootView = null;
+    private String text = "";
 
 
     public MessageRecyclerAdapter(Context context){
         this.context = context;
         messageDataList = new ArrayList<>();
+    }
+
+    public void setRootView(View view){
+        this.rootView = view;
     }
 
     //设置是否为群聊
@@ -323,7 +331,19 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             case TEXT_LEFT:
                 messageData = messageDataList.get(position-1);
                 LeftTextHolder leftTextHolder = (LeftTextHolder) holder;
-                leftTextHolder.content.setText(messageData.getContent());
+                text = messageData.getContent();
+                if(text.substring(text.length()-3,text.length()).equals("#md")){
+                    RichText.fromMarkdown(text.substring(0,text.length()-3)).into(leftTextHolder.content);
+                    leftTextHolder.content.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Log.e("MessageAdapter","item click");
+                            MarkdownUtil.previewMarkDown(context,rootView,messageData.getContent().substring(0,text.length()-3));
+                        }
+                    });
+                }else{
+                    leftTextHolder.content.setText(messageData.getContent());
+                }
                 //点击头像访问资料
                 leftTextHolder.head.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -354,7 +374,19 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             case TEXT_RIGHT:
                 messageData = messageDataList.get(position-1);
                 RightTextHolder rightTextHolder = (RightTextHolder) holder;
-                rightTextHolder.content.setText(messageData.getContent());
+                text = messageData.getContent();
+                if(text.substring(text.length()-3,text.length()).equals("#md")){
+                    RichText.fromMarkdown(text.substring(0,text.length()-3)).into(rightTextHolder.content);
+                    rightTextHolder.content.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Log.e("MessageAdapter","item click");
+                            MarkdownUtil.previewMarkDown(context,rootView,messageData.getContent().substring(0,text.length()-3));
+                        }
+                    });
+                }else{
+                    rightTextHolder.content.setText(messageData.getContent());
+                }
                 if(MainActivity.userData != null && MainActivity.userData.getHeadUrl() != null){
                     Glide.with(context).load(MainActivity.userData.getHeadUrl()).into(rightTextHolder.head);
                 }
@@ -454,7 +486,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     rightPictureHolder.time.setText(TimeUtil.getDateString(messageData.getTime()));
                 }
                 if(messageData.getPhotoUrl() != null){
-                    Glide.with(context).load(messageData.getPhotoUrl()).into(rightPictureHolder.image);
+                    Glide.with(context).load(messageData.getPhotoUrl()).override(150,200).into(rightPictureHolder.image);
                 }
                 rightPictureHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -469,7 +501,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 messageData = messageDataList.get(position-1);
                 LeftPictureHolder leftPictureHolder = (LeftPictureHolder) holder;
                 if(messageData.getHeadUrl() != null){
-                    Glide.with(context).load(messageData.getHeadUrl()).into(leftPictureHolder.head);
+                    Glide.with(context).load(messageData.getHeadUrl()).override(150,200).into(leftPictureHolder.head);
                 }
                 //时间超过三分钟，显示时间
                 if((position >=2 && (float)((messageData.getTime() - messageDataList.get(position - 2).getTime())/(60*1000)) > 3)
@@ -506,7 +538,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     rightVideoHolder.time.setText(TimeUtil.getDateString(messageData.getTime()));
                 }
                 if(messageData.getPhotoUrl() != null){
-                    Glide.with(context).load(messageData.getPhotoUrl()).into(rightVideoHolder.photo);
+                    Glide.with(context).load(messageData.getPhotoUrl()).override(180,280).into(rightVideoHolder.photo);
                 }
                 rightVideoHolder.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -540,7 +572,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     leftVideoHolder.time.setText(TimeUtil.getDateString(messageData.getTime()));
                 }
                 if(messageData.getPhotoUrl() != null){
-                    Glide.with(context).load(messageData.getPhotoUrl()).into(leftVideoHolder.photo);
+                    Glide.with(context).load(messageData.getPhotoUrl()).override(180,280).into(leftVideoHolder.photo);
                 }
                 leftVideoHolder.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override

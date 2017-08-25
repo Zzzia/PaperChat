@@ -125,7 +125,7 @@ public class MainPresenter implements MainPresenterImp {
                                         int height = ScreenUtil.bulid(activityImp.getActivity()).getPxHiget();
                                         final ChooseAdapter adapter = new ChooseAdapter(activityImp.getActivity(),userDataList);
                                         recyclerView.setAdapter(adapter);
-                                        final PopupWindow selector = new PopupWindow(v,width/4*3,height/4*3);
+                                        final PopupWindow selector = new PopupWindow(v,width/6*5,height/4*3);
                                         TextView textView = v.findViewById(R.id.choose_friends_save);
                                         textView.setOnClickListener(new View.OnClickListener() {
                                             @Override

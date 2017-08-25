@@ -18,8 +18,8 @@
             android:layout_margin="10dp"
             android:gravity="center"
             android:text="创建群聊"
-            android:textColor="@color/textColor"
-            android:textSize="20sp" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/choose_friends_save"
@@ -28,7 +28,7 @@
             android:layout_alignParentRight="true"
             android:layout_margin="10dp"
             android:text="发起"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <android.support.v7.widget.RecyclerView
             android:layout_margin="10dp"

@@ -10,6 +10,7 @@ import com.avos.avoscloud.im.v2.AVIMClient;
 
 public interface ChatPresenterImp {
     void sendMessage();
+    void sendMessage(String text);
     void initData();
     void sendAudio(TextView hintView);
     void sendPicture(String path);

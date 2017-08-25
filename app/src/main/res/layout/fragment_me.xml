@@ -50,14 +50,39 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/me_markdown"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_search"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/markdown"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/me_help"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_search"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="@string/help"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
         android:id="@+id/me_login_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_search"
         android:gravity="center"
         android:padding="5dp"
-        android:text="退出登录"
+        android:text="@string/login_out"
         android:textColor="@color/colorPrimary"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>

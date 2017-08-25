@@ -2,9 +2,9 @@
 <resources>
     <color name="colorPrimary">#7ec4bb</color>
     <color name="colorPrimaryDark">#eccd9a</color>
-    <color name="colorAccent">#3b413d</color>
+    <color name="colorAccent">#7ec4bb</color>
     <color name="colorTranslate">#00000000</color>
-    <color name="paperWhite">#efefef</color>
+    <color name="paperWhite">#f9f9f9</color>
     <color name="textColor">#000000</color>
     <color name="colorPressed">#28534540</color>
     <color name="textColorGray">#929092</color>

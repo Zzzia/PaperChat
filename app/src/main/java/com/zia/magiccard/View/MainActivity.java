@@ -11,6 +11,7 @@ import com.zia.magiccard.Adapter.ConversationRecyclerAdapter;
 import com.zia.magiccard.Base.BaseActivity;
 import com.zia.magiccard.Bean.ClassifyData;
 import com.zia.magiccard.Bean.ConversationData;
+import com.zia.magiccard.Bean.MarkdownData;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.Presenter.MainPresenter;
 import com.zia.magiccard.Presenter.MainPresenterImp;
@@ -35,6 +36,8 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     public static UserData userData = null;
     //联系人列表变量
     public static List<ClassifyData> classifyDatas = null;
+
+    public static List<MarkdownData> markdownDatas = null;
 
     @Override
     protected void onCreated() {
@@ -66,6 +69,7 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     protected void findWidgets() {
         conversationList = new ArrayList<>();
         classifyDatas = new ArrayList<>();
+        markdownDatas = new ArrayList<>();
         presenterImp = new MainPresenter(this);
         bottomBar = $(R.id.main_bottomBar);
         viewPager = $(R.id.main_viewPager);

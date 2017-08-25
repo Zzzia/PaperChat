@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PaperChat</string>
+    <string name="app_name">MarkChat</string>
     <string name="page_main">消息</string>
     <string name="page_friend">联系人</string>
     <string name="page_me">设置</string>
@@ -19,4 +19,8 @@
     <string name="add_friend">加为好友</string>
     <string name="choose_group">请选择分组</string>
     <string name="load_more">点击加载更多</string>
+    <string name="preview">预览</string>
+    <string name="markdown">我的MarkDown</string>
+    <string name="help">帮助</string>
+    <string name="login_out">退出登录</string>
 </resources>
