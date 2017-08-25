@@ -65,33 +65,37 @@ public class ChatPresenter implements ChatPresenterImp {
 
     @Override
     public void sendMessage(String text) {
-        final ConversationData conversationData = imp.getConversationData();
-        //发送信息
-        if (conversationData != null) {
-            modelImp.sendTextMessage(text, conversationData, new AVIMConversationCallback() {
-                @Override
-                public void done(AVIMException e) {
-                    if(e==null){
-                        Log.e(TAG,"发送消息成功");
-                    }else{
-                        e.printStackTrace();
+        try {
+            final ConversationData conversationData = imp.getConversationData();
+            //发送信息
+            if (conversationData != null) {
+                modelImp.sendTextMessage(text, conversationData, new AVIMConversationCallback() {
+                    @Override
+                    public void done(AVIMException e) {
+                        if(e==null){
+                            Log.e(TAG,"发送消息成功");
+                        }else{
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
-        }
-        if(imp.getUserData() != null){
-            modelImp.sendTextMessage(text, imp.getUserData(), new AVIMConversationCallback() {
-                @Override
-                public void done(AVIMException e) {
-                    if(e==null){
-                        Log.e(TAG,"发送消息成功");
-                    }else{
-                        e.printStackTrace();
+                });
+            }
+            if(imp.getUserData() != null){
+                modelImp.sendTextMessage(text, imp.getUserData(), new AVIMConversationCallback() {
+                    @Override
+                    public void done(AVIMException e) {
+                        if(e==null){
+                            Log.e(TAG,"发送消息成功");
+                        }else{
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
+                });
+            }
+            imp.getEditText().setText("");
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        imp.getEditText().setText("");
     }
 
 
@@ -100,139 +104,165 @@ public class ChatPresenter implements ChatPresenterImp {
      */
     @Override
     public void initData() {
-        if(imp.getConversationData() != null){
-            Log.d(TAG,"conversationId:"+imp.getConversationData().getConversationId());
-            MessageUtil.getInstance().createConversation(imp.getConversationData(), new AVIMConversationCreatedCallback() {
-                @Override
-                public void done(AVIMConversation avimConversation, AVIMException e) {
-                    avimConversation.read();
-                    if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
-                    else imp.getMessageAdapter().setIsGroup(false);
-                    MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
-                    ChatActivity.currentConversationId = avimConversation.getConversationId();
-                    imp.getMessageAdapter().freshData();
-                }
-            });
-        }
-        if(imp.getUserData() != null){
-            MessageUtil.getInstance().createConversation(imp.getUserData(), new AVIMConversationCreatedCallback() {
-                @Override
-                public void done(AVIMConversation avimConversation, AVIMException e) {
-                    avimConversation.read();
-                    if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
-                    else imp.getMessageAdapter().setIsGroup(false);
-                    MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
-                    Log.d(TAG,"conversationId:"+avimConversation.getConversationId());
-                    ChatActivity.currentConversationId = avimConversation.getConversationId();
-                    imp.getMessageAdapter().freshData();
-                }
-            });
+        try {
+            if(imp.getConversationData() != null){
+                Log.d(TAG,"conversationId:"+imp.getConversationData().getConversationId());
+                MessageUtil.getInstance().createConversation(imp.getConversationData(), new AVIMConversationCreatedCallback() {
+                    @Override
+                    public void done(AVIMConversation avimConversation, AVIMException e) {
+                        if(avimConversation == null) return;
+                        try {
+                            avimConversation.read();
+                        }catch (Exception e1){
+                            e1.printStackTrace();
+                        }
+                        if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
+                        else imp.getMessageAdapter().setIsGroup(false);
+                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
+                        ChatActivity.currentConversationId = avimConversation.getConversationId();
+                        imp.getMessageAdapter().freshData();
+                    }
+                });
+            }
+            if(imp.getUserData() != null){
+                MessageUtil.getInstance().createConversation(imp.getUserData(), new AVIMConversationCreatedCallback() {
+                    @Override
+                    public void done(AVIMConversation avimConversation, AVIMException e) {
+                        if(avimConversation == null) return;
+                        try {
+                            avimConversation.read();
+                        }catch (Exception e1){
+                            e1.printStackTrace();
+                        }
+                        if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
+                        else imp.getMessageAdapter().setIsGroup(false);
+                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
+                        Log.d(TAG,"conversationId:"+avimConversation.getConversationId());
+                        ChatActivity.currentConversationId = avimConversation.getConversationId();
+                        imp.getMessageAdapter().freshData();
+                    }
+                });
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
     @Override
     public void sendAudio(final TextView hintView) {
-        if(imp.getConversationData() != null){
-            modelImp.sendAudioMessage(null, imp.getConversationData(), new AVIMConversationCallback() {
-                @Override
-                public void done(AVIMException e) {
-                    if(e == null){
-                        imp.getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                hintView.setText("发送成功");
-                            }
-                        });
+        try {
+            if(imp.getConversationData() != null){
+                modelImp.sendAudioMessage(null, imp.getConversationData(), new AVIMConversationCallback() {
+                    @Override
+                    public void done(AVIMException e) {
+                        if(e == null){
+                            imp.getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hintView.setText("发送成功");
+                                }
+                            });
+                        }
                     }
-                }
-            });
-        }
-        if(imp.getUserData() != null){
-            modelImp.sendAudioMessage(null, imp.getUserData(), new AVIMConversationCallback() {
-                @Override
-                public void done(AVIMException e) {
-                    if(e == null){
-                        imp.getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                hintView.setText("发送成功");
-                            }
-                        });
+                });
+            }
+            if(imp.getUserData() != null){
+                modelImp.sendAudioMessage(null, imp.getUserData(), new AVIMConversationCallback() {
+                    @Override
+                    public void done(AVIMException e) {
+                        if(e == null){
+                            imp.getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    hintView.setText("发送成功");
+                                }
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
     @Override
     public void sendPicture(String path) {
-        if(path == null || path.isEmpty()) return;
-        imp.getDialog().show();
-        if(imp.getConversationData() != null){
-            modelImp.sendPictureMessage(path, imp.getConversationData(), new AVIMConversationCallback() {
-                @Override
-                public void done(AVIMException e) {
-                    if(e == null){
-                        imp.getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                imp.getDialog().hide();
-                            }
-                        });
+        try {
+            if(path == null || path.isEmpty()) return;
+            imp.getDialog().show();
+            if(imp.getConversationData() != null){
+                modelImp.sendPictureMessage(path, imp.getConversationData(), new AVIMConversationCallback() {
+                    @Override
+                    public void done(AVIMException e) {
+                        if(e == null){
+                            imp.getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    imp.getDialog().hide();
+                                }
+                            });
+                        }
                     }
-                }
-            });
-        }
-        if(imp.getUserData() != null){
-            modelImp.sendPictureMessage(path, imp.getUserData(), new AVIMConversationCallback() {
-                @Override
-                public void done(AVIMException e) {
-                    if(e == null){
-                        imp.getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                imp.getDialog().hide();
-                            }
-                        });
+                });
+            }
+            if(imp.getUserData() != null){
+                modelImp.sendPictureMessage(path, imp.getUserData(), new AVIMConversationCallback() {
+                    @Override
+                    public void done(AVIMException e) {
+                        if(e == null){
+                            imp.getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    imp.getDialog().hide();
+                                }
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
     @Override
     public void sendVideo(String path) {
-        if(path == null || path.isEmpty()) return;
-        imp.getDialog().show();
-        if(imp.getConversationData() != null){
-            modelImp.sendVideoMessage(path, imp.getConversationData(), new AVIMConversationCallback() {
-                @Override
-                public void done(AVIMException e) {
-                    if(e == null){
-                        imp.getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                imp.getDialog().hide();
-                            }
-                        });
+        try {
+            if(path == null || path.isEmpty()) return;
+            imp.getDialog().show();
+            if(imp.getConversationData() != null){
+                modelImp.sendVideoMessage(path, imp.getConversationData(), new AVIMConversationCallback() {
+                    @Override
+                    public void done(AVIMException e) {
+                        if(e == null){
+                            imp.getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    imp.getDialog().hide();
+                                }
+                            });
+                        }
                     }
-                }
-            });
-        }
-        if(imp.getUserData() != null){
-            modelImp.sendVideoMessage(path, imp.getUserData(), new AVIMConversationCallback() {
-                @Override
-                public void done(AVIMException e) {
-                    if(e == null){
-                        imp.getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                imp.getDialog().hide();
-                            }
-                        });
+                });
+            }
+            if(imp.getUserData() != null){
+                modelImp.sendVideoMessage(path, imp.getUserData(), new AVIMConversationCallback() {
+                    @Override
+                    public void done(AVIMException e) {
+                        if(e == null){
+                            imp.getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    imp.getDialog().hide();
+                                }
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 }

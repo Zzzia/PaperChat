@@ -45,16 +45,6 @@ public class StartPresenter implements StartImp {
     public void openService() {
         //初始化leanCloud服务
         AVOSCloud.initialize(imp.getActivity(),"0f7PFLssqz1aLp6PrOAlakNt-gzGzoHsz","IjQEGo2YnJtWRv9shnoxRDjC");
-        //关闭缓存
-        AVIMClient.setMessageQueryCacheEnable(false);
-        //未读消息开启
-        AVIMClient.setUnreadNotificationEnabled(true);
-        //开启错误调试日志
-        AVOSCloud.setDebugLogEnabled(true);
-        //初始化消息接收类
-        AVIMMessageManager.registerDefaultMessageHandler(new CustomMessageHandler(imp.getActivity()));
-        //初始化事件接收类
-        AVIMMessageManager.setConversationEventHandler(new CustomConversationEventHandler());
     }
 
     @Override

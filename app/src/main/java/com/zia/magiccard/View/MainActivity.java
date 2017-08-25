@@ -6,6 +6,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.avos.avoscloud.AVInstallation;
+import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.im.v2.AVIMClient;
+import com.avos.avoscloud.im.v2.AVIMMessageManager;
 import com.roughike.bottombar.BottomBar;
 import com.zia.magiccard.Adapter.ConversationRecyclerAdapter;
 import com.zia.magiccard.Base.BaseActivity;
@@ -13,6 +16,8 @@ import com.zia.magiccard.Bean.ClassifyData;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.MarkdownData;
 import com.zia.magiccard.Bean.UserData;
+import com.zia.magiccard.Model.CustomConversationEventHandler;
+import com.zia.magiccard.Model.CustomMessageHandler;
 import com.zia.magiccard.Presenter.MainPresenter;
 import com.zia.magiccard.Presenter.MainPresenterImp;
 import com.zia.magiccard.R;
@@ -41,10 +46,20 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
 
     @Override
     protected void onCreated() {
-        //尝试保存installation
-        AVInstallation.getCurrentInstallation().saveInBackground();
+        //关闭缓存
+        AVIMClient.setMessageQueryCacheEnable(false);
+        //未读消息开启
+        AVIMClient.setUnreadNotificationEnabled(true);
+        //开启错误调试日志
+        AVOSCloud.setDebugLogEnabled(true);
         //得到一个消息工具的实例
         MessageUtil.getInstance();
+        //初始化消息接收类
+        AVIMMessageManager.registerDefaultMessageHandler(new CustomMessageHandler(this));
+        //初始化事件接收类
+        AVIMMessageManager.setConversationEventHandler(new CustomConversationEventHandler());
+        //尝试保存installation
+        AVInstallation.getCurrentInstallation().saveInBackground();
         //下载当前用户信息
         PullUtil.pullCurrentUserData();
         //下载用户好友分组信息

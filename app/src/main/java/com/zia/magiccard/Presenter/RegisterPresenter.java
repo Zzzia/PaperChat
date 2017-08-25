@@ -7,6 +7,7 @@ import android.view.View;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVInstallation;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.LogInCallback;
 import com.avos.avoscloud.SaveCallback;
 import com.zia.magiccard.R;
 import com.zia.magiccard.View.CheckUserImp;
@@ -36,8 +37,8 @@ public class RegisterPresenter implements RegisterImp {
         activityImp.getPassword().setErrorEnabled(false);
         activityImp.getNickname().setErrorEnabled(false);
         //获取表单
-        String username = activityImp.getUsername().getEditText().getText().toString();
-        String password = activityImp.getPassword().getEditText().getText().toString();
+        final String username = activityImp.getUsername().getEditText().getText().toString();
+        final String password = activityImp.getPassword().getEditText().getText().toString();
         String nickname = activityImp.getNickname().getEditText().getText().toString();
         //判断格式并设置错误提示
         if(username.isEmpty() || username.length() > 16){
@@ -63,8 +64,13 @@ public class RegisterPresenter implements RegisterImp {
             @Override
             public void done(AVException e) {
                 if(e == null){
-                    gotoMainActivity();
-                    activityImp.getActivity().finish();
+                    AVUser.logInInBackground(username, password, new LogInCallback<AVUser>() {
+                        @Override
+                        public void done(AVUser avUser, AVException e) {
+                            gotoMainActivity();
+                            activityImp.getActivity().finish();
+                        }
+                    });
                 }
                 else{
                     setButtonReset();

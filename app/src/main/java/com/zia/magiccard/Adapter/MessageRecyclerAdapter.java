@@ -332,15 +332,20 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 messageData = messageDataList.get(position-1);
                 LeftTextHolder leftTextHolder = (LeftTextHolder) holder;
                 text = messageData.getContent();
-                if(text.substring(text.length()-3,text.length()).equals("#md")){
-                    RichText.fromMarkdown(text.substring(0,text.length()-3)).into(leftTextHolder.content);
-                    leftTextHolder.content.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Log.e("MessageAdapter","item click");
-                            MarkdownUtil.previewMarkDown(context,rootView,messageData.getContent().substring(0,text.length()-3));
-                        }
-                    });
+                Log.d(position+"",messageData.getContent().length()+"");
+                if(messageData.getContent().length() >= 4){
+                    if(text.substring(messageData.getContent().length()-3,messageData.getContent().length()).equals("#md")){
+                        RichText.fromMarkdown(messageData.getContent().substring(0,messageData.getContent().length()-3)).into(leftTextHolder.content);
+                        leftTextHolder.content.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Log.e("MessageAdapter","item click");
+                                MarkdownUtil.previewMarkDown(context,rootView,messageData.getContent().substring(0,text.length()-3));
+                            }
+                        });
+                    }else{
+                        leftTextHolder.content.setText(messageData.getContent());
+                    }
                 }else{
                     leftTextHolder.content.setText(messageData.getContent());
                 }
@@ -374,16 +379,19 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             case TEXT_RIGHT:
                 messageData = messageDataList.get(position-1);
                 RightTextHolder rightTextHolder = (RightTextHolder) holder;
-                text = messageData.getContent();
-                if(text.substring(text.length()-3,text.length()).equals("#md")){
-                    RichText.fromMarkdown(text.substring(0,text.length()-3)).into(rightTextHolder.content);
-                    rightTextHolder.content.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Log.e("MessageAdapter","item click");
-                            MarkdownUtil.previewMarkDown(context,rootView,messageData.getContent().substring(0,text.length()-3));
-                        }
-                    });
+                if(messageData.getContent().length() >= 4){
+                    if(messageData.getContent().substring(messageData.getContent().length()-3,messageData.getContent().length()).equals("#md")){
+                        RichText.fromMarkdown(messageData.getContent().substring(0,messageData.getContent().length()-3)).into(rightTextHolder.content);
+                        rightTextHolder.content.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Log.e("MessageAdapter","item click");
+                                MarkdownUtil.previewMarkDown(context,rootView,messageData.getContent().substring(0,messageData.getContent().length()-3));
+                            }
+                        });
+                    }else{
+                        rightTextHolder.content.setText(messageData.getContent());
+                    }
                 }else{
                     rightTextHolder.content.setText(messageData.getContent());
                 }

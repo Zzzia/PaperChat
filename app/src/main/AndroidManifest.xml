@@ -42,7 +42,7 @@
         <!-- 反馈组件（需要加入以下声明）START -->
         <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" />
         <!-- 反馈组件 END -->
-        <activity android:name=".View.StartActivity">
+        <activity android:name=".View.StartActivity" android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
