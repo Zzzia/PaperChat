@@ -42,8 +42,7 @@
 
 <img src="https://github.com/Zzzia/Files/blob/master/imgs/MarkChat/demo.gif"/>
 
-<img src="https://github.com/Zzzia/Files/blob/master/imgs/MarkChat/%E6%97%B6%E9%97%B4%E5%AF%B9%E6%AF%94.png" width="360" height="640" />
-<img src="https://github.com/Zzzia/Files/blob/master/imgs/MarkChat/%E6%97%B6%E9%97%B4%E5%AF%B9%E6%AF%941.png" width="360" height="640" />
+<img src="https://github.com/Zzzia/Files/blob/master/imgs/MarkChat/%E6%97%B6%E9%97%B4%E5%AF%B9%E6%AF%94.png" width="360" height="640" /><img src="https://github.com/Zzzia/Files/blob/master/imgs/MarkChat/%E6%97%B6%E9%97%B4%E5%AF%B9%E6%AF%941.png" width="360" height="640" />
 
 
 
