@@ -70,6 +70,8 @@ public class MarkdownChooseAdapter extends RecyclerView.Adapter<MarkdownChooseAd
             }
         });
         if(canPreview){
+            holder.selected.setVisibility(View.INVISIBLE);
+            holder.select.setVisibility(View.INVISIBLE);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -86,12 +88,13 @@ public class MarkdownChooseAdapter extends RecyclerView.Adapter<MarkdownChooseAd
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        private ImageView selected;
+        private ImageView selected,select;
         private TextView title;
         MyViewHolder(View itemView) {
             super(itemView);
             selected = itemView.findViewById(R.id.item_choose_markdown_selected);
             title = itemView.findViewById(R.id.item_choose_markdown_title);
+            select = itemView.findViewById(R.id.item_choose_markdown_select);
         }
     }
 }
