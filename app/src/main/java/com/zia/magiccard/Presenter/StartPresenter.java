@@ -42,7 +42,7 @@ public class StartPresenter implements StartImp {
     }
 
     @Override
-    public void openService() {
+    public void openService(AVIMClientCallback avimClientCallback) {
         //初始化leanCloud服务
         AVOSCloud.initialize(imp.getActivity(),"0f7PFLssqz1aLp6PrOAlakNt-gzGzoHsz","IjQEGo2YnJtWRv9shnoxRDjC");
         //关闭缓存
@@ -55,6 +55,9 @@ public class StartPresenter implements StartImp {
         AVIMMessageManager.registerDefaultMessageHandler(new CustomMessageHandler(imp.getActivity()));
         //初始化事件接收类
         AVIMMessageManager.setConversationEventHandler(new CustomConversationEventHandler());
+        if(AVUser.getCurrentUser() != null){
+            AVIMClient.getInstance(AVUser.getCurrentUser()).open(avimClientCallback);
+        }
     }
 
     @Override

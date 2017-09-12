@@ -102,15 +102,19 @@ public class ChatPresenter implements ChatPresenterImp {
     public void initData() {
         if(imp.getConversationData() != null){
             Log.d(TAG,"conversationId:"+imp.getConversationData().getConversationId());
+
             MessageUtil.getInstance().createConversation(imp.getConversationData(), new AVIMConversationCreatedCallback() {
                 @Override
                 public void done(AVIMConversation avimConversation, AVIMException e) {
-                    avimConversation.read();
-                    if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
-                    else imp.getMessageAdapter().setIsGroup(false);
-                    MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
-                    ChatActivity.currentConversationId = avimConversation.getConversationId();
-                    imp.getMessageAdapter().freshData();
+                    if(e == null){
+                        avimConversation.read();
+                        if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
+                        else imp.getMessageAdapter().setIsGroup(false);
+                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
+                        ChatActivity.currentConversationId = avimConversation.getConversationId();
+                        imp.getMessageAdapter().freshData();
+                    }
+                    else e.printStackTrace();
                 }
             });
         }
@@ -118,13 +122,16 @@ public class ChatPresenter implements ChatPresenterImp {
             MessageUtil.getInstance().createConversation(imp.getUserData(), new AVIMConversationCreatedCallback() {
                 @Override
                 public void done(AVIMConversation avimConversation, AVIMException e) {
-                    avimConversation.read();
-                    if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
-                    else imp.getMessageAdapter().setIsGroup(false);
-                    MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
-                    Log.d(TAG,"conversationId:"+avimConversation.getConversationId());
-                    ChatActivity.currentConversationId = avimConversation.getConversationId();
-                    imp.getMessageAdapter().freshData();
+                    if(e == null){
+                        avimConversation.read();
+                        if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
+                        else imp.getMessageAdapter().setIsGroup(false);
+                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
+                        Log.d(TAG,"conversationId:"+avimConversation.getConversationId());
+                        ChatActivity.currentConversationId = avimConversation.getConversationId();
+                        imp.getMessageAdapter().freshData();
+                    }
+                    else e.printStackTrace();
                 }
             });
         }

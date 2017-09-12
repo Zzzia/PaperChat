@@ -1,6 +1,7 @@
 package com.zia.magiccard.View;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -18,10 +19,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.zhihu.matisse.Matisse;
+import com.zhihu.matisse.MimeType;
+import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zia.magiccard.Base.BaseActivity;
 import com.zia.magiccard.Presenter.ChangePresenter;
 import com.zia.magiccard.Presenter.ChangePresenterImp;
 import com.zia.magiccard.R;
+import com.zia.magiccard.Util.PermissionsUtil;
+
+import java.util.List;
 
 public class ChangeActivity extends BaseActivity implements ChangeActivityImp {
 
@@ -34,7 +42,7 @@ public class ChangeActivity extends BaseActivity implements ChangeActivityImp {
     private ChangePresenterImp presenterImp;
     private static final int GET_IMAGE = 1;
     private static final int GET_FIXED_IMAGE = 2;
-    public static final int GET_DISK_PERMISSION = 1;
+    public static final int GET_DISK_PERMISSION = 3;
     private static final String TAG = "ChangeActivityTest";
     private String bitmapPath = null;
 
@@ -71,7 +79,6 @@ public class ChangeActivity extends BaseActivity implements ChangeActivityImp {
         head.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //包括权限申请
                 presenterImp.sendGetImageIntent(GET_IMAGE);
             }
         });
@@ -119,7 +126,7 @@ public class ChangeActivity extends BaseActivity implements ChangeActivityImp {
             case GET_IMAGE:
                 if (data != null) {
                     Uri uri = data.getData();
-                    Log.d(TAG,uri.toString());
+                    Log.d(TAG, uri != null ? uri.toString() : "uri == null");
                     presenterImp.sendGetFixedIntent(uri,GET_FIXED_IMAGE);
                 }
                 break;

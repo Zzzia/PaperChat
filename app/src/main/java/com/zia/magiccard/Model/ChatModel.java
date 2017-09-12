@@ -52,7 +52,10 @@ public class ChatModel implements ChatModelImp {
         MessageUtil.getInstance().sendMessage(text, conversationData, null, new AVIMConversationCreatedCallback() {
             @Override
             public void done(AVIMConversation avimConversation, AVIMException e) {
-                if(e!= null)e.printStackTrace();
+                if(e!= null){
+                    e.printStackTrace();
+                    return;
+                }
                 Log.d(TAG,"avimConversationId:"+avimConversation.getConversationId());
                 int position = ConversationUtil.getPositionByConversationId(avimConversation.getConversationId());
                 if (position != -1) {

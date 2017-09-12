@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.avos.avoscloud.AVInstallation;
+import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.roughike.bottombar.BottomBar;
 import com.zia.magiccard.Adapter.ConversationRecyclerAdapter;
 import com.zia.magiccard.Base.BaseActivity;
@@ -38,6 +39,8 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     public static List<ClassifyData> classifyDatas = null;
 
     public static List<MarkdownData> markdownDatas = null;
+    //对话列表
+    public static List<AVIMConversation> conversations = null;
 
     @Override
     protected void onCreated() {
@@ -52,8 +55,7 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
         presenterImp.setViewPager();
         presenterImp.setBottomBar();
         conversationRecyclerAdapter = new ConversationRecyclerAdapter(this);
-        //从服务器获取对话资料加载到recycler上
-        PullUtil.pullConversationList();
+        conversationRecyclerAdapter.pullConversationList();
     }
 
     @Override
@@ -70,6 +72,7 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
         conversationList = new ArrayList<>();
         classifyDatas = new ArrayList<>();
         markdownDatas = new ArrayList<>();
+        conversations = new ArrayList<>();
         presenterImp = new MainPresenter(this);
         bottomBar = $(R.id.main_bottomBar);
         viewPager = $(R.id.main_viewPager);

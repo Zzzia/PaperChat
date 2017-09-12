@@ -1,5 +1,7 @@
 package com.zia.magiccard.Presenter;
 
+import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
+
 /**
  * Created by zia on 17-8-16.
  */
@@ -7,6 +9,6 @@ package com.zia.magiccard.Presenter;
 public interface StartImp {
     void gotoMainPage();
     void gotoLoginPage();
-    void openService();
+    void openService(AVIMClientCallback avimClientCallback);
     void saveInstallationId();
 }

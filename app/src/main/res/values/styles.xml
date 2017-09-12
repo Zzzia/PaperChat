@@ -62,4 +62,10 @@
         <item name="listPopupWindowStyle">@style/Popup.Zhihu</item>
         <item name="capture.color">@color/zhihu_capture</item>
     </style>
+
+    <style name="SplashTheme" parent="AppTheme">
+        <!-- 欢迎页背景 -->
+        <item name="android:windowBackground">@drawable/splash</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

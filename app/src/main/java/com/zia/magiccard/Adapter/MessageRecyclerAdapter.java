@@ -332,7 +332,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 messageData = messageDataList.get(position-1);
                 LeftTextHolder leftTextHolder = (LeftTextHolder) holder;
                 text = messageData.getContent();
-                if(text.substring(text.length()-3,text.length()).equals("#md")){
+                if(text.length() >= 3 && text.substring(text.length()-3,text.length()).equals("#md")){
                     RichText.fromMarkdown(text.substring(0,text.length()-3)).into(leftTextHolder.content);
                     leftTextHolder.content.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -375,7 +375,7 @@ public class MessageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 messageData = messageDataList.get(position-1);
                 RightTextHolder rightTextHolder = (RightTextHolder) holder;
                 text = messageData.getContent();
-                if(text.substring(text.length()-3,text.length()).equals("#md")){
+                if(text.length() >= 3 && text.substring(text.length()-3,text.length()).equals("#md")){
                     RichText.fromMarkdown(text.substring(0,text.length()-3)).into(rightTextHolder.content);
                     rightTextHolder.content.setOnClickListener(new View.OnClickListener() {
                         @Override

@@ -41,16 +41,9 @@ public class ChangePresenter implements ChangePresenterImp {
     }
     @Override
     public void sendGetImageIntent(int code) {
-        if(PermissionsUtil.hasDiskPermission(imp.getActivity(), ChangeActivity.GET_DISK_PERMISSION)){
-            Matisse.from(imp.getActivity())
-                    .choose(MimeType.allOf())
-                    .countable(false)
-                    .maxSelectable(1)
-                    .theme(R.style.Matisse_PhotoPicker)
-                    .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                    .thumbnailScale(0.6f)
-                    .imageEngine(new GlideEngine())
-                    .forResult(code);
+        if(PermissionsUtil.hasDiskPermission(imp.getActivity(),ChangeActivity.GET_DISK_PERMISSION)){//如果有权限才执行
+            Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            imp.getActivity().startActivityForResult(intent,code);
         }
     }
 
