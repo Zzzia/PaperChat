@@ -53,8 +53,6 @@ public class StartPresenter implements StartImp {
         AVOSCloud.setDebugLogEnabled(true);
         //初始化消息接收类
         AVIMMessageManager.registerDefaultMessageHandler(new CustomMessageHandler(imp.getActivity()));
-        //初始化事件接收类
-        AVIMMessageManager.setConversationEventHandler(new CustomConversationEventHandler());
         if(AVUser.getCurrentUser() != null){
             AVIMClient.getInstance(AVUser.getCurrentUser()).open(avimClientCallback);
         }

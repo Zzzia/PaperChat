@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
+import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.MessageData;
 import com.zia.magiccard.Bean.UserData;
@@ -22,11 +23,11 @@ public class ConversationUtil {
 
     public static ConversationData getConversationFromMainByConversationId(String conversationId){
 //        List<MessageData> list = new ArrayList<>();
-        for (int i = 0; i< MainActivity.conversationList.size(); i++){
-            if(MainActivity.conversationList.get(i).getConversationId().equals(conversationId)){
-                return MainActivity.conversationList.get(i);
-            }
-        }
+//        for (int i = 0; i< MainActivity.conversationList.size(); i++){
+//            if(MainActivity.conversationList.get(i).getConversationId().equals(conversationId)){
+//                return MainActivity.conversationList.get(i);
+//            }
+//        }
         return null;
     }
 
@@ -62,8 +63,8 @@ public class ConversationUtil {
      * @return
      */
     public static int getPositionByConversationId(String conversationId){
-        for (int i = 0; i< MainActivity.conversationList.size(); i++){
-            if(MainActivity.conversationList.get(i).getConversationId().equals(conversationId)){
+        for (int i = 0; i< MainActivity.conversations.size(); i++){
+            if(MainActivity.conversations.get(i).getConversationId().equals(conversationId)){
                 return i;
             }
         }
@@ -76,10 +77,10 @@ public class ConversationUtil {
      * @return -1则没找到
      */
     public static int getPositionByFriendId(String friendId){
-        for(int i =0;i<MainActivity.conversationList.size();i++){
-            ConversationData conversationData = MainActivity.conversationList.get(i);
-            if(conversationData.getMembers().size() <= 2){
-                for(String id : conversationData.getMembers()){
+        for(int i =0;i<MainActivity.conversations.size();i++){
+            AVIMConversation conversation = MainActivity.conversations.get(i);
+            if(conversation.getMembers().size() <= 2){
+                for(String id : conversation.getMembers()){
                     if(id.equals(friendId)){
                         return i;
                     }

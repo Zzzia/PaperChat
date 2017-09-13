@@ -21,6 +21,7 @@ import com.zia.magiccard.Util.CollectionUtil;
 import com.zia.magiccard.Util.ConversationUtil;
 import com.zia.magiccard.Util.MessageUtil;
 import com.zia.magiccard.Util.PushUtil;
+import com.zia.magiccard.Util.UserCacheUtil;
 import com.zia.magiccard.Util.UserUtil;
 import com.zia.magiccard.View.ChatActivity;
 import com.zia.magiccard.View.ChatImp;
@@ -65,6 +66,13 @@ public class ChatPresenter implements ChatPresenterImp {
 
     @Override
     public void sendMessage(String text) {
+        MessageData messageData = new MessageData();
+        messageData.setContent(text);
+        messageData.setHeadUrl(MainActivity.userData.getHeadUrl());
+        messageData.setNickname(MainActivity.userData.getNickname());
+        messageData.setTime(System.currentTimeMillis());
+        messageData.setType(TEXT_RIGHT);
+        ChatActivity.adapter.addData(messageData);
         final ConversationData conversationData = imp.getConversationData();
         //发送信息
         if (conversationData != null) {
@@ -101,22 +109,32 @@ public class ChatPresenter implements ChatPresenterImp {
     @Override
     public void initData() {
         if(imp.getConversationData() != null){
-            Log.d(TAG,"conversationId:"+imp.getConversationData().getConversationId());
-
-            MessageUtil.getInstance().createConversation(imp.getConversationData(), new AVIMConversationCreatedCallback() {
-                @Override
-                public void done(AVIMConversation avimConversation, AVIMException e) {
-                    if(e == null){
-                        avimConversation.read();
-                        if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
-                        else imp.getMessageAdapter().setIsGroup(false);
-                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
-                        ChatActivity.currentConversationId = avimConversation.getConversationId();
-                        imp.getMessageAdapter().freshData();
+            if(imp.getConversationData().getConversationId() != null){
+                Log.d(TAG,"conversationId:"+imp.getConversationData().getConversationId());
+                AVIMConversation conversation = MessageUtil.getInstance().getClient().getConversation(imp.getConversationData().getConversationId());
+                conversation.read();
+                if(conversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
+                else imp.getMessageAdapter().setIsGroup(false);
+                MainActivity.conversationRecyclerAdapter.freshMessageList();
+                ChatActivity.currentConversationId = conversation.getConversationId();
+                imp.getMessageAdapter().freshData();
+            }else{
+                MessageUtil.getInstance().createConversation(imp.getConversationData(), new AVIMConversationCreatedCallback() {
+                    @Override
+                    public void done(AVIMConversation avimConversation, AVIMException e) {
+                        if(e == null){
+                            avimConversation.read();
+                            if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
+                            else imp.getMessageAdapter().setIsGroup(false);
+                            MainActivity.conversationRecyclerAdapter.freshMessageList();
+                            ChatActivity.currentConversationId = avimConversation.getConversationId();
+                            imp.getMessageAdapter().freshData();
+                        }
+                        else e.printStackTrace();
                     }
-                    else e.printStackTrace();
-                }
-            });
+                });
+            }
+            return;
         }
         if(imp.getUserData() != null){
             MessageUtil.getInstance().createConversation(imp.getUserData(), new AVIMConversationCreatedCallback() {
@@ -126,7 +144,7 @@ public class ChatPresenter implements ChatPresenterImp {
                         avimConversation.read();
                         if(avimConversation.getMembers().size() > 2) imp.getMessageAdapter().setIsGroup(true);
                         else imp.getMessageAdapter().setIsGroup(false);
-                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
+                        MainActivity.conversationRecyclerAdapter.freshMessageList();
                         Log.d(TAG,"conversationId:"+avimConversation.getConversationId());
                         ChatActivity.currentConversationId = avimConversation.getConversationId();
                         imp.getMessageAdapter().freshData();
@@ -148,6 +166,7 @@ public class ChatPresenter implements ChatPresenterImp {
                             @Override
                             public void run() {
                                 hintView.setText("发送成功");
+                                ChatActivity.adapter.freshData();
                             }
                         });
                     }
@@ -163,6 +182,7 @@ public class ChatPresenter implements ChatPresenterImp {
                             @Override
                             public void run() {
                                 hintView.setText("发送成功");
+                                ChatActivity.adapter.freshData();
                             }
                         });
                     }
@@ -184,6 +204,7 @@ public class ChatPresenter implements ChatPresenterImp {
                             @Override
                             public void run() {
                                 imp.getDialog().hide();
+                                ChatActivity.adapter.freshData();
                             }
                         });
                     }
@@ -199,6 +220,7 @@ public class ChatPresenter implements ChatPresenterImp {
                             @Override
                             public void run() {
                                 imp.getDialog().hide();
+                                ChatActivity.adapter.freshData();
                             }
                         });
                     }
@@ -220,6 +242,7 @@ public class ChatPresenter implements ChatPresenterImp {
                             @Override
                             public void run() {
                                 imp.getDialog().hide();
+                                ChatActivity.adapter.freshData();
                             }
                         });
                     }
@@ -235,6 +258,7 @@ public class ChatPresenter implements ChatPresenterImp {
                             @Override
                             public void run() {
                                 imp.getDialog().hide();
+                                ChatActivity.adapter.freshData();
                             }
                         });
                     }

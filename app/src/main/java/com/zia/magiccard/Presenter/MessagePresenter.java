@@ -32,9 +32,8 @@ public class MessagePresenter implements MessagePresenterImp {
 
     @Override
     public void deleteConversation(int position) {
-//        MainActivity.conversations.remove(position);
-//        PushUtil.saveConversations();
-//        MainActivity.conversationRecyclerAdapter.pullConversationList();
+        MainActivity.conversations.remove(position);
+        MainActivity.conversationRecyclerAdapter.freshMessageList();
     }
 
 }

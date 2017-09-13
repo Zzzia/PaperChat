@@ -41,7 +41,6 @@
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@+id/item_message_imageCard"
             android:ellipsize="end"
-            android:text="消息"
             android:textColor="@color/textColor"
             android:textSize="18sp" />
 
@@ -55,7 +54,6 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/item_message_imageCard"
             android:ellipsize="end"
-            android:text="今天是17号"
             android:textColor="@color/textColorGray" />
 
         <TextView
@@ -65,7 +63,6 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/item_message_name"
             android:layout_marginRight="10dp"
-            android:text="下午16:39"
             android:textColor="@color/textColorGray" />
         <TextView
             android:visibility="gone"

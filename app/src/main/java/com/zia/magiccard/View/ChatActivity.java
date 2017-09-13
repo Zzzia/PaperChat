@@ -214,15 +214,16 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
             @Override
             public void onCancel() {
                 toast("取消了录音");
+                timer.stop();
             }
 
             @Override
             public void onFinish() {
-                timer.stop();
-                timer.setVisibility(View.INVISIBLE);
-                recordHint.setVisibility(View.VISIBLE);
-                recordHint.setText("正在发送，请稍等");
-                presenterImp.sendAudio(recordHint);
+                    timer.stop();
+                    timer.setVisibility(View.INVISIBLE);
+                    recordHint.setVisibility(View.VISIBLE);
+                    recordHint.setText("正在发送，请稍等");
+                    presenterImp.sendAudio(recordHint);
             }
 
             @Override
@@ -265,8 +266,14 @@ public class ChatActivity extends BaseActivity implements ChatImp,RecyclerViewIm
     @Override
     protected void onStop() {
         super.onStop();
-//        currentConversationId = null;
-//        adapter = null;
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        currentConversationId = null;
+        adapter = null;
     }
 
     @Override

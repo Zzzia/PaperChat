@@ -61,27 +61,19 @@ public class CustomMessageHandler extends AVIMMessageHandler {
         messageData.setTime(System.currentTimeMillis());
         //查找main中的集合，判断是否新建对话
         int position = ConversationUtil.getPositionByConversationId(conversation.getConversationId());
-        //创建conversationData
-        final ConversationData conversationData = new ConversationData();
-        conversationData.setUnreadCount(conversation.getUnreadMessagesCount());
         if(ChatActivity.currentConversationId != null && conversation.getConversationId().equals(ChatActivity.currentConversationId)){
-            conversationData.setUnreadCount(0);
             conversation.read();
         }
-        conversationData.setMembers(conversation.getMembers());
         Log.e("从服务器上获取对话人数:",conversation.getMembers().size()+"");
-        conversationData.setTime(System.currentTimeMillis());
-        conversationData.setConversationId(conversation.getConversationId());
         //删除原有对话
         if(position != -1){
-            MainActivity.conversationList.remove(position);
+            MainActivity.conversations.remove(position);
         }
         //判断消息为文字消息
         if (message instanceof AVIMTextMessage) {
             UserUtil.getUserById(message.getFrom(), new UserUtil.OnUserGet() {
                 @Override
                 public void getUserData(final UserData userData) {
-                    conversationData.setLastContent(((AVIMTextMessage) message).getText());
                     //如果当前页面在聊天页面，则先刷新该界面
                     if(ChatActivity.adapter != null && ChatActivity.currentConversationId != null &&
                             ChatActivity.currentConversationId.equals(conversation.getConversationId())){
@@ -92,15 +84,8 @@ public class CustomMessageHandler extends AVIMMessageHandler {
                         messageData.setContent(((AVIMTextMessage) message).getText());
                         ChatActivity.adapter.addData(messageData);
                     }
-                    //刷新main中的conversations
-                    conversationData.setName(userData.getNickname());
-                    if(userData.getHeadUrl() != null){
-                        conversationData.setImageUrl(userData.getHeadUrl());
-                    }
                     //刷新main中对话信息
-                    freshConversationRecycler(conversationData);
-                    //对话信息
-                    Log.d(TAG, conversationData.toString());
+                    freshConversationRecycler(conversation);
                     //没有在聊天界面时toast提示
                     if(ChatActivity.currentConversationId == null){
                         ((Activity) context).runOnUiThread(new Runnable() {
@@ -124,7 +109,6 @@ public class CustomMessageHandler extends AVIMMessageHandler {
             UserUtil.getUserById(message.getFrom(), new UserUtil.OnUserGet() {
                 @Override
                 public void getUserData(final UserData userData) {
-                    conversationData.setLastContent(((AVIMAudioMessage) message).getText());
                     //如果当前页面在聊天页面，则先刷新该界面
                     if(ChatActivity.adapter != null && ChatActivity.currentConversationId != null &&
                             ChatActivity.currentConversationId.equals(conversation.getConversationId())){
@@ -136,15 +120,8 @@ public class CustomMessageHandler extends AVIMMessageHandler {
                         messageData.setContent(((AVIMAudioMessage) message).getText());
                         ChatActivity.adapter.addData(messageData);
                     }
-                    //刷新main中的conversations
-                    conversationData.setName(userData.getNickname());
-                    if(userData.getHeadUrl() != null){
-                        conversationData.setImageUrl(userData.getHeadUrl());
-                    }
                     //刷新main中对话信息
-                    freshConversationRecycler(conversationData);
-                    //对话信息
-                    Log.d(TAG, conversationData.toString());
+                    freshConversationRecycler(conversation);
                     //没有在聊天界面时toast提示
                     if(ChatActivity.currentConversationId == null){
                         ((Activity) context).runOnUiThread(new Runnable() {
@@ -167,7 +144,6 @@ public class CustomMessageHandler extends AVIMMessageHandler {
             UserUtil.getUserById(message.getFrom(), new UserUtil.OnUserGet() {
                 @Override
                 public void getUserData(final UserData userData) {
-                    conversationData.setLastContent("[图片]");
                     //如果当前页面在聊天页面，则先刷新该界面
                     if(ChatActivity.adapter != null && ChatActivity.currentConversationId != null &&
                             ChatActivity.currentConversationId.equals(conversation.getConversationId())){
@@ -179,15 +155,8 @@ public class CustomMessageHandler extends AVIMMessageHandler {
                         messageData.setContent(((AVIMImageMessage) message).getText());
                         ChatActivity.adapter.addData(messageData);
                     }
-                    //刷新main中的conversations
-                    conversationData.setName(userData.getNickname());
-                    if(userData.getHeadUrl() != null){
-                        conversationData.setImageUrl(userData.getHeadUrl());
-                    }
                     //刷新main中对话信息
-                    freshConversationRecycler(conversationData);
-                    //对话信息
-                    Log.d(TAG, conversationData.toString());
+                    freshConversationRecycler(conversation);
                     //没有在聊天界面时toast提示
                     if(ChatActivity.currentConversationId == null){
                         ((Activity) context).runOnUiThread(new Runnable() {
@@ -210,7 +179,6 @@ public class CustomMessageHandler extends AVIMMessageHandler {
             UserUtil.getUserById(message.getFrom(), new UserUtil.OnUserGet() {
                 @Override
                 public void getUserData(final UserData userData) {
-                    conversationData.setLastContent("[视频]");
                     //如果当前页面在聊天页面，则先刷新该界面
                     if(ChatActivity.adapter != null && ChatActivity.currentConversationId != null &&
                             ChatActivity.currentConversationId.equals(conversation.getConversationId())){
@@ -222,15 +190,8 @@ public class CustomMessageHandler extends AVIMMessageHandler {
                         messageData.setHeadUrl(userData.getHeadUrl());
                         ChatActivity.adapter.addData(messageData);
                     }
-                    //刷新main中的conversations
-                    conversationData.setName(userData.getNickname());
-                    if(userData.getHeadUrl() != null){
-                        conversationData.setImageUrl(userData.getHeadUrl());
-                    }
-                    //刷新main中对话信息
-                    freshConversationRecycler(conversationData);
-                    //对话信息
-                    Log.d(TAG, conversationData.toString());
+                    //刷新main中对话
+                    freshConversationRecycler(conversation);
                     //没有在聊天界面时toast提示
                     if(ChatActivity.currentConversationId == null){
                         ((Activity) context).runOnUiThread(new Runnable() {
@@ -253,14 +214,14 @@ public class CustomMessageHandler extends AVIMMessageHandler {
 
     /**
      * 刷新信息
-     * @param conversationData
+     * @param conversation
      */
-    private void freshConversationRecycler(ConversationData conversationData){
-        MainActivity.conversationList.add(conversationData);
-        //刷新recyclerView
-        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
+    private void freshConversationRecycler(AVIMConversation conversation){
+        MainActivity.conversations.add(conversation);
         //置顶
-        CollectionUtil.swap(MainActivity.conversationList,MainActivity.conversationList.size()-1,0);
+        CollectionUtil.swap(MainActivity.conversations,MainActivity.conversations.size()-1,0);
+        //刷新recyclerView
+        MainActivity.conversationRecyclerAdapter.freshMessageList();
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.zia.magiccard.Adapter.ConversationRecyclerAdapter;
 import com.zia.magiccard.Base.BaseFragment;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Presenter.MessagePresenterImp;
@@ -35,6 +36,7 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
         recyclerViewPresenter = new RecyclerViewPresenter(this);
         messagePresenter = new MessagePresenter(this);
         recyclerView = $(R.id.message_recycler);
+        MainActivity.conversationRecyclerAdapter = new ConversationRecyclerAdapter(getContext());
     }
 
     @Override
@@ -50,13 +52,13 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
         recyclerView.setMyListener(new MyRecyclerView.MyListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.d(TAG,"click position:"+position);
+                Log.d(TAG,"click position:" + position);
                 MainActivity.conversations.get(position).read();
                 MainActivity.conversationRecyclerAdapter.pullConversationList();
-                Log.d(TAG,MainActivity.conversations.get(position).toString());
                 Intent intent = new Intent(getContext(), ChatActivity.class);
                 ConversationData conversationData = new ConversationData();
                 conversationData.setMembers(MainActivity.conversations.get(position).getMembers());
+                conversationData.setConversationId(MainActivity.conversations.get(position).getConversationId());
                 intent.putExtra("conversationData",conversationData);
                 PageUtil.gotoPageWithCard(getContext(),view,intent);
             }
@@ -67,6 +69,8 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
                 messagePresenter.deleteConversation(position);
             }
         });
+        if(MainActivity.conversations.size() != 0) MainActivity.conversationRecyclerAdapter.freshMessageList();
+        else MainActivity.conversationRecyclerAdapter.pullConversationList();
     }
 
     @Override
@@ -85,6 +89,7 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
     @Override
     public void onResume() {
         super.onResume();
-        MainActivity.conversationRecyclerAdapter.pullConversationList();
+        if(MainActivity.conversations.size() != 0) MainActivity.conversationRecyclerAdapter.freshMessageList();
+        else MainActivity.conversationRecyclerAdapter.pullConversationList();
     }
 }

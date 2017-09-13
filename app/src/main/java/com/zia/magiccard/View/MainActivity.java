@@ -30,8 +30,7 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
     private MainPresenterImp presenterImp;
     private ImageView titleImage;
     private LinearLayout root;
-    //消息界面的变量
-    public static List<ConversationData> conversationList = new ArrayList<>();
+    //消息界面的adapter
     public static ConversationRecyclerAdapter conversationRecyclerAdapter;
     //当前登录用户信息
     public static UserData userData = null;
@@ -54,8 +53,6 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
         PullUtil.pullClassifyData();
         presenterImp.setViewPager();
         presenterImp.setBottomBar();
-        conversationRecyclerAdapter = new ConversationRecyclerAdapter(this);
-        conversationRecyclerAdapter.pullConversationList();
     }
 
     @Override
@@ -69,7 +66,6 @@ public class MainActivity extends BaseActivity implements MainActivityImp {
 
     @Override
     protected void findWidgets() {
-        conversationList = new ArrayList<>();
         classifyDatas = new ArrayList<>();
         markdownDatas = new ArrayList<>();
         conversations = new ArrayList<>();

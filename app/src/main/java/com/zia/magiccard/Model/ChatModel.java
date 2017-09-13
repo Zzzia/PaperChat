@@ -39,7 +39,6 @@ import static com.zia.magiccard.Adapter.MessageRecyclerAdapter.TEXT_RIGHT;
 
 public class ChatModel implements ChatModelImp {
 
-    private DateFormat dateFormat = new SimpleDateFormat("HH:mm");
     private Context context;
     private static final String TAG = "ChatModelTest";
 
@@ -57,35 +56,37 @@ public class ChatModel implements ChatModelImp {
                     return;
                 }
                 Log.d(TAG,"avimConversationId:"+avimConversation.getConversationId());
-                int position = ConversationUtil.getPositionByConversationId(avimConversation.getConversationId());
-                if (position != -1) {
-                    MainActivity.conversationList.remove(position);
-                }
-                conversationData.setConversationId(avimConversation.getConversationId());
-                conversationData.setTime(System.currentTimeMillis());
-                conversationData.setLastContent(text);
+//                int position = ConversationUtil.getPositionByConversationId(avimConversation.getConversationId());
+//                if (position != -1) {
+//                    MainActivity.conversations.remove(position);
+//                }
+//                conversationData.setConversationId(avimConversation.getConversationId());
+//                conversationData.setTime(System.currentTimeMillis());
+//                conversationData.setLastContent(text);
                 //及时更新recycler信息
-                MessageData messageData = new MessageData();
-                messageData.setTime(System.currentTimeMillis());
-                messageData.setType(TEXT_RIGHT);
-                messageData.setUserId(MainActivity.userData.getObjectId());
-                messageData.setNickname(MainActivity.userData.getNickname());
-                messageData.setHeadUrl(MainActivity.userData.getHeadUrl());
-                messageData.setContent(text);
-                if(ChatActivity.currentConversationId != null){
-                    ChatActivity.adapter.addData(messageData);
-                }
+//                MessageData messageData = new MessageData();
+//                messageData.setTime(System.currentTimeMillis());
+//                messageData.setType(TEXT_RIGHT);
+//                messageData.setUserId(MainActivity.userData.getObjectId());
+//                messageData.setNickname(MainActivity.userData.getNickname());
+//                messageData.setHeadUrl(MainActivity.userData.getHeadUrl());
+//                messageData.setContent(text);
+//                if(ChatActivity.currentConversationId != null){
+//                    ChatActivity.adapter.addData(messageData);
+//                }
                 //更新conversation列表数据
-                UserCacheUtil.getInstance().getUserDataAsyncByMember(conversationData.getMembers(), new UserCacheUtil.OnUserDataGet() {
-                    @Override
-                    public void onUserFind(UserData userData) {
-                        conversationData.setName(userData.getNickname());
-                        conversationData.setImageUrl(userData.getHeadUrl());
-                        MainActivity.conversationList.add(conversationData);
-                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
-                        CollectionUtil.swap(MainActivity.conversationList, MainActivity.conversationList.size() - 1, 0);
-                    }
-                });
+//                UserCacheUtil.getInstance().getUserDataAsyncByMember(conversationData.getMembers(), new UserCacheUtil.OnUserDataGet() {
+//                    @Override
+//                    public void onUserFind(UserData userData) {
+//                        conversationData.setName(userData.getNickname());
+//                        conversationData.setImageUrl(userData.getHeadUrl());
+//                    }
+//                });
+                if(!MainActivity.conversations.contains(avimConversation)){
+                    MainActivity.conversations.add(avimConversation);
+                    CollectionUtil.swap(MainActivity.conversations,MainActivity.conversations.size()-1,0);
+                    MainActivity.conversationRecyclerAdapter.freshMessageList();
+                }
             }
         }, new AVIMConversationCallback() {
             @Override
@@ -119,24 +120,22 @@ public class ChatModel implements ChatModelImp {
         MessageUtil.getInstance().sendAudioMessage(bytes, conversationData, null, new AVIMConversationCreatedCallback() {
             @Override
             public void done(AVIMConversation avimConversation, AVIMException e) {
-                int position = ConversationUtil.getPositionByConversationId(avimConversation.getConversationId());
-                if (position != -1) {
-                    MainActivity.conversationList.remove(position);
-                }
-                conversationData.setConversationId(avimConversation.getConversationId());
-                conversationData.setTime(System.currentTimeMillis());
-                conversationData.setLastContent("语音消息");
+//                conversationData.setConversationId(avimConversation.getConversationId());
+//                conversationData.setTime(System.currentTimeMillis());
+//                conversationData.setLastContent("语音消息");
                 //更新conversation列表数据
-                UserCacheUtil.getInstance().getUserDataAsyncByMember(conversationData.getMembers(), new UserCacheUtil.OnUserDataGet() {
-                    @Override
-                    public void onUserFind(UserData userData) {
-                        conversationData.setName(userData.getNickname());
-                        conversationData.setImageUrl(userData.getHeadUrl());
-                        MainActivity.conversationList.add(conversationData);
-                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
-                        CollectionUtil.swap(MainActivity.conversationList, MainActivity.conversationList.size() - 1, 0);
-                    }
-                });
+//                UserCacheUtil.getInstance().getUserDataAsyncByMember(conversationData.getMembers(), new UserCacheUtil.OnUserDataGet() {
+//                    @Override
+//                    public void onUserFind(UserData userData) {
+//                        conversationData.setName(userData.getNickname());
+//                        conversationData.setImageUrl(userData.getHeadUrl());
+//                    }
+//                });
+                if(!MainActivity.conversations.contains(avimConversation)){
+                    MainActivity.conversations.add(avimConversation);
+                    CollectionUtil.swap(MainActivity.conversations,MainActivity.conversations.size()-1,0);
+                    MainActivity.conversationRecyclerAdapter.freshMessageList();
+                }
             }
         }, new AVIMConversationCallback() {
             @Override
@@ -160,24 +159,23 @@ public class ChatModel implements ChatModelImp {
         MessageUtil.getInstance().sendPhotoMessage(path, conversationData, null, new AVIMConversationCreatedCallback() {
             @Override
             public void done(AVIMConversation avimConversation, AVIMException e) {
-                int position = ConversationUtil.getPositionByConversationId(avimConversation.getConversationId());
-                if (position != -1) {
-                    MainActivity.conversationList.remove(position);
-                }
-                conversationData.setConversationId(avimConversation.getConversationId());
-                conversationData.setTime(System.currentTimeMillis());
-                conversationData.setLastContent("[图片]");
+//                int position = ConversationUtil.getPositionByConversationId(avimConversation.getConversationId());
+//                conversationData.setConversationId(avimConversation.getConversationId());
+//                conversationData.setTime(System.currentTimeMillis());
+//                conversationData.setLastContent("[图片]");
                 //更新conversation列表数据
-                UserCacheUtil.getInstance().getUserDataAsyncByMember(conversationData.getMembers(), new UserCacheUtil.OnUserDataGet() {
-                    @Override
-                    public void onUserFind(UserData userData) {
-                        conversationData.setName(userData.getNickname());
-                        conversationData.setImageUrl(userData.getHeadUrl());
-                        MainActivity.conversationList.add(conversationData);
-                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
-                        CollectionUtil.swap(MainActivity.conversationList, MainActivity.conversationList.size() - 1, 0);
-                    }
-                });
+//                UserCacheUtil.getInstance().getUserDataAsyncByMember(conversationData.getMembers(), new UserCacheUtil.OnUserDataGet() {
+//                    @Override
+//                    public void onUserFind(UserData userData) {
+//                        conversationData.setName(userData.getNickname());
+//                        conversationData.setImageUrl(userData.getHeadUrl());
+//                    }
+//                });
+                if(!MainActivity.conversations.contains(avimConversation)){
+                    MainActivity.conversations.add(avimConversation);
+                    CollectionUtil.swap(MainActivity.conversations,MainActivity.conversations.size()-1,0);
+                    MainActivity.conversationRecyclerAdapter.freshMessageList();
+                }
             }
         }, new AVIMConversationCallback() {
             @Override
@@ -201,24 +199,23 @@ public class ChatModel implements ChatModelImp {
         MessageUtil.getInstance().sendVideoMessage(videoPath, conversationData, null, new AVIMConversationCreatedCallback() {
             @Override
             public void done(AVIMConversation avimConversation, AVIMException e) {
-                int position = ConversationUtil.getPositionByConversationId(avimConversation.getConversationId());
-                if (position != -1) {
-                    MainActivity.conversationList.remove(position);
+//                int position = ConversationUtil.getPositionByConversationId(avimConversation.getConversationId());
+//                conversationData.setConversationId(avimConversation.getConversationId());
+//                conversationData.setTime(System.currentTimeMillis());
+//                conversationData.setLastContent("[视频]");
+//                //更新conversation列表数据
+//                UserCacheUtil.getInstance().getUserDataAsyncByMember(conversationData.getMembers(), new UserCacheUtil.OnUserDataGet() {
+//                    @Override
+//                    public void onUserFind(UserData userData) {
+//                        conversationData.setName(userData.getNickname());
+//                        conversationData.setImageUrl(userData.getHeadUrl());
+//                    }
+//                });
+                if(!MainActivity.conversations.contains(avimConversation)){
+                    MainActivity.conversations.add(avimConversation);
+                    CollectionUtil.swap(MainActivity.conversations,MainActivity.conversations.size()-1,0);
+                    MainActivity.conversationRecyclerAdapter.freshMessageList();
                 }
-                conversationData.setConversationId(avimConversation.getConversationId());
-                conversationData.setTime(System.currentTimeMillis());
-                conversationData.setLastContent("[视频]");
-                //更新conversation列表数据
-                UserCacheUtil.getInstance().getUserDataAsyncByMember(conversationData.getMembers(), new UserCacheUtil.OnUserDataGet() {
-                    @Override
-                    public void onUserFind(UserData userData) {
-                        conversationData.setName(userData.getNickname());
-                        conversationData.setImageUrl(userData.getHeadUrl());
-                        MainActivity.conversationList.add(conversationData);
-                        MainActivity.conversationRecyclerAdapter.freshMessageList(MainActivity.conversationList);
-                        CollectionUtil.swap(MainActivity.conversationList, MainActivity.conversationList.size() - 1, 0);
-                    }
-                });
             }
         }, new AVIMConversationCallback() {
             @Override

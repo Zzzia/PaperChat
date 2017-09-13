@@ -29,6 +29,7 @@ import com.zia.magiccard.R;
 import com.zia.magiccard.Util.MessageUtil;
 import com.zia.magiccard.Util.ScreenUtil;
 import com.zia.magiccard.View.ChangeActivity;
+import com.zia.magiccard.View.ChatActivity;
 import com.zia.magiccard.View.LoginActivity;
 import com.zia.magiccard.View.MainActivity;
 
@@ -65,8 +66,14 @@ public class MeFragment extends BaseFragment implements MeFragmentImp {
         loginOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AVUser.logOut();
                 MessageUtil.getInstance().loginOut();
+                AVUser.logOut();
+                MainActivity.conversations = null;
+                MainActivity.conversationRecyclerAdapter = null;
+                MainActivity.markdownDatas = null;
+                MainActivity.classifyDatas = null;
+                ChatActivity.adapter = null;
+                ChatActivity.currentConversationId = null;
                 presenterImp.gotoLoginActivity();
             }
         });

@@ -54,7 +54,7 @@ public class GroupActivity extends BaseActivity implements RecyclerViewImp {
                                 //删除聊天记录
                                 int po = ConversationUtil.getPositionByFriendId(friendId);
                                 if(po != -1){
-                                    MainActivity.conversationList.remove(po);
+                                    MainActivity.conversations.remove(po);
                                 }
                                 PushUtil.pushClassifyData();
                                 PushUtil.saveConversations();

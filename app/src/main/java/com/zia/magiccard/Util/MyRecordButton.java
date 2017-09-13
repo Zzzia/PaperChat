@@ -78,12 +78,12 @@ public class MyRecordButton extends android.support.v7.widget.AppCompatImageView
                 Log.e("record", "up");
                 //recordManager.stopRecord();
                 audioRecorder.stop();
-                recordListener.onFinish();
                 if(event.getY()-y < -200){
                     Log.e("record",event.getY()-y+"  取消录音");
                     recordListener.onCancel();
                     break;
                 }
+                recordListener.onFinish();
                 Log.e("record","录音结束");
                 break;
 

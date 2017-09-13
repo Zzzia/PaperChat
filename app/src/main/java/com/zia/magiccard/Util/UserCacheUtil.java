@@ -25,7 +25,7 @@ public class UserCacheUtil {
 
     public static UserCacheUtil getInstance(){
         if(instance == null){
-            synchronized (MessageUtil.class){
+            synchronized (UserCacheUtil.class){
                 if(instance == null){
                     instance = new UserCacheUtil();
                 }

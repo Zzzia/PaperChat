@@ -2,6 +2,7 @@ package com.zia.magiccard.Util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by zia on 17-8-23.
@@ -10,7 +11,8 @@ import java.text.SimpleDateFormat;
 public class TimeUtil {
 
     public static String getDateString(Long date){
-        float minutes = (System.currentTimeMillis() - date) / 60000;
+        long minutes = (System.currentTimeMillis() - date) / 60000;
+
         if(minutes < 2){
             return "一分钟前";
         }
@@ -27,4 +29,8 @@ public class TimeUtil {
             return dateFormat.format(date);
         }
     }
+
+//    public static String getDateString(Date date){
+//
+//    }
 }

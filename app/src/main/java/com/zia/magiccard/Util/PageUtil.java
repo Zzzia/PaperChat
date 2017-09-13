@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import android.view.View;
 
+import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.UserData;
 import com.zia.magiccard.View.ChatActivity;
@@ -44,9 +45,9 @@ public class PageUtil {
     public static void gotoChatPage(Context context, UserData userData, View view) {
         Intent intent = new Intent(context, ChatActivity.class);
 //        //在main集合中找是否建立过对话
-        if(MainActivity.conversationList == null) return;
+        if(MainActivity.conversations == null) return;
         ConversationData conversationData = new ConversationData();
-        out:for (ConversationData c : MainActivity.conversationList) {
+        out:for (AVIMConversation c : MainActivity.conversations) {
             for (String memberId : c.getMembers()) {
                 if(memberId.equals(userData.getObjectId()) && c.getMembers().size() <= 2){
                     Log.d(TAG,"在main中找到对话 && c.getMembers().size() <= 2");

@@ -19,6 +19,7 @@ import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMVideoMessage;
 import com.zia.magiccard.Bean.ConversationData;
 import com.zia.magiccard.Bean.UserData;
+import com.zia.magiccard.View.ChatActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,14 +51,41 @@ public class MessageUtil {
     private void tMessage(final String text, List<String> members, String conversationName, Map<String,Object> map,
                           final AVIMConversationCreatedCallback avimConversationCreatedCallback,
                           final AVIMConversationCallback avimConversationCallback){
+        if(ChatActivity.currentConversationId != null){
+            AVIMTextMessage message = new AVIMTextMessage();
+            message.setText(text);
+            client.getConversation(ChatActivity.currentConversationId).sendMessage(message, new AVIMConversationCallback() {
+                @Override
+                public void done(AVIMException e) {
+                    if(e != null) {
+                        e.printStackTrace();
+                        return;
+                    }
+                    avimConversationCallback.done(e);
+                }
+            });
+            return;
+        }
         client.createConversation(members, conversationName, map, false, true, new AVIMConversationCreatedCallback() {
             @Override
             public void done(AVIMConversation avimConversation, AVIMException e) {
-                if(e != null)e.printStackTrace();
+                if(e != null){
+                    e.printStackTrace();
+                    return;
+                }
                 avimConversationCreatedCallback.done(avimConversation,e);
                 AVIMTextMessage message = new AVIMTextMessage();
                 message.setText(text);
-                avimConversation.sendMessage(message, avimConversationCallback);
+                avimConversation.sendMessage(message, new AVIMConversationCallback() {
+                    @Override
+                    public void done(AVIMException e) {
+                        if(e != null) {
+                            e.printStackTrace();
+                            return;
+                        }
+                        avimConversationCallback.done(e);
+                    }
+                });
             }
         });
     }
@@ -74,7 +102,26 @@ public class MessageUtil {
     private void aMessage(final byte[] bytes, List<String> members, String conversationName, Map<String,Object> map,
                           final AVIMConversationCreatedCallback avimConversationCreatedCallback,
                           final AVIMConversationCallback avimConversationCallback){
-        client.createConversation(members, conversationName, map, false, true, new AVIMConversationCreatedCallback() {
+        if(ChatActivity.currentConversationId != null){
+            File appDir = new File(Environment.getExternalStorageDirectory(), "PaperChat");
+            AVFile avFile = null;
+            try {
+                avFile = AVFile.withAbsoluteLocalPath("record.pcm",appDir.getPath()+"/record.pcm");
+            } catch (FileNotFoundException e1) {
+                e1.printStackTrace();
+            }
+            AVIMAudioMessage audioMessage = new AVIMAudioMessage(avFile);
+            audioMessage.setText("语音消息");
+            client.getConversation(ChatActivity.currentConversationId).sendMessage(audioMessage, new AVIMConversationCallback() {
+                @Override
+                public void done(AVIMException e) {
+                    if(e != null) e.printStackTrace();
+                    avimConversationCallback.done(e);
+                }
+            });
+            return;
+        }
+        client.createConversation(members, conversationName, map,false,true, new AVIMConversationCreatedCallback() {
             @Override
             public void done(final AVIMConversation avimConversation, AVIMException e) {
                 if(e != null) e.printStackTrace();
@@ -111,7 +158,24 @@ public class MessageUtil {
     private void pMessage(final String path, List<String> members, String conversationName, final Map<String,Object> map,
                           final AVIMConversationCreatedCallback avimConversationCreatedCallback,
                           final AVIMConversationCallback avimConversationCallback){
-        client.createConversation(members, conversationName, map, false, true, new AVIMConversationCreatedCallback() {
+        if(ChatActivity.currentConversationId != null){
+            AVIMImageMessage picture;
+            try {
+                picture = new AVIMImageMessage(path);
+                picture.setAttrs(map);
+                client.getConversation(ChatActivity.currentConversationId).sendMessage(picture, new AVIMConversationCallback() {
+                    @Override
+                    public void done(AVIMException e) {
+                        if(e != null) e.printStackTrace();
+                        avimConversationCallback.done(e);
+                    }
+                });
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            return;
+        }
+        client.createConversation(members, conversationName, map,false,true, new AVIMConversationCreatedCallback() {
             @Override
             public void done(AVIMConversation avimConversation, AVIMException e) {
                 if(e != null) e.printStackTrace();
@@ -146,7 +210,41 @@ public class MessageUtil {
     private void vMessage(final String path, List<String> members, String conversationName, final Map<String,Object> map,
                           final AVIMConversationCreatedCallback avimConversationCreatedCallback,
                           final AVIMConversationCallback avimConversationCallback){
-        client.createConversation(members, conversationName, map, false, true, new AVIMConversationCreatedCallback() {
+        if(ChatActivity.currentConversationId != null){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        File appDir = new File(Environment.getExternalStorageDirectory(), "PaperChat");
+                        final AVFile video = AVFile.withAbsoluteLocalPath("video.mp4",path);
+                        Log.e(TAG,appDir.getPath()+"/PaperChat/photo/picture.jpg");
+                        final AVFile pic = AVFile.withAbsoluteLocalPath("photo.jpg",appDir.getPath()+"/photo/picture.jpg");
+                        pic.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(AVException e) {
+                                AVIMVideoMessage videoMessage = new AVIMVideoMessage(video);
+                                Map < String, Object > attributes = new HashMap < String, Object > ();
+                                Log.e(TAG,"sendPhotoUrl:"+pic.getUrl());
+                                attributes.put("photoUrl",pic.getUrl());
+                                videoMessage.setAttrs(attributes);
+                                client.getConversation(ChatActivity.currentConversationId).sendMessage(videoMessage, new AVIMConversationCallback() {
+                                    @Override
+                                    public void done(AVIMException e) {
+                                        if(e != null) e.printStackTrace();
+                                        avimConversationCallback.done(e);
+                                    }
+                                });
+                            }
+                        });
+
+                    } catch (FileNotFoundException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }).start();
+            return;
+        }
+        client.createConversation(members, conversationName, map,false,true, new AVIMConversationCreatedCallback() {
             @Override
             public void done(final AVIMConversation avimConversation, AVIMException e) {
                 if(e != null) e.printStackTrace();
@@ -217,17 +315,42 @@ public class MessageUtil {
      * @param userData
      */
     public void sendMessage(String text, UserData userData){
-        sendMessage(text,userData,null,null,null);
+        sendMessage(text, userData, null, new AVIMConversationCreatedCallback() {
+            @Override
+            public void done(AVIMConversation avimConversation, AVIMException e) {
+
+            }
+        }, new AVIMConversationCallback() {
+            @Override
+            public void done(AVIMException e) {
+
+            }
+        });
     }
 
     public void sendMessage(String text, UserData userData,Map<String,Object> map){
-        sendMessage(text,userData,map,null,null);
+        sendMessage(text, userData, map, new AVIMConversationCreatedCallback() {
+            @Override
+            public void done(AVIMConversation avimConversation, AVIMException e) {
+
+            }
+        }, new AVIMConversationCallback() {
+            @Override
+            public void done(AVIMException e) {
+
+            }
+        });
     }
 
 
     public void sendMessage(String text, UserData userData,Map<String,Object> map,
                             final AVIMConversationCreatedCallback avimConversationCreatedCallback){
-        sendMessage(text,userData,map,avimConversationCreatedCallback,null);
+        sendMessage(text, userData, map, avimConversationCreatedCallback, new AVIMConversationCallback() {
+            @Override
+            public void done(AVIMException e) {
+
+            }
+        });
     }
 
     /**
@@ -328,7 +451,13 @@ public class MessageUtil {
     }
 
     public void loginOut(){
-        client.close(null);
+        client.close(new AVIMClientCallback() {
+            @Override
+            public void done(AVIMClient avimClient, AVIMException e) {
+                if (e != null) e.printStackTrace();
+            }
+        });
+        instance = null;
     }
 
     private MessageUtil(){

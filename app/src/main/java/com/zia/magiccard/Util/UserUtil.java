@@ -33,6 +33,10 @@ public class UserUtil {
             @Override
             public void done(List<AVUser> list, AVException e) {
                 List<UserData> userDataList = new ArrayList<>();
+                if(list == null) {
+                    Log.e(TAG,"list == null");
+                    return;
+                }
                 for (AVUser object: list){
                     if(object.getString("nickname").contains(nickname)){
                         UserData userData = new UserData();
