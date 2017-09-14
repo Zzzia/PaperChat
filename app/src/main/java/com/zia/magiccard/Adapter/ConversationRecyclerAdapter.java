@@ -75,6 +75,35 @@ public class ConversationRecyclerAdapter extends RecyclerView.Adapter<Conversati
                 if (e == null) {
                     AVIMConversationsQuery query = avimClient.getConversationsQuery();
                     query.setWithLastMessagesRefreshed(true);
+                    query.setQueryPolicy(AVQuery.CachePolicy.NETWORK_ONLY);
+                    query.setLimit(30);
+                    query.findInBackground(new AVIMConversationQueryCallback() {
+                        @Override
+                        public void done(List<AVIMConversation> list, AVIMException e) {
+                            if (e == null) {
+                                Log.e(TAG, "conversation Size: " + list.size());
+                                MainActivity.conversations = list;
+                                ((Activity) context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        notifyDataSetChanged();
+                                    }
+                                });
+                            } else e.printStackTrace();
+                        }
+                    });
+                } else e.printStackTrace();
+            }
+        });
+    }
+
+    public void pullConversationList(final AVIMConversationQueryCallback avimConversationQueryCallback) {
+        MessageUtil.getInstance().getClient().open(new AVIMClientCallback() {
+            @Override
+            public void done(final AVIMClient avimClient, AVIMException e) {
+                if (e == null) {
+                    AVIMConversationsQuery query = avimClient.getConversationsQuery();
+                    query.setWithLastMessagesRefreshed(true);
                     query.setQueryPolicy(AVQuery.CachePolicy.NETWORK_ELSE_CACHE);
                     query.setLimit(30);
                     query.findInBackground(new AVIMConversationQueryCallback() {
@@ -82,9 +111,8 @@ public class ConversationRecyclerAdapter extends RecyclerView.Adapter<Conversati
                         public void done(List<AVIMConversation> list, AVIMException e) {
                             if (e == null) {
                                 Log.e(TAG, "conversation Size: " + list.size());
-//                                Collections.reverse(list);
-//                                conversationList = list;
                                 MainActivity.conversations = list;
+                                avimConversationQueryCallback.done(list,e);
                                 ((Activity) context).runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -169,23 +197,26 @@ public class ConversationRecyclerAdapter extends RecyclerView.Adapter<Conversati
             }
         });
 
-        holder.time.setText(TimeUtil.getDateString(conversation.getLastMessage().getTimestamp()));
         AVIMMessage message = conversation.getLastMessage();
-        //设置消息内容
-        if (message instanceof AVIMTextMessage) {
-            String text = ((AVIMTextMessage) message).getText();
-            if (text.length() >= 3 && text.substring(text.length() - 3, text.length()).equals("#md")) {
-                holder.content.setText("[MD]");
-            } else {
-                holder.content.setText(((AVIMTextMessage) message).getText());
-            }
-        } else if (message instanceof AVIMAudioMessage) {
-            holder.content.setText("[语音]");
-        } else if (message instanceof AVIMImageMessage) {
-            holder.content.setText("[图片]");
-        } else if (message instanceof AVIMVideoMessage) {
-            holder.content.setText("[视频]");
-        } else holder.content.setText("[未知消息]");
+        if(message != null){
+            //设置时间
+            holder.time.setText(TimeUtil.getDateString(message.getTimestamp()));
+            //设置消息内容
+            if (message instanceof AVIMTextMessage) {
+                String text = ((AVIMTextMessage) message).getText();
+                if (text.length() >= 3 && text.substring(text.length() - 3, text.length()).equals("#md")) {
+                    holder.content.setText("[MD]");
+                } else {
+                    holder.content.setText(((AVIMTextMessage) message).getText());
+                }
+            } else if (message instanceof AVIMAudioMessage) {
+                holder.content.setText("[语音]");
+            } else if (message instanceof AVIMImageMessage) {
+                holder.content.setText("[图片]");
+            } else if (message instanceof AVIMVideoMessage) {
+                holder.content.setText("[视频]");
+            } else holder.content.setText("[未知消息]");
+        }
     }
 
     @Override

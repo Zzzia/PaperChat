@@ -1,15 +1,11 @@
 package com.zia.magiccard.Util;
 
-import android.content.Context;
 import android.util.Log;
-
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
-import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.GetCallback;
 import com.zia.magiccard.Bean.UserData;
 
 import java.util.ArrayList;

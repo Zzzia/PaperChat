@@ -54,6 +54,7 @@ public class MessageUtil {
         if(ChatActivity.currentConversationId != null){
             AVIMTextMessage message = new AVIMTextMessage();
             message.setText(text);
+            message.setTimestamp(System.currentTimeMillis());
             client.getConversation(ChatActivity.currentConversationId).sendMessage(message, new AVIMConversationCallback() {
                 @Override
                 public void done(AVIMException e) {
@@ -76,6 +77,7 @@ public class MessageUtil {
                 avimConversationCreatedCallback.done(avimConversation,e);
                 AVIMTextMessage message = new AVIMTextMessage();
                 message.setText(text);
+                message.setTimestamp(System.currentTimeMillis());
                 avimConversation.sendMessage(message, new AVIMConversationCallback() {
                     @Override
                     public void done(AVIMException e) {
@@ -112,6 +114,7 @@ public class MessageUtil {
             }
             AVIMAudioMessage audioMessage = new AVIMAudioMessage(avFile);
             audioMessage.setText("语音消息");
+            audioMessage.setTimestamp(System.currentTimeMillis());
             client.getConversation(ChatActivity.currentConversationId).sendMessage(audioMessage, new AVIMConversationCallback() {
                 @Override
                 public void done(AVIMException e) {
@@ -135,6 +138,7 @@ public class MessageUtil {
                 }
                 AVIMAudioMessage audioMessage = new AVIMAudioMessage(avFile);
                 audioMessage.setText("语音消息");
+                audioMessage.setTimestamp(System.currentTimeMillis());
                 avimConversation.sendMessage(audioMessage, new AVIMConversationCallback() {
                     @Override
                     public void done(AVIMException e) {
@@ -163,6 +167,7 @@ public class MessageUtil {
             try {
                 picture = new AVIMImageMessage(path);
                 picture.setAttrs(map);
+                picture.setTimestamp(System.currentTimeMillis());
                 client.getConversation(ChatActivity.currentConversationId).sendMessage(picture, new AVIMConversationCallback() {
                     @Override
                     public void done(AVIMException e) {
@@ -184,6 +189,7 @@ public class MessageUtil {
                 try {
                     picture = new AVIMImageMessage(path);
                     picture.setAttrs(map);
+                    picture.setTimestamp(System.currentTimeMillis());
                     avimConversation.sendMessage(picture, new AVIMConversationCallback() {
                         @Override
                         public void done(AVIMException e) {
@@ -227,6 +233,7 @@ public class MessageUtil {
                                 Log.e(TAG,"sendPhotoUrl:"+pic.getUrl());
                                 attributes.put("photoUrl",pic.getUrl());
                                 videoMessage.setAttrs(attributes);
+                                videoMessage.setTimestamp(System.currentTimeMillis());
                                 client.getConversation(ChatActivity.currentConversationId).sendMessage(videoMessage, new AVIMConversationCallback() {
                                     @Override
                                     public void done(AVIMException e) {
@@ -265,6 +272,7 @@ public class MessageUtil {
                                     Log.e(TAG,"sendPhotoUrl:"+pic.getUrl());
                                     attributes.put("photoUrl",pic.getUrl());
                                     videoMessage.setAttrs(attributes);
+                                    videoMessage.setTimestamp(System.currentTimeMillis());
                                     avimConversation.sendMessage(videoMessage, new AVIMConversationCallback() {
                                         @Override
                                         public void done(AVIMException e) {

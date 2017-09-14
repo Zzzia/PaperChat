@@ -58,7 +58,7 @@ public class CustomMessageHandler extends AVIMMessageHandler {
         Log.d(TAG, "message From: "+message.getFrom());
         //创建一个messageData
         final MessageData messageData = new MessageData();
-        messageData.setTime(System.currentTimeMillis());
+        messageData.setTime(message.getTimestamp());
         //查找main中的集合，判断是否新建对话
         int position = ConversationUtil.getPositionByConversationId(conversation.getConversationId());
         if(ChatActivity.currentConversationId != null && conversation.getConversationId().equals(ChatActivity.currentConversationId)){

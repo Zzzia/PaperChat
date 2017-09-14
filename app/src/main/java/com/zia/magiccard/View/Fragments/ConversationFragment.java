@@ -2,10 +2,14 @@ package com.zia.magiccard.View.Fragments;
 
 
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.avos.avoscloud.im.v2.AVIMConversation;
+import com.avos.avoscloud.im.v2.AVIMException;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationQueryCallback;
 import com.zia.magiccard.Adapter.ConversationRecyclerAdapter;
 import com.zia.magiccard.Base.BaseFragment;
 import com.zia.magiccard.Bean.ConversationData;
@@ -20,6 +24,8 @@ import com.zia.magiccard.Util.RecyclerItemDivider;
 import com.zia.magiccard.View.ChatActivity;
 import com.zia.magiccard.View.MainActivity;
 
+import java.util.List;
+
 
 /**
  * ----消息界面
@@ -29,6 +35,7 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
     private RecyclerViewPresenterImp recyclerViewPresenter;
     private MessagePresenterImp messagePresenter;
     private MyRecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private static final String TAG = "ConversationTest";
 
     @Override
@@ -36,6 +43,7 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
         recyclerViewPresenter = new RecyclerViewPresenter(this);
         messagePresenter = new MessagePresenter(this);
         recyclerView = $(R.id.message_recycler);
+        swipeRefreshLayout = $(R.id.message_swipeLayout);
         MainActivity.conversationRecyclerAdapter = new ConversationRecyclerAdapter(getContext());
     }
 
@@ -71,6 +79,19 @@ public class ConversationFragment extends BaseFragment implements RecyclerViewIm
         });
         if(MainActivity.conversations.size() != 0) MainActivity.conversationRecyclerAdapter.freshMessageList();
         else MainActivity.conversationRecyclerAdapter.pullConversationList();
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeRefreshLayout.setRefreshing(true);
+                MainActivity.conversationRecyclerAdapter.pullConversationList(new AVIMConversationQueryCallback() {
+                    @Override
+                    public void done(List<AVIMConversation> list, AVIMException e) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+        });
     }
 
     @Override
